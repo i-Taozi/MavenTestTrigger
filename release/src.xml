@@ -1,0 +1,34 @@
+<assembly>
+  <id>src</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <moduleSets>
+      <moduleSet>
+        <sources>
+          <outputDirectory>imageio-ext-1.3.5/${artifactId}/</outputDirectory>
+        </sources>
+      </moduleSet>
+  </moduleSets>
+  <fileSets>
+  <fileSet>
+        <directory>.</directory>
+        <outputDirectory>imageio-ext-1.3.5/</outputDirectory>
+                          <includes>
+                                  <include>pom.xml</include>
+                          </includes>
+     </fileSet>
+      <fileSet>
+        <directory>release</directory>
+        <outputDirectory>/</outputDirectory>
+        <includes>
+          <include>LICENSE.txt</include>
+          <include>LICENSE.libjpegturbo.txt</include>
+          <include>MrSID_decoderSDK_license.txt</include>
+          <include>imageio-ext-tiff-BSD-LICENSE.txt</include>
+          <include>imageio-ext-imagereadmt-BSD-LICENSE.txt</include>
+        </includes>
+      </fileSet>
+  </fileSets>
+</assembly>

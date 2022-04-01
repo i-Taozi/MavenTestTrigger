@@ -1,0 +1,58 @@
+Customstreams Module
+~~~~~~~~~~~~~~~~~~~~
+
+  IP Review:
+
+     * Simone Giannecchini, January 15th, 2009
+  
+  STATUS: OK
+
+      * Code: Clean
+
+      * Data: OK
+
+* it.geosolutions.io.RepositionableStream
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+  IP:
+
+    * Sebastiano Vigna code under LGPL
+
+  
+* it.geosolutions.io.input.FastBufferedInputStream
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  IP:
+
+    * Sebastiano Vigna code under LGPL
+   
+* it.geosolutions.io.output.FastBufferedOutputStream
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  IP:
+
+    * Sebastiano Vigna code under LGPL
+
+* it.geosolutions.imageio.stream.eraf.EnhancedRandomAccessFile
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+  IP:
+
+    * class based on RandomAccessFile released under LGPL by Russ Rew of Unidata UCAR
+
+     
+* Data Credits
+  ~~~~~~~~~~~~
+  * sample.jpeg
+
+     data generated using the gdal_translate utility, having "small_world.tif" as input file, which is freely available at:
+     http://download.osgeo.org/gdal/data/gtiff/
+   
+  * sample.jpeg.gz
+
+     A GZipped version of sample.jpeg
+   
+  * a.txt / jam.txt
+
+     Simple text files 
+   
