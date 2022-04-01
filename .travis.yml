@@ -1,0 +1,10 @@
+language: java
+cache:
+  directories: [$HOME/.m2]
+jdk: [openjdk8, openjdk9, openjdk10, openjdk11]
+sudo: false
+install: mvn clean -B -V
+script: mvn clean test -Pjacoco -Ptravisci -B -V
+after_success: ['bash <(curl -s https://codecov.io/bash)']
+branches:
+  only: [find-sec-bugs/find-sec-bugs-650-origin]
