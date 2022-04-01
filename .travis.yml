@@ -1,4 +1,4 @@
 language: java
 jdk: [oraclejdk8]
 branches:
-  only: [javaeekickoff/java-ee-kickoff-app-35-origin]
+  only: [javaeekickoff/java-ee-kickoff-app-35-MAVEN_REPORT_GENERATION]
