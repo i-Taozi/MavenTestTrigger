@@ -10,4 +10,4 @@ install: mvn clean install -P ${PROFILE} -DskipTests=true -Dmaven.javadoc.skip=t
   -B -V
 script: mvn test -P ${PROFILE} -B
 branches:
-  only: [AddstarMC/Minigames-342-origin]
+  only: [AddstarMC/Minigames-342-MAVEN_PARALLEL_TEST]
