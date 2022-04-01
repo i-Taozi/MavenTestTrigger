@@ -3,4 +3,4 @@ sudo: false
 jdk: [openjdk7]
 after_success: ['mvn clean cobertura:cobertura coveralls:cobertura']
 branches:
-  only: [twitter/hbc-209-origin]
+  only: [twitter/hbc-209-MAVEN_REPORT_GENERATION]
