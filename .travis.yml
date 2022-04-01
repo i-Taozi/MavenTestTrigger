@@ -20,4 +20,4 @@ notifications:
     on_failure: always
     on_start: never
 branches:
-  only: [teiid/teiid-1357-origin]
+  only: [teiid/teiid-1357-MAVEN_PARALLEL_TEST]
