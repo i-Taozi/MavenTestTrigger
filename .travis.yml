@@ -13,4 +13,4 @@ script: [java -version, mvn clean install -Pqulice -PdockerITs --errors --quiet 
 before_install: [rvm install 2.6.0, rvm use 2.6.0]
 install: [gem install pdd -v 0.20.5, gem install xcop -v 0.6, gem install est -v 0.3.4]
 branches:
-  only: [yegor256/rultor-1362-origin]
+  only: [yegor256/rultor-1362-MAVEN_REPORT_GENERATION]
