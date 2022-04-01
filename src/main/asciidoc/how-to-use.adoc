@@ -1,0 +1,330 @@
+[[how-to-use]]
+== How to use
+
+`ProxyDataSource` implements `javax.sql.DataSource`, and works as an entry point for all interceptor logic.
+You can directly instantiate `ProxyDataSource`, or use builder class `ProxyDataSourceBuilder` to build it. +
+Once `ProxyDataSource` is setup, you can pass it as a datasource to your application.
+
+
+[[creating-proxydatasource]]
+=== Creating ProxyDataSource
+
+`ProxyDataSourceBuilder` provides fluent API to construct `ProxyDataSource` instance.
+Also, it provides builder methods to register built-in or custom listeners.
+
+```java
+DataSource dataSource =
+    ProxyDataSourceBuilder.create(actualDataSource)  // pass original datasource
+        .logQueryByCommons(INFO)    // logQueryBySlf4j(), logQueryByJUL(), logQueryToSysOut()
+        .countQuery()               // enable query count metrics
+        .logSlowQueryByCommons(10, TimeUnit.MINUTES)  // also by sl4j, jul, system out
+        .proxyResultSet()           // enable proxying ResultSet
+        .listener(myListener)       // register my custom listener
+        .afterMethod(executionContext -> {    // register a custom listener with lambda
+            ...
+        })
+        .build();
+```
+
+==== DriverManager and Connection Support
+
+From instance of `java.sql.Connection`, you can create a proxy that is same as what `ProxyDataSource` returns.
+
+```java
+// obtain connection
+Class.forName("org.hsqldb.jdbcDriver");
+Connection realConnection = DriverManager.getConnection("jdbc:hsqldb:mem:aname");
+
+ProxyConfig proxyConfig = ProxyConfig.Builder.create()
+                             // configure more
+                            .build();
+
+JdbcProxyFactory jdbcProxyFactory = new JdkJdbcProxyFactory();
+Connection proxyConnection = jdbcProxyFactory.createConnection(realConnection, proxyConfig);
+...
+```
+
+
+==== Spring XML Configuration Support
+
+Since `ProxyConfig` uses builder style instance creation, it is difficult to directly create
+its bean in XML based spring config. `ProxyConfigSpringXmlSupport` class provides setters to
+build `ProxyConfig` aiming to support bean creation in XML based spring config file.
+
+.Sample XML config
+```xml
+<bean id="dataSource" primary="true" class="net.ttddyy.dsproxy.support.ProxyDataSource">
+  <property name="dataSource" ref="actualDataSource"/>
+  <property name="proxyConfig" ref="proxyConfig"/>
+  <!--
+    Alternatively, you can use SpEL to invoke create() method to get ProxyConfig bean.
+
+    <property name="proxyConfig" value="#{proxyConfigSupport.create()}"/>
+    -->
+</bean>
+
+<bean id="proxyConfig"
+      factory-bean="proxyConfigSupport"
+      factory-method="create"/>
+
+<bean id="proxyConfigSupport" class="net.ttddyy.dsproxy.support.ProxyConfigSpringXmlSupport">
+  <property name="dataSourceName" value="my-ds"/>
+  <property name="queryListener" ref="queryListener"/>
+  <property name="methodListener" ref="methodListener"/>
+</bean>
+
+<bean id="queryListener" class="net.ttddyy.dsproxy.listener.ChainListener">
+  <property name="listeners">
+    <list>
+      <bean class="net.ttddyy.dsproxy.listener.logging.SystemOutQueryLoggingListener"/>
+    </list>
+  </property>
+</bean>
+
+<bean id="methodListener" class="net.ttddyy.dsproxy.listener.CompositeMethodListener">
+  <property name="listeners">
+    <list>
+      <bean class="net.ttddyy.dsproxy.listener.TracingMethodListener"/>
+    </list>
+  </property>
+</bean>
+```
+
+
+==== JNDI Support
+
+```xml
+<Resource name="jdbc/global/myProxy"
+          auth="Container"
+          type="net.ttddyy.dsproxy.support.ProxyDataSource"
+          factory="net.ttddyy.dsproxy.support.jndi.ProxyDataSourceObjectFactory"
+          description="ds"
+          listeners="commons,count"
+          proxyName="MyProxy"
+          dataSource="[REFERENCE_TO_ACTUAL_DATASOURCE_RESOURCE]"  <!-- ex: java:jdbc/global/myDS -->
+/>
+```
+
+datasource-proxy.jar and your choice of logging library(commons, slf4j, etc) needs to be accessible from container.
+
+
+.JNDI Resource parameters
+[cols="20,80"]
+|===
+| Parameter     | Description
+
+| dataSource *(required)*   | Reference to actual datasource resource. ex: java:jdbc/global/myDS
+| proxyName               | ProxyDataSource name
+| logLevel                | Loglevel for commons-logging or slf4j. ex: DEBUG, INFO, etc.
+| loggerName              | Name for logger. (since v1.3.1)
+| listeners               | Fully qualified class name of QueryExecutionListener implementation class,or predefined values below. Can be comma delimited.
+| queryTransformer        | Fully qualified class name of QueryTransformer implementation class.
+| parameterTransformer    | Fully qualified class name of ParameterTransformer implementation class.
+|===
+
+
+.JNDI Resource "listeners" parameter
+[cols="20,80"]
+|===
+| Parameter     | Description
+
+| sysout        | Alias to net.ttddyy.dsproxy.listener.logging.SystemOutQueryLoggingListener
+| commons       | Alias to net.ttddyy.dsproxy.listener.logging.CommonsQueryLoggingListener
+| slf4j         | Alias to net.ttddyy.dsproxy.listener.logging.SLF4JQueryLoggingListener
+| count         | Alias to net.ttddyy.dsproxy.listener.logging.DataSourceQueryCountListener
+| x.y.z.MyQueryExecutionListener  | Fully qualified class name of QueryExecutionListener implementation
+|===
+
+
+.JNDI Resource "format" parameter
+[cols="20,80"]
+|===
+| Parameter     | Description
+
+| json          | Set logging output format as JSON
+|===
+
+
+See Tomcat configuration examples in {datasource-proxy-examples}[datasource-proxy-examples] project:
+
+- {jndi-embedded-example}[with embedded tomcat]
+- {jndi-external-example}[with external tomcat]
+
+Also see `ProxyDataSourceObjectFactory` javadoc
+
+
+[[generated-keys]]
+=== Generated Keys
+
+[[auto-retrieve-generated-keys]]
+==== Auto retrieve generated keys
+
+When 1) generated-keys are available(e.g.: `Statement#RETURN_GENERATED_KEYS` is specified at execution of statement
+or at creation of prepared/callable statement) and 2) query execution methods(`execute`, `executeUpdate`, `executeBatch`,
+etc) are called, automatically calls `getGeneratedKeys()` and make the returned `ResultSet` available via
+`ExecutionInfo#getGeneratedKeys()` in `QueryExecutionListener`.
+
+To enable auto retrieval of generated-keys:
+
+```java
+builder
+  .autoRetrieveGeneratedKeys(...)
+  .build();
+```
+
+NOTE: When `getGeneratedKeys()` is called:  +
+If there is a cached(auto retrieved) generated-keys and it is still open, then cached `ResultSet` is returned.
+If there is no cached generated-keys or cached one exists but it is already closed, it will perform the
+actual `getGeneratedKeys()` on underlying `Statement` object, keep the result into the cache, then return it.
+
+If you want to *always* retrieve generated-keys without changing application code that may be executing query without
+`Statement#RETURN_GENERATED_KEYS`, see <<replace-invoking-method-and-parameters>>.
+You could modify query executions to set `RETURN_GENERATED_KEYS`.
+
+[[auto-retrieve-generated-keys-for-batch]]
+===== For batch execution: `executeBatch()` and `executeLargeBatch()`
+
+According to JDBC specification, returning `getGeneratedKeys()` for `executeBatch()` and `executeLargeBatch()` is
+implementation specific:
+
+[quote, from JDBC specification]
+""
+Note – It is implementation-defined as to whether
+Statement.getGeneratedKeys will return generated values after invoking the
+executeBatch or executeLargeBatch methods.
+""
+
+
+In datasource-proxy, whether to auto-retrieve batch execution is configurable by
+`ProxyDataSourceBuilder#retrieveGeneratedKeysForBatch()`.
+
+```java
+builder
+  .autoRetrieveGeneratedKeys(...)
+  .retrieveGeneratedKeysForBatch(false, true)  // first arg is for Statement,
+                                               // second is for Prepared/Callable
+  .build();
+```
+
+Default behavior for batch executions:
+
+.Default behavior for auto retrieving generated keys for batch execution
+[cols="20,80"]
+|===
+| Type               | Auto Retrieval
+
+| Statement          | NOT Retrieve
+| Prepared/Callable  | Retrieve
+|===
+
+
+
+[[auto-close-generated-keys]]
+==== Auto close generated keys
+
+When auto-close is enabled, close the <<auto-retrieve-generated-keys, auto-retrieved generated-keys>> after
+all `QueryExecutionListener#afterQuery()` are performed.
+
+This option is used with <<auto-retrieve-generated-keys, auto retrieve generated keys>> feature.
+
+```java
+builder
+  .autoRetrieveGeneratedKeys(true)  // specify `true` or `false` to auto-close the `ResultSet`
+  .build();
+```
+
+
+If you want to *reuse* the auto-retrieved generated-keys in upper layer, such as OR mapper or application, turn
+off this auto-close feature; so that, cached generated-keys will be returned when `getGeneratedKeys()` is called.
+Based on jdbc-driver implementation, calling `getGeneratedKeys()` might be limited to once.
+When you decided to reuse generated-keys, you might need to support repeatable read on the `ResultSet`. see
+<<proxying-generated-keys>> for how to support repeatable read on generated-keys.
+
+
+NOTE: When `getGeneratedKeys()` is called, the returned `ResultSet` will NOT be closed by this feature since it is
+not auto-retrieved generated-keys.
+
+[[proxying-generated-keys]]
+==== Proxying generated keys
+
+Create a proxy for generated-keys' `ResultSet`.
+This applies to both <<auto-retrieve-generated-keys, auto-retrieved generated-keys>> and result of
+`getGeneratedKeys()`.
+
+*Usecase*
+
+You have a `QueryExecutionListener` that reads values from  generated-keys' `ResultSet`. Also, in upper layer, such as
+ORM or application logic, it needs to use the same generated-keys' `ResultSet`.
+
+Based on `ResultSet` implementation, reading values may be limited to only once; therefore, when
+`QueryExecutionListener` reads values from generated-keys' `ResultSet` and upper layer tries to read values from it,
+the `ResultSet` may not allow the repeated read.
+
+To allow multiple reads, you can proxy the generated-keys' `ResultSet` with `RepeatableReadResultSetProxyLogic`.
+
+```java
+builder
+   // specify proxy factory for generated-keys' result-set
+  .autoRetrieveGeneratedKeys(false, new RepeatableReadResultSetProxyLogicFactory());
+  // equivalent of above
+  //   .autoRetrieveGeneratedKeysWithRepeatableReadProxy(false);
+  .build();
+```
+
+
+=== Proxying ResultSet
+
+By default, datasource-proxy does *NOT* proxy `ResultSet`. However, in some case, you want to return a proxied
+`ResultSet` - for example, apply `MethodExecutionListener` on `ResultSet`.
+
+To enable `ResultSet` proxy, `ProxyDataSourceBuilder` has `proxyResultSet()` method.
+
+```java
+builder
+  // configure listeners
+  .proxyResultSet()  // enable proxying result set
+  .build();
+```
+
+In addition, the `proxyResultSet()` method takes `ResultSetProxyLogicFactory` to add some logic on
+interacting with `ResultSet`. Default logic is no-op.
+
+NOTE: This proxying does NOT apply to the `ResultSet` from `getGeneratedKeys()`. To proxy the result of
+`getGeneratedKeys()`, see <<proxying-generated-keys>>.
+
+[[repeatable-read-resultset]]
+==== Repeatable read ResultSet
+
+`RepeatableReadResultSetProxyLogic` allows `ResultSet` to be consumed more than once.
+
+
+```java
+builder
+  // configure listeners
+  .repeatableReadResultSet()
+//  .proxyResultSet(new RepeatableReadResultSetProxyLogicFactory())  // same as above
+  .build();
+```
+
+[[repeatable-read-resultset-with-cachedrowsetresultsetproxylogic]]
+==== Repeatable read ResultSet with CachedRowSetResultSetProxyLogic
+
+New result set proxy, `CachedRowSetResultSetProxyLogic` is introduced at version `1.4.7`.
+`CachedRowSetResultSetProxyLogic` uses `javax.sql.rowset.CachedRowSet` as underlying implementation, which is a
+sub-interface of `ResultSet` and provides cursor scrollability in disconnected fashion.  +
+Default `CachedRowSet` implementation is `com.sun.rowset.CachedRowSetImpl` for oracle JDK (note for `com.sun` package),
+which you can change via `RowSetFactory` (please see details on JDK documentation).
+
+To use `CachedRowSetResultSetProxyLogic` for `ResultSet` proxy, simply supply its proxy-logic factory,
+`CachedRowSetResultSetProxyLogicFactory`, to `ProxyDataSourceBuilder` when enabling result set proxy.
+
+
+```java
+builder
+  // proxy for regular ResultSet
+  .proxyResultSet(new RepeatableReadResultSetProxyLogicFactory())
+   // proxy for generated-keys
+  .autoRetrieveGeneratedKeys(false, new RepeatableReadResultSetProxyLogicFactory());
+  .build();
+```
+
