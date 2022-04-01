@@ -2,4 +2,4 @@ language: java
 jdk: [openjdk11]
 after_success: ['mvn clean cobertura:cobertura coveralls:report']
 branches:
-  only: [pf4j/pf4j-469-origin]
+  only: [pf4j/pf4j-469-MAVEN_PARALLEL_TEST]
