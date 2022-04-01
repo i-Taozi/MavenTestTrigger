@@ -1,0 +1,16 @@
+language: java
+dist: trusty
+sudo: false
+matrix:
+  include:
+  - {env: JDK='OpenJDK 8', jdk: openjdk8}
+  - {env: JDK='OpenJDK 11', before_script: . $TRAVIS_BUILD_DIR/ci/install-jdk.sh -F
+      11 -L GPL}
+before_install: [jdk_switcher use openjdk8, ./install-snapshots.sh]
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn test -Djacoco.skip=true -Dmaven.test.failure.ignore=true -Dmaven.javadoc.skip=true
+  -B -V
+cache:
+  directories: [$HOME/.m2]
+branches:
+  only: [datastax/java-driver-1572-origin]
