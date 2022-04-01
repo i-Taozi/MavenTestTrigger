@@ -1,0 +1,50 @@
+readers:
+  - "urn:github:526301"
+assets:
+  secring.gpg: yegor256/home#assets/secring.gpg
+  id_rsa: yegor256/home#assets/heroku-key
+  settings.xml: yegor256/home#assets/rultor/settings.xml
+  pubring.gpg: yegor256/home#assets/pubring.gpg
+  id_rsa.pub: yegor256/home#assets/heroku-key.pub
+install: |-
+  sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+  pdd --file=/dev/null
+merge:
+  fast-forward: only
+  rebase: true
+  script: |-
+    mvn help:system clean install -Pqulice -Prultor --errors --settings ../settings.xml
+    mvn clean site -Psite --errors --settings ../settings.xml --quiet
+    mvn clean
+deploy:
+  script: |-
+    mvn clean package -Prultor --errors --settings ../settings.xml --batch-mode --quiet
+    mvn clean
+release:
+  pre: false
+  sensitive:
+    - settings.xml
+  script: |-
+    echo "Author of the request: ${author}"
+    mvn versions:set "-DnewVersion=${tag}" --quiet
+    git commit -am "${tag}"
+    cp ../settings.xml settings.xml
+    mvn clean package -Pqulice -Prultor --errors --batch-mode --quiet
+    git remote add heroku git@heroku.com:rultor.git
+    mkdir -p ~/.ssh
+    mv ../id_rsa ../id_rsa.pub ~/.ssh
+    chmod -R 600 ~/.ssh/*
+    echo -e "Host *\n  StrictHostKeyChecking no\n  UserKnownHostsFile=/dev/null" > ~/.ssh/config
+    build=$(git rev-parse --short HEAD)
+    sed -i "s/BUILD/${build}/g" src/main/resources/META-INF/MANIFEST.MF
+    sed -i "s/BUILD/${build}/g" src/main/resources/log4j.properties
+    git add src/main/resources/META-INF/MANIFEST.MF
+    git add src/main/resources/log4j.properties
+    git commit -m 'build number set'
+    git add settings.xml
+    git commit -m 'settings.xml'
+    git push -f heroku $(git symbolic-ref --short HEAD):master
+    git reset HEAD~1
+    rm -rf settings.xml
+    curl --insecure -f --connect-timeout 30 --retry 8 --retry-delay 60 https://www.rultor.com
+    mvn clean site-deploy -Prultor -Psite --errors --settings ../settings.xml --batch-mode || echo 'site-deploy failed'
