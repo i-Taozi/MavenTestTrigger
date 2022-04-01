@@ -1,0 +1,13 @@
+/.idea
+bin/
+bin/*
+*.class
+/target/
+.classpath
+.project
+.settings/
+pom.xml.releaseBackup
+release.properties
+.DS_Store
+/java-sdk.iml
+
