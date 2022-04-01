@@ -1,0 +1,719 @@
+#
+# Copyright (c) André Bargull
+# Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+#
+# <https://github.com/anba/es6draft>
+#
+
+# todo: inspect
+Array/shift_unshift.js
+
+# todo: inspect diff chakra vs v8/sm for `re = /^\s*|\s*$/y; re.lastIndex=1; res = re.exec(' ab');`
+es6/stickyflag.js
+
+# todo: `"a\uDC00b".normalize()` throws in chakra
+es6/normalize.js
+
+# typo in testcase: l.281 "aliasOfobj0" instead of "aliasOfObj0"
+Bugs/bug6.shrua-3.js
+
+# typo in baseline file name (propertyIsEnumarable_2 -> propertyIsEnumerable_2)
+Object/propertyIsEnumerable.js
+
+# incomplete proposed function-to-string changes in chakra
+es6/generators-functionality.js
+es7/asyncawait-apis.js
+Lib/noargs.js
+
+# test runner does not recognize file as module code
+es6/moduleExport1.js
+
+# ES2017: new restrictions for super in eval
+es6/bug_981217.js
+es6/ES6Super.js
+
+# ES2017: null-extending class marked as base-class in Chakra
+es6/ES6Class_BaseClassConstruction.js
+
+# probably the incomplete proxy own-keys validation...
+es6/proxyenumremoval.js
+
+# invalid: Missing return value check for preventExtensions trap
+es6/proxybugs.js
+
+# invalid: duplicate keys should just be ignored
+Intl/GetCanonicalLocales.js
+
+# invalid: Date.prototype.toString() should throw when called on Date.prototype (ES2018)
+Prototypes/initProto.js
+
+# SIMD disabled for chakra tests
+Array/memset_simd.js
+
+# invalid: access to uninitialized function parameter
+Basics/With-defer-block-scope.js
+
+# different for-in enumeration order for global properties
+es6/letconst_global.js
+
+# Chakra restores the enumeration order when a previously deleted property is re-added
+# `var obj = {a: 0, b: 1}; delete obj.a; obj.a = 2; JSON.stringify(obj);` === '{"a":2,"b":1}'
+JSON/toJSON.js
+
+
+##############################################
+# Misc specification compatibility issues    #
+##############################################
+
+# `/a\uD800(\uDC00)b/u.test("a\uD800\uDC00b")` should return false, maybe https://github.com/Microsoft/ChakraCore/issues/98
+es6/unicode_regex_surrogate_atoms.js
+
+# Doesn't throw TypeError in Chakra
+# `Object.defineProperty(Array.prototype, 0, {get:function()1, configurable:true}); new Array(10).splice(0,5,"a")`
+Array/protoLookupWithGetters.js
+
+# `for((1/0) in {}) {}` does not throw early syntax error
+Bugs/OS_4341640.js
+
+# `arguments(n) = 0` does not throw early reference error
+Closures/bug_OS_2525694.js
+Function/callsideeffects.js
+
+# `static set method5()` should throw syntax error (missing parameter in setter)
+es6/classes.js
+
+# `function foostrict1(a = 1) { "use strict"; }` no longer allowed in ES2016
+es6/default.js
+
+# Bug: https://github.com/Microsoft/ChakraCore/issues/7
+es6/blockscope-functionbinding.js
+strict/21.functionDeclaration.js
+
+# `Foo: function foo() {}` should throw syntax error in strict mode
+strict/21.functionDeclaration_sm.js
+
+# `var [((((a)))), b] = [];` should throw syntax error
+# `let a; ({a:((((a1 = 31))))} = {})` should throw syntax error
+es6/destructuring.js
+es6/destructuring_obj.js
+
+# `try {} catch([x]) { var x = 10;}` should throw a syntax error (ES2016)
+es6/destructuring_catch.js
+
+# `Array.from.call(String, [0,1,2,3])` should throw a type error
+es6/ES6ArrayAPI.js
+
+# `class extends () => {} {}` should throw syntax error
+es6/ES6Class_SuperChain.js
+
+# `Object.defineProperty(Object.seal(function(){}), "length", {get:function(){}})` should throw type error
+es6/ES6Function_bugs.js
+
+# Function.prototype.caller should be configurable=true
+es6/ES6RestrictedProperties.js
+
+# \08 escape sequence in template literal allowed in chakra
+es6/ES6StringTemplate.js
+
+# %TypedArray%.length should be configurable=true
+es6/ES6TypedArrayExtensions.js
+
+# `yield <newline> * a` treated as multiplication expression in chakra
+es6/generators-syntax.js
+
+# `(x,)=>{}` should not throw a syntax error with "Trailing commas in function parameter lists and calls"
+es6/lambda1.js
+
+# Missing property key validation in Proxy ownkeys trap
+es6/proxytest9.js
+
+# `re=/a,/y; re.lastIndex=3; "a,ab,ba,b,".split(re); re.lastIndex` should return 3
+es6/RegExpApisTestWithStickyFlag.js
+
+# `function foo(...a) { eval('var a;'); }; foo();` should not throw a reference error
+es6/rest.js
+
+# `new Date()[Symbol.toPrimitive]()` should throw a type error, undefined is not a valid string hint
+es6/toPrimitive.js
+
+# `Object.prototype.toString.call(function*(){})` should be "[object GeneratorFunction]"
+es6/toStringTag.js
+
+# `/a\u{}b/u` should throw syntax error
+es6/unicode_escape_sequences.js
+
+# `/\142/u` should throw syntax error
+es6/unicode_regex_surrogate_utf8.js
+
+# assignment operator should be evaluated left-to-right
+es6/unscopablesWithScopeTest.js
+
+# `{ function f() {} eval("function f(){}") }` should throw syntax error
+LetConst/eval_fncdecl.js
+
+# `for (let x; false; ) { var x }` should throw syntax error
+LetConst/for-loop.js
+
+# `"use strict"; new Int32Array(2)[-1] = 0` should throw type error
+Optimizer/ArrayCheckHoist.js
+
+# RegExp.prototype.global getter applied on non-RegExp object
+Operators/prototypeInheritance2.js
+
+# `""  <<= a` should throw early reference error
+bailout/implicit_nosideeffect.js
+
+# `var o={x:0}; with(o) { eval("function x(){}") } o.x` should not return the eval'ed function
+GlobalFunctions/eval1.js
+
+# completion reform changes
+GlobalFunctions/evalreturns.js
+
+# `Function("const x = 10; x = 20;")` is not an early syntax error
+LetConst/defer3.js
+
+# `let z; eval('var z = 0;')` in global scope should throw syntax error
+LetConst/eval1.js
+
+# `function f() { { let x; var x; } }` should throw syntax error
+LetConst/letvar.js
+
+# `new Float32Array({})` should not throw type error
+typedarray/float32array.js
+typedarray/float64array.js
+typedarray/int8array.js
+typedarray/int16array.js
+typedarray/int32array.js
+typedarray/uint8array.js
+typedarray/uint16array.js
+typedarray/uint32array.js
+
+# `for ([x] = [((b) = 1)] of ' ') { }` should throw a syntax error
+es6/destructuring_bugs.js
+
+# String.prototype.search uses GetMethod to retrieve the @@search property, undefinded values should be ignored
+es6/regex-symbols.js
+
+# `(function(a=0, b=()=>a) {a=1; return b()})()` should return 1
+es6/default-splitscope.js
+
+# `; /* Comment */--> foo` is not a valid html-comment (missing line terminator)
+es6/HTMLComments.js
+
+# invalid: should throw TypeError if preventExtensions trap returns false
+es6/ProxyInProxy.js
+
+# es6: assignment to call expression is early error
+LetConst/tdz2.js
+
+# invalid: test should throw TypeError
+typedarray/bug_OS_6911900.js
+
+# invalid: missing 'prototype' lookup in chakra
+es6/es6HasInstance.js
+
+# known spec bug w.r.t `new.target`
+es6/ES6NewTarget.js
+
+# invalid: `Object.defineProperty(Array.prototype, '0', { writable: false }); [,].fill("A");` doesn't throw in Chakra
+Array/Array_TypeConfusion_bugs.js
+
+# latest Atomics spec changes:
+es7/atomics_test.js
+
+# invalid: Intl.Collator("en-US-u-kf-invalid") shouldn't throw
+Intl/CollatorOptions.js
+
+# invalid: Intl.Collator.supportedLocalesOf(["en"], { localeMatcher: "lookup" }).toString() shouldn't return "en-US"
+Intl/SupportedLocalesOf.js
+
+# invalid: https://github.com/tc39/ecma402/issues/123
+Intl/TaintingPreventionTests.js
+
+
+#######################################
+# ES6 related runtime changes         #
+#######################################
+
+# Date.prototype is a Date object in chakra
+Date/DateGetSet.js
+Lib/getclass.js
+
+# RegExp.prototype is a RegExp object in chakra
+es6/regexflags.js
+
+# Object.getPrototypeOf(RangeError) should be Error
+Lib/error.js
+
+# RegExp.prototype.source accessor property
+strict/13.delete.js
+
+
+####################################
+# Unsupported module tests         #
+####################################
+
+# Module tests
+es6/bug_issue_3076.js
+es6/bug_OS12095746.js
+es6/bug_OS12095746_mod0.js
+es6/bug_OS12095746_mod1.js
+es6/bug_OS12095746_mod2.js
+es6/bug_OS12113549_module1.js
+es6/moduleImportTheError.js
+es6/moduleThrowAnError.js
+es6/moduleUrlInError.js
+es6/otherModule.js
+es6/testDynamicImportFromModule.js
+es6/ModuleCircularBar.js
+es6/ModuleCircularFoo.js
+es6/ModuleComplexExports.js
+es6/ModuleComplexReexports.js
+es6/ModuleDefaultExport1.js
+es6/ModuleDefaultExport2.js
+es6/ModuleDefaultExport3.js
+es6/ModuleDefaultExport4.js
+es6/ModuleDefaultReexport.js
+es6/ModuleReexportDefault.js
+es6/ModuleSimpleExport.js
+es6/ModuleSimpleReexport.js
+es6/ValidExportDefaultStatement1.js
+es6/ValidExportDefaultStatement2.js
+es6/ValidExportStatements.js
+es6/ValidExportStatements2.js
+es6/ValidImportStatements.js
+es6/ValidReExportStatements.js
+es6/exportmodule.js
+es6/module-3250-bug-dep.js
+es6/module-3250-bug-dep2.js
+es6/module-3250-ext-a.js
+es6/module-3250-ext-b.js
+es6/module-functionality.js
+es6/module-syntax.js
+es6/module-syntax1.js
+es6/moduletest1.js
+es6/passmodule.js
+
+
+############################################
+# Implementation specific differences      #
+############################################
+
+# different error message
+Array/array_ctr.js
+Array/array_length.js
+Array/push3.js
+es6/proxytest8.js
+Regex/Bug1153694.js
+Basics/scan.js
+Bugs/blue_1086262.js
+Bugs/bug764.js
+Bugs/vso_os_1091425.js
+Bugs/vso_os_1091425_1.js
+Bugs/vso_os_1091425_2.js
+Closures/bug_OS_2299723.js
+Closures/closure-qmark.js
+Closures/initcachedscope.js
+Conversions/ImplicitConversions.js
+EH/newso.js
+EH/try.bug188541.v5.js
+Error/errorNum.js
+Error/inlineSameFunc.js
+Error/NativeErrors.js
+Error/outofmem.js
+Error/RuntimeCompileStackOverflow.js
+Error/stack.js
+Error/stack2.js
+Error/validate_line_column.js
+es5/DateGetSet9.js
+es5/exceptions.js
+es5/Lex_u3.js
+es5/SemiColonAfterBlockEs5.js
+es5/settersArguments.js
+es6/lambda-expr.js
+es6/letconst_eval_redecl.js
+es6/proxy-issue884.js
+es6/unicode_blue_533163_utf8.js
+es7/stringpad.js
+fieldopts/CheckThis.js
+fieldopts/fieldhoist_stripbailouts.js
+Function/apply3.js
+Function/FuncBody.bug227901.js
+Function/FuncBody.bug232281.js
+Function/FuncBody.js
+Function/funcExpr.js
+inlining/bug1469518.js
+inlining/polyInliningFixedMethods.js
+inlining/stackTrace.js
+Intl/DateTimeFormatInvalidOptions.js
+Intl/IntlInternalsHiddenFromExceptionStackTest.js
+Intl/IntlInternalsHiddenFromFirstChanceExceptionStackTest.js
+Intl/NumberFormatOptions.js
+LetConst/dop.js
+LetConst/dop1.js
+Lib/construct.js
+Lib/uri.js
+loop/loop.js
+Object/forIn.error.js
+Object/null.js
+Object/var.js
+Operators/instanceof.js
+Operators/new.js
+Operators/newBuiltin.js
+Optimizer/test119.js
+Optimizer/test128.js
+Optimizer/trycatch_assert.js
+Regex/blue_102584_1.js
+stackfunc/box_jitloopbody.js
+strict/10.eval_sm.js
+strict/19.function_sm.js
+strict/nestedfnnameargs.js
+strict/stricteval3-deferred.js
+Strings/charAt.js
+Strings/charCodeAt.js
+typedarray/bug2268573.js
+typedarray/dataview1.js
+typedarray/objectproperty.js
+typedarray/set.js
+typedarray/TypedArrayBuiltins.js
+typedarray/Uint8ClampedArray.js
+
+# Requires capturing error output
+bailout/bug10.js
+Basics/bug650104.js
+Basics/label1.js
+Basics/label2.js
+Basics/label3.js
+Basics/label4.js
+Basics/label5.js
+Basics/label6.js
+Error/sourceInfo_00.js
+Error/sourceInfo_01.js
+Error/sourceInfo_10.js
+Error/sourceInfo_11.js
+Error/sourceInfo_12.js
+Error/sourceInfo_13.js
+Error/sourceInfo_20.js
+es6/blue_641922.js
+es6/globalCatchNewTargetSyntaxError.js
+es6/globalLambdaNewTargetSyntaxError.js
+es6/globalNewTargetSyntaxError.js
+es6/globalParamCatchNewTargetSyntaxError.js
+es6/letconst_global_shadow_builtins_nonconfigurable.js
+es6/supersyntax02.js
+es6/supersyntax05.js
+es6/supersyntax06.js
+es6/unicode_6_identifier_Blue511452.js
+es6/unicode_6_identifier_Blue524737.js
+fieldopts/fieldhoist6.js
+fieldopts/fieldhoist6b.js
+fieldopts/fieldhoist7.js
+fieldopts/fieldhoist_negzero.js
+fieldopts/fieldhoist_nullfieldhoist.js
+fieldopts/fieldhoist_undefined_global.js
+fieldopts/fieldhoist_unreachable.js
+Function/arguments2.js
+Function/deferredBadContinue.js
+inlining/linenumber1.js
+inlining/linenumber2.js
+inlining/linenumber3.js
+inlining/linenumber4.js
+JSON/jx2.js
+LetConst/defer1.js
+LetConst/defer2.js
+LetConst/defer5.js
+Optimizer/directglofield_dictionarytypehandler.js
+Optimizer/test133.js
+Optimizer/trycatch_functional.js
+strict/bug212755.js
+strict/delete.js
+strict/formal_samename1.js
+strict/formal_samename2.js
+strict/multiunit.js
+strict/nonSimpleParameterList.js
+strict/strictargs-deferred.js
+strict/strictargs2-deferred.js
+strict/strictargs3-deferred.js
+strict/stricteval-deferred.js
+strict/stricteval2-deferred.js
+strict/strictkwd-deferred.js
+
+# Error.prototype.number and Error.p.description properties
+Error/errorCtor.js
+es6/definegettersetter.js
+Strings/concat3.js
+typedarray/dataview.js
+
+# Error.prototype.stack getter not present in chakra
+Error/errorProps.js
+
+# Different canonical NaN value
+typedarray/nan.js
+
+# Different job queue implementation; async functions resolved too early in chakra?
+es7\asyncawait-functionality.js
+
+# Incompatibility in Array.prototype.sort with accessor property
+es5/defineIndexProperty.js
+
+# Number.prototype.toLocaleString returns "0.00" for `0`
+Array/toLocaleString.js
+
+# Different Date.prototype.toLocaleString format
+Date/Conversions.js
+
+# Different Date.prototype.toString format
+Date/DateParse2.js
+Date/formatting.js
+
+# Date.parse incompatibility
+Date/DateCtr.js
+Date/DateParse.js
+Date/dateutc.js
+fieldopts/objtypespec-newobj.2.js
+Operators/equals.js
+
+# RegExp.multiline legacy property
+# Object/propertyIsEnumarable.js
+
+# RegExp.$_ legacy property non-configurable in chakra
+Regex/configurableTest.js
+
+# RegExp.$* legacy property not present in chakra
+es5/RegExpStrictDelete.js
+
+# Different expected time zone (?)
+Date/parseISO.js
+
+# Different call arguments limit
+es6/spread.js
+Function/argumentsLimits.js
+
+# Different string size limits
+Bugs/json_bugs.js
+
+# Special test file (?), times out
+Function/failnativecodeinstall.js
+
+# Chakra restriction test (destructuring not enabled)
+es6/OS_917200.js
+
+# Chakra restriction test (regexp sticky/unicode not enabled)
+es6/regexflags-disabled-features.js
+
+# Legacy Function#caller non-writable in Chakra
+strict/19.function.js
+strict/22.callerCalleeArguments.js
+
+# Different Math precision resp. number-to-string output
+bailout/flags.js
+Basics/flags.js
+Conversions/toint32_2.js
+Function/redefer-recursive-inlinees.js
+Generated/div0.js
+Generated/div1.js
+Math/constants.js
+Number/toString.js
+Operators/div.js
+Optimizer/marktempnumberontempobjects.js
+Optimizer/test105.js
+TaggedFloats/test.js
+
+# Different Math precision (Math.atan2)
+fieldopts/redundanttype1.js
+
+# Different property traversal order in for-in
+Basics/DeleteProperty1.js
+es5/enumerable.js
+es6/letconst_global_shadowing.js
+Lib/forin_lib.js
+Object/forinnonenumerableshadowing.js
+Object/TypeSnapshotEnumeration.js
+
+# Different function source representation
+Basics/ScriptFunctionToStrings.js
+es5/ObjLitGetSet.js
+es6/computedPropertyToString.js
+es6/proto_basic.js
+Function/prototype.js
+Function/typeErrorAccessor.js
+Intl/IntlIdentities.js
+strict/05.arguments_sm.js
+
+# enumerable properties of global object
+LetConst/p.js
+LetConst/q.js
+
+# Probably the usual Java RegExp incompatibilities, needs verification
+UnifiedRegex/acid.js
+UnifiedRegex/bugFixRegression.js
+UnifiedRegex/captures.js
+UnifiedRegex/es5SpecExamples.js
+UnifiedRegex/lastIndex.js
+UnifiedRegex/prioritizedalternatives.js
+
+# charset issues when reading test file
+utf8/invalidutf8.js
+
+# `var a = [0,1,2]; a.join(a)` returns "00,1,210,1,22" in chakra (note: cyclic check!)
+Array/join2.js
+
+# different format in Intl methods
+Intl/DateTimeFormatOptions.js
+Intl/NumberFormat.js
+
+
+##############################################
+# Unsupported built-in objects or functions  #
+##############################################
+
+# Date.prototype.getVarDate()
+Operators/biops.js
+
+# RegExp.prototype.options property
+es6/regex-prototype-properties.js
+Regex/properties.js
+Regex/rx1.js
+
+# RegisterCrossThreadInterfacePS
+Basics/typeofdata.js
+
+# Debug
+Lib/profiledataobject.js
+
+# WScript.GetWorkingSet
+Lib/workingset.js
+
+# WScript.SetTimeout
+Miscellaneous/SetTimeout.js
+es6/ES6PromiseAsync.js
+es6/function.name.js
+
+# parseIR
+Miscellaneous/irviewer.js
+
+# CollectGarbage
+Bugs/blue_532460.js
+Bugs/randombug.js
+ControlFlow/forInMisc.js
+DynamicCode/eval-nativecodedata.js
+DynamicCode/eval-nativenumber.js
+es6/ES6Species-bugs.js
+fieldopts/equiv-mismatch.js
+Miscellaneous/HasOnlyWritableDataPropertiesCache.js
+Miscellaneous/oom.js
+Object/propertyStrings.js
+Strings/substring.js
+UnifiedRegex/propertyString.js
+
+# LoadScriptFile with "crossthread" / "samethread"
+Basics/cross_site_accessor_main.js
+Closures/bug_OS_13412380.js
+es5/es5array_arrayproto_crosssite.js
+es5/es5array_protoobj_crosssite.js
+es6/CrossContextPromiseFile1.js
+es6/CrossContextSpreadfunctionCall.js
+es6/ES6ArrayUseConstructor.js
+es6/ES6Symbol.js
+es6/proto_disable.js
+es6/proto_initializer.js
+es6/proxybug.js
+Function/crosssite_bind_main.js
+InlineCaches/TypePropertyCache_CrossContext.js
+Object/constructor.js
+Operators/addcross.js
+Regex/crossContext.js
+Strings/replace-xsite.js
+typedarray/crossthread.js
+typedarray/samethread.js
+
+# LoadScript
+Basics/SpecialSymbolCapture.js
+Bugs/HasOnlyWritableDataProperties-cross-context.js
+Date/marshalbug.js
+es6/CrossContextPromise.js
+es6/dynamic-module-functionality.js
+es6/dynamic-module-import-specifier.js
+es6/supersyntax.js
+LetConst/shadowedsetter.js
+typedarray/CrossSiteVirtual.js
+
+# ActiveXObject
+Generated/GenerateTests.js
+
+# LoadModule
+es6/bug_issue_3247.js
+es6/bug_issue_3247_dep.js
+es6/bug_issue_3257.js
+es6/bug_issue_3257_mod/mod0.js
+es6/bug_issue_3257_mod1.js
+es6/bug_issue_3257_mod2/mod2.js
+es6/bug_OS12095746_moddep.js
+es6/DeferParseLambda.js
+es6/module-bugfixes.js
+es6/module-namespace.js
+es6/module_1_2645.js
+es6/module_2_2645.js
+es6/moduletest2.js
+es6/moduletest2_mod0.js
+es6/moduletest2_mod1a.js
+es6/moduletest2_mod1b.js
+es6/moduletest2_mod2a.js
+es6/moduletest2_mod2b.js
+es6/test_bug_2645.js
+
+# console
+Array/bug_12044876.js
+Bugs/bug13213828.js
+Bugs/os11907290.js
+Date/DateUTC-DateGMT-same.js
+Date/formatting_xplat.js
+Date/MilitaryTimeZone.js
+Date/TwoDigitYears.js
+es6/bug_issue_3257_script/script0.js
+es6/regex-w-sharp-s-kelvin-sign.js
+es6/regex-unicode-CaseInsensitive.js
+es6/regex-unicode-CaseInsensitive-all-i.js
+es6/regex-unicode-CaseInsensitive-all-iu.js
+utf8/bugGH2386.js
+Intl/IntlBuiltIns.js
+JSON/replacerFunction.js
+utf8/utf8_console_log.js
+
+# test262 support methods
+$262/$262test.js
+
+# WScript.Platform.BINARY_PATH
+native-tests/test-shared-basic/Platform.js
+
+
+#######################################
+# Compilation or runtime issues       #
+#######################################
+
+# OOM
+Error/encodeoverflow.js
+
+# Too many local variables
+Error/stackoverflow.js
+
+# MH Bootstrap stack overflow
+Bugs/deserializationbug339404.js
+es5/ES5ArrayIndexList.js
+
+# stack overflow when compiling
+Strings/long_concatstr.js
+
+# Slow
+Array/memset_invariant.js
+fieldopts/fieldhoist5.js
+switchStatement/perf/switchEmptyCasesLast.js
+switchStatement/perf/switchEmptyCasesMiddle.js
+switchStatement/perf/switchFirstCase.js
+switchStatement/perf/switchLastCase.js
+switchStatement/perf/switchMiddleCase.js
+switchStatement/perf/switchNonIntCases.js
+switchStatement/perf/switchUnsorted.js
+
+# timeout
+UnifiedRegex/hang.js

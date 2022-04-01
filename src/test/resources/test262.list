@@ -1,0 +1,35 @@
+#
+# Copyright (c) André Bargull
+# Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+#
+# <https://github.com/anba/es6draft>
+#
+
+# ICU4J issue <http://bugs.icu-project.org/trac/ticket/10171>?
+test/intl402/NumberFormat/prototype/format/format-fraction-digits.js
+test/intl402/NumberFormat/prototype/format/format-significant-digits.js
+
+# https://github.com/tc39/ecma262/issues/991
+test/annexB/language/function-code/block-decl-func-skip-arguments.js
+
+# JSON super set proposal
+test/language/line-terminators/S7.3_A2.3.js
+test/language/line-terminators/S7.3_A2.4.js
+
+# lookbehind support too limited in Joni
+test/built-ins/RegExp/lookBehind/alternations.js
+test/built-ins/RegExp/lookBehind/back-references-to-captures.js
+test/built-ins/RegExp/lookBehind/back-references.js
+test/built-ins/RegExp/lookBehind/captures-negative.js
+test/built-ins/RegExp/lookBehind/captures.js
+test/built-ins/RegExp/lookBehind/do-not-backtrack.js
+test/built-ins/RegExp/lookBehind/greedy-loop.js
+test/built-ins/RegExp/lookBehind/misc.js
+test/built-ins/RegExp/lookBehind/mutual-recursive.js
+test/built-ins/RegExp/lookBehind/nested-lookaround.js
+test/built-ins/RegExp/lookBehind/sliced-strings.js
+test/built-ins/RegExp/lookBehind/start-of-line.js
+test/built-ins/RegExp/lookBehind/sticky.js
+test/built-ins/RegExp/lookBehind/variable-length.js
+test/built-ins/RegExp/lookBehind/word-boundary.js
+test/built-ins/RegExp/named-groups/lookbehind.js

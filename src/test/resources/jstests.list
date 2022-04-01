@@ -1,0 +1,433 @@
+#
+# Copyright (c) André Bargull
+# Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+#
+# <https://github.com/anba/es6draft>
+#
+
+
+# no special [[Class]] for TypedArray/DataView prototypes
+non262/extensions/dataview.js
+
+# SM disallows changing the [[Prototype]] of an ArrayBuffer
+non262/Proxy/regress-bug950407.js
+
+# Detached ArrayBuffer object issues, maybe request spec changes?
+non262/extensions/DataView-construct-arguments-detaching.js
+
+# ES6: completion reform
+ecma/Statements/12.6.3-2.js
+
+# Invalid test: Annex B calls CreateGlobalFunctionBinding which overrides accessor properties
+non262/lexical-environment/block-scoped-functions-annex-b-property.js
+
+# wrong realm for thrown type error
+non262/TypedArray/slice-validation.js
+non262/TypedArray/subarray-validation.js
+non262/RegExp/prototype-different-global.js
+
+# https://github.com/tc39/ecma262/issues/913
+non262/lexical-environment/block-scoped-functions-deprecated-redecl.js
+
+# ECMA2018 iteration protocol change
+non262/destructuring/order.js
+non262/destructuring/order-super.js
+non262/generators/delegating-yield-3.js
+
+# Different results in ICU4J and ICU4C for
+# `Intl.NumberFormat("en-US", {style:"currency", currency:"USD", currencyDisplay:"code"}).format(1)`
+non262/Intl/NumberFormat/formatToParts.js
+
+# Different results in ICU4J and ICU4C for `new Intl.PluralRules("en-us").select(-1)`?
+non262/Intl/PluralRules/select.js
+
+# invalid test case - expects TypeError for zero-length detached typedarray
+non262/object/values-entries-typedarray.js
+
+
+####################################
+# Intl only partially supported    #
+####################################
+
+non262/Intl/NumberFormat/StringBuffer.js
+
+
+##################
+# SIMD issues    #
+##################
+
+# Non standard SIMD extensions
+non262/SIMD/typedobjects.js
+non262/SIMD/bug1023145.js
+
+# SIMD spec issue: `SIMD.Int32x4(0,0,0,0).valueOf()` allowed or TypeError?
+non262/SIMD/toString.js
+
+# Invalid test: SIMDLoadFromTypedArray, step 5 throws a TypeError
+non262/SIMD/load-floats.js
+non262/SIMD/load-unsigned-integers.js
+
+# Other SIMD issues (TODO: write bug reports)
+non262/SIMD/swizzle-shuffle.js
+
+# Different errors in SIMD
+non262/SIMD/load-int8x16.js
+non262/SIMD/load-int16x8.js
+non262/SIMD/load-int32x4.js
+
+
+###################
+# Misc issues     #
+###################
+
+# Java-Pattern vs ECMAScript-RegExp issues
+ecma_3/RegExp/15.10.2-1.js
+non262/RegExp/perlstress-001.js
+non262/RegExp/regress-209919.js
+non262/RegExp/regress-613820-2.js
+non262/RegExp/regress-613820-3.js
+non262/RegExp/exec.js
+
+# Time zone validation more strict in SM
+non262/Intl/DateTimeFormat/format_timeZone.js
+non262/Intl/DateTimeFormat/timeZone.js
+non262/Intl/DateTimeFormat/timeZone_backward_links.js
+non262/Intl/DateTimeFormat/timeZone_backzone.js
+non262/Intl/DateTimeFormat/timeZone_backzone_links.js
+non262/Intl/DateTimeFormat/timeZone_notbackward_links.js
+non262/Intl/DateTimeFormat/tz-environment-variable.js
+
+# Time zone can only be set to PST8PDT in Java, not PST or PDT
+non262/Date/time-zone-2038-pst.js
+non262/Date/time-zone-pst.js
+
+
+############################################
+# Implementation specific differences      #
+############################################
+
+# different function source representation
+non262/Function/function-bind.js
+non262/Function/Object-toSource.js
+
+# Date parser
+non262/Date/non-iso.js
+non262/Date/two-digit-years.js
+non262/Date/regress-301738-01.js
+
+# Reflect.parse
+non262/reflect-parse/destructuring-function-parameters.js
+non262/reflect-parse/expressionClosures.js
+
+# Spidermonkey embraces bad DST
+non262/regress/regress-58116.js
+
+# auto-assigned function names in Error.prototype.stack
+non262/Exceptions/errstack-001.js
+
+# different error message
+ecma_3/Array/15.4.5.1-01.js
+ecma_3/extensions/7.9.1.js
+non262/extensions/regress-274152.js
+ecma_3/LexicalConventions/7.8.3-01.js
+ecma_3/LexicalConventions/7.9.1.js
+ecma_3/RegExp/15.10.4.1-6.js
+non262/Unicode/regress-352044-01.js
+non262/object/regress-444787.js
+non262/Array/iterator_edge_cases.js
+non262/class/derivedConstructorInlining.js
+non262/class/derivedConstructorTDZExplicitThis.js
+non262/class/derivedConstructorTDZOffEdge.js
+non262/class/derivedConstructorTDZReturnUndefined.js
+non262/class/newTargetDVG.js
+non262/class/superPropDVG.js
+non262/class/uninitializedThisError.js
+non262/expressions/inNotObjectError.js
+non262/generators/yield-error.js
+non262/String/iterator_edge_cases.js
+non262/async-functions/await-error.js
+non262/async-functions/ErrorStack.js
+non262/AsyncGenerators/for-await-of-error.js
+non262/extensions/regress-352291.js
+non262/extensions/regress-352372.js
+non262/lexical-conventions/regress-469940.js
+non262/regress/regress-328664.js
+non262/regress/regress-355556.js
+non262/regress/regress-356693.js
+non262/regress/regress-372364.js
+non262/regress/regress-420919.js
+non262/Scope/regress-446026-01.js
+non262/extensions/regress-470310.js
+non262/Array/regress-304828.js
+non262/extensions/regress-465443.js
+non262/regress/regress-363040-01.js
+non262/extensions/regress-353116.js
+non262/extensions/regress-469625-01.js
+non262/regress/regress-384758.js
+non262/regress/regress-455981-01.js
+non262/regress/regress-455981-02.js
+non262/regress/regress-469625-03.js
+non262/regress/regress-452498-092.js
+non262/regress/regress-452498-112.js
+non262/regress/regress-452498-185.js
+non262/regress/regress-452498-191.js
+non262/extensions/decompile-for-of.js
+non262/extensions/non_syntactic.js
+non262/extensions/redeclaration-of-catch-warning.js
+non262/regress/regress-469758.js
+non262/regress/regress-619003-1.js
+non262/regress/regress-618572.js
+non262/regress/regress-1383630.js
+
+# column number support in stack traces
+non262/extensions/column-numbers.js
+non262/template-strings/debugLineNumber.js
+
+# ignore marked as 'fail' test
+non262/RegExp/15.5.4.11.js
+non262/String/regress-392378.js
+non262/RegExp/regress-305064.js
+non262/String/regress-305064.js
+
+# SpiderMonkey restriction test
+non262/regress/regress-610026.js
+non262/regress/regress-665355.js
+
+# legacy .caller and .arguments are implemented as accessors on Function.prototype in SM
+non262/extensions/function-caller-strict-cross-global.js
+non262/generators/runtime.js
+
+# Tests SM limitations
+non262/extensions/element-setting-ToNumber-detaches.js
+non262/regress/regress-422348.js
+
+# Non-standard replacement substitution symbol "$+"
+non262/RegExp/replace.js
+non262/extensions/RegExp-replace-lastParen.js
+
+# Different parsing strategy resulting in different error (SyntaxError vs. ReferenceError)
+non262/object/destructuring-shorthand-defaults.js
+non262/statements/for-in-with-assignment-syntax.js
+
+# Different properties order for built-in objects
+non262/Error/prototype-properties.js
+non262/RegExp/prototype.js
+
+# RegExp.leftContext is non-configurable in SM
+non262/regress/regress-591846.js
+
+# TypedArrays limited to `(INT32_MAX / BYTES_PER_ELEMENT) - 1` in SM
+non262/TypedArray/constructor-length-too-large.js
+
+
+#######################################
+# ES6 related runtime changes         #
+#######################################
+
+# tail-call semantics change test setup
+non262/extensions/censor-strict-caller.js
+
+
+#######################################
+# ES6 related syntax changes          #
+#######################################
+
+# ES6-change: CallExpression no longer valid LHS
+non262/regress/regress-319391.js
+non262/regress/regress-350253.js
+non262/regress/regress-462292.js
+non262/regress/regress-609617.js
+non262/extensions/inc-dec-functioncall.js
+non262/expressions/destructuring-pattern-parenthesized.js
+non262/statements/for-of-iterator-close.js
+
+
+############################################
+# Unsupported built-in object functions    #
+############################################
+
+# Error.prototype.columnNumber
+non262/extensions/errorcolumnblame.js
+
+# Debugger API
+non262/regress/regress-698028-2.js
+non262/Promise/dependent-promises.js
+
+
+#######################################
+# Unsupported shell functions         #
+#######################################
+
+# Spidermonkey strict/werror options
+ecma_3/Object/8.6.1-01.js
+non262/extensions/8.12.5-01.js
+non262/extensions/misplaced-inconsistent-directive.js
+non262/Exceptions/regress-315147.js
+non262/extensions/regress-365869.js
+non262/regress/regress-323314-1.js
+non262/extensions/strict-warning.js
+non262/regress/regress-736792.js
+
+# clone() not supported
+js1_8_5/extensions/regress-677589.js
+non262/async-functions/clone.js
+
+# serialize()/deserialize() not supported
+non262/extensions/clone-complex-object.js
+non262/extensions/clone-errors.js
+non262/extensions/clone-forge.js
+non262/extensions/clone-leaf-object.js
+non262/extensions/clone-many-transferables.js
+non262/extensions/clone-object.js
+non262/extensions/clone-object-deep.js
+non262/extensions/clone-regexp.js
+non262/extensions/clone-sab.js
+non262/extensions/clone-simple.js
+non262/extensions/clone-transferables.js
+non262/extensions/clone-typed-array.js
+non262/extensions/clone-v1-typed-array.js
+non262/extensions/sharedtypedarray.js
+
+# enableSPSProfilingAssertions() not supported
+non262/extensions/sps-generators.js
+
+# objectEmulatingUndefined() not supported
+non262/Intl/extensions/options-value-emulates-undefined.js
+
+# getSelfHostedValue('GetWaitForAllPromise')
+non262/Promise/get-wait-for-all-promise.js
+
+# setPromiseRejectionTrackerCallback
+non262/Promise/promise-rejection-tracking.js
+
+# enableLastWarning
+non262/String/generics-deprecated.js
+
+# gcparam
+non262/extensions/typedarray.js
+
+# options
+non262/extensions/strict-function-toSource.js
+
+# grayRoot
+non262/extensions/collect-gray.js
+
+
+#######################################
+# Test for syntax extensions          #
+#######################################
+
+# SpiderMonkey also treats U+FFFE as BOM
+non262/extensions/regress-368516.js
+
+
+#######################################
+# Compilation or runtime issues       #
+#######################################
+
+# Method code too large
+# too many arguments
+ecma/FunctionObjects/15.3.1.1-3.js
+ecma/FunctionObjects/15.3.2.1-3.js
+ecma/FunctionObjects/15.3.5-1.js
+non262/regress/regress-290575.js
+# too many arguments in call expression
+non262/regress/regress-396684.js
+
+# Class file too large
+non262/regress/regress-155081.js
+non262/regress/regress-155081-2.js
+non262/regress/regress-366601.js
+non262/regress/regress-367561-01.js
+non262/regress/regress-367561-03.js
+
+# StackOverflow (CodeAnalyzer recursion)
+non262/expressions/regress-394673.js
+non262/regress/regress-98901.js
+
+# Intermittent StackOverflow error
+non262/regress/regress-89443.js
+non262/extensions/recursion.js
+
+# StackOverflowError during invokedynamic linking (intermittent)
+non262/GC/regress-348532.js
+
+# OutOfMemory: Java heap space
+non262/String/string-object-length.js
+non262/String/replace-math.js
+non262/RegExp/regress-617935.js
+
+# floods ClassLoader with empty functions
+non262/regress/regress-477234.js
+
+# Timeout (slow)
+ecma/Date/15.9.5.10-2.js
+ecma/Date/15.9.5.11-2.js
+ecma/Date/15.9.5.12-2.js
+non262/expressions/destructuring-array-default-call.js
+non262/expressions/destructuring-array-default-class.js
+non262/expressions/destructuring-array-default-function-nested.js
+non262/expressions/destructuring-array-default-function.js
+non262/expressions/destructuring-array-default-simple.js
+non262/expressions/destructuring-array-default-yield.js
+non262/String/normalize-generateddata-input.js
+non262/String/normalize-generateddata-part1-not-listed.js
+non262/extensions/regress-311161.js
+non262/extensions/regress-363988.js
+non262/GC/regress-203278-2.js
+non262/regress/regress-203278-1.js
+non262/regress/regress-280769-1.js
+non262/regress/regress-280769-2.js
+non262/regress/regress-280769-4.js
+non262/regress/regress-280769-5.js
+non262/regress/regress-312588.js
+
+# Timeout
+non262/Array/regress-330812.js
+non262/regress/regress-244470.js
+non262/regress/regress-303213.js
+non262/regress/regress-321971.js
+non262/object/15.2.3.6-dictionary-redefinition-01-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-02-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-03-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-04-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-05-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-06-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-07-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-08-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-09-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-10-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-11-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-12-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-13-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-14-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-15-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-16-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-17-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-18-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-19-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-20-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-21-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-22-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-23-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-24-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-25-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-26-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-27-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-28-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-29-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-30-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-31-of-32.js
+non262/object/15.2.3.6-dictionary-redefinition-32-of-32.js
+non262/object/15.2.3.6-middle-redefinition-1-of-8.js
+non262/object/15.2.3.6-middle-redefinition-2-of-8.js
+non262/object/15.2.3.6-middle-redefinition-3-of-8.js
+non262/object/15.2.3.6-middle-redefinition-4-of-8.js
+non262/object/15.2.3.6-middle-redefinition-5-of-8.js
+non262/object/15.2.3.6-middle-redefinition-6-of-8.js
+non262/object/15.2.3.6-middle-redefinition-7-of-8.js
+non262/object/15.2.3.6-middle-redefinition-8-of-8.js
+non262/object/15.2.3.6-redefinition-1-of-4.js
+non262/object/15.2.3.6-redefinition-2-of-4.js
+non262/object/15.2.3.6-redefinition-3-of-4.js
+non262/object/15.2.3.6-redefinition-4-of-4.js

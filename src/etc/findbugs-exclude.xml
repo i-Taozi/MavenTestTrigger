@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) André Bargull
+    Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+
+    <https://github.com/anba/es6draft>
+
+-->
+<FindBugsFilter xmlns="http://findbugs.sourceforge.net/filter/3.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://findbugs.sourceforge.net/filter/3.0.0 https://findbugs.googlecode.com/git/findbugs/etc/findbugsfilter.xsd">
+  <Match>
+    <Or>
+      <!-- Naming: abstract operations use UpperCamelCase -->
+      <Bug pattern="NM_METHOD_NAMING_CONVENTION" />
+      <!-- FormatStringChecker: intentionally using '\n' for line breaks -->
+      <Bug pattern="VA_FORMAT_STRING_USES_NEWLINE" />
+      <!-- SwitchFallthrough: 'findbugs.sf.comment' comment marker does not work properly -->
+      <Bug pattern="SF_SWITCH_FALLTHROUGH" />
+      <Bug pattern="SF_SWITCH_NO_DEFAULT" />
+      <!-- Style reports -->
+      <Bug pattern="ICAST_INTEGER_MULTIPLY_CAST_TO_LONG" />
+      <Bug pattern="ICAST_QUESTIONABLE_UNSIGNED_RIGHT_SHIFT" />
+    </Or>
+  </Match>
+
+  <Match>
+    <Bug pattern="EI_EXPOSE_REP" />
+    <Or>
+      <And>
+        <Class name="com.github.anba.es6draft.runtime.internal.ResumptionPoint" />
+        <Method name="getLocals" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.runtime.internal.ResumptionPoint" />
+        <Method name="getStack" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.runtime.types.builtins.BoundFunctionObject" />
+        <Method name="getBoundArguments" />
+      </And>
+    </Or>
+  </Match>
+
+  <Match>
+    <Bug pattern="EI_EXPOSE_REP2" />
+    <Or>
+      <Class name="com.github.anba.es6draft.runtime.types.builtins.LegacyConstructorFunction$Arguments" />
+      <Class
+        name="com.github.anba.es6draft.runtime.objects.observable.ObservableConstructor$ObservableOfSubscriberFunction" />
+    </Or>
+  </Match>
+
+  <!-- Objects.requireNonNull not detected by findbugs? -->
+  <Match>
+    <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE" />
+    <Or>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.functions.SharedFunctions" />
+        <Method name="relativePathToScript" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.runtime.internal.ScriptCache" />
+        <Method name="get" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.runtime.objects.intl.IntlDataTools" />
+        <Method name="jdkTimezoneNames" />
+      </And>
+    </Or>
+  </Match>
+
+  <!-- FindBugs reports dead store on conditionally compiled code. -->
+  <Match>
+    <Bug pattern="DLS_DEAD_LOCAL_STORE" />
+    <Or>
+      <And>
+        <Class name="com.github.anba.es6draft.parser.JSONParser" />
+        <Method name="consume" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.parser.Parser" />
+        <Method name="consume" />
+      </And>
+    </Or>
+  </Match>
+
+  <Match>
+    <Bug pattern="EQ_DOESNT_OVERRIDE_EQUALS" />
+    <Class name="com.github.anba.es6draft.runtime.internal.LinkedMap$Entry" />
+  </Match>
+
+  <Match>
+    <Bug pattern="SE_NO_SERIALVERSIONID" />
+    <Class name="com.github.anba.es6draft.runtime.objects.intl.IntlAbstractOperations$LRUHashSet" />
+  </Match>
+
+  <Match>
+    <Bug pattern="NP_LOAD_OF_KNOWN_NULL_VALUE" />
+    <Class name="com.github.anba.es6draft.semantics.StaticSemantics" />
+    <Method name="ExportEntriesForModule" />
+  </Match>
+
+  <Match>
+    <Bug pattern="CO_COMPARETO_INCORRECT_FLOATING" />
+    <Or>
+      <And>
+        <Class
+          name="com.github.anba.es6draft.runtime.objects.ArrayPrototype$Properties$FunctionComparator" />
+        <Method name="compare" />
+      </And>
+      <And>
+        <Class
+          name="com.github.anba.es6draft.runtime.objects.binary.TypedArrayPrototypePrototype$Properties$FunctionComparator" />
+        <Method name="compare" />
+      </And>
+    </Or>
+  </Match>
+
+  <!-- @SuppressWarnings("unused") on methods not supported in FindBugs. -->
+  <Match>
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+    <Class name="com.github.anba.es6draft.runtime.objects.GlobalObject$URIFunctions" />
+    <Method name="high" />
+  </Match>
+
+  <Match>
+    <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ" />
+    <Class name="com.github.anba.es6draft.regexp.JoniRegExpMatcher" />
+    <Method name="matcher" />
+  </Match>
+
+  <Match>
+    <Bug pattern="DM_EXIT" />
+    <Or>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.Repl" />
+        <Method name="loop" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.Repl" />
+        <Method name="errorReporter" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.Repl$MultiJobSource$JobRunner" />
+        <Method name="run" />
+      </And>
+    </Or>
+  </Match>
+
+  <Match>
+    <Bug pattern="DM_DEFAULT_ENCODING" />
+    <Or>
+      <And>
+        <Class
+          name="com.github.anba.es6draft.compiler.assembler.InstructionAssembler$$TraceMethodVisitor" />
+        <Method name="trace" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.console.JLineConsole" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.console.LegacyConsole" />
+      </And>
+      <And>
+        <Class name="com.github.anba.es6draft.repl.console.NativeConsole" />
+      </And>
+    </Or>
+  </Match>
+
+  <!-- CompletableFuture.completedFuture(null) is valid. -->
+  <Match>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION" />
+    <Class name="com.github.anba.es6draft.compiler.CodeGenerator" />
+  </Match>
+
+  <!-- System.gc() called to reclaim memory after OOM. -->
+  <Match>
+    <Bug pattern="DM_GC" />
+    <Class name="com.github.anba.es6draft.repl.Repl" />
+  </Match>
+
+  <Match>
+    <Class name="~.*\.CaseFoldDataGenerator.*" />
+  </Match>
+
+  <Match>
+    <Package name="org.mozilla.javascript" />
+  </Match>
+</FindBugsFilter>

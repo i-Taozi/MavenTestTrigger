@@ -1,0 +1,142 @@
+#!/bin/bash
+#
+# Copyright (c) André Bargull
+# Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+#
+# <https://github.com/anba/es6draft>
+#
+
+#
+# Description:
+# Helper script to start the simple REPL
+#
+
+IS_CYGWIN=false
+case "`uname`" in
+  "CYGWIN"*) IS_CYGWIN=true ;;
+esac
+
+# Determine Java start command
+if [[ -z "$JAVA_HOME" ]] ; then
+  JAVA_CMD="java"
+else
+  if $IS_CYGWIN ; then
+    JAVA_HOME=`cygpath -u "${JAVA_HOME}"`
+  fi
+  JAVA_CMD="${JAVA_HOME}/bin/java"
+fi
+
+# Set default Java options
+JAVA_OPTS="${JAVA_OPTS:-""}"
+JAVA_OPTS="${JAVA_OPTS} -ea -server -XX:+TieredCompilation"
+
+# Fully qualified name to main class
+MAINCLASS="@mainClass@"
+
+# Executable script.
+EXEC="$0"
+
+# Resolve symlinks.
+if [[ -L "${EXEC}" ]] ; then
+  # echo "readlink -f=$(readlink -f "$EXEC")"
+  function readlink_f() {
+    FILE="$1"
+    while true; do
+      cd "$(dirname "${FILE}")"
+      FILE="$(basename "${FILE}")"
+      if [[ -L "${FILE}" ]] ; then
+        FILE="$(readlink "${FILE}")"
+      else
+        break
+      fi
+    done
+    echo "$(pwd -P)/${FILE}"
+  }
+  EXEC="$(readlink_f "${EXEC}")"
+fi
+
+# Determine base directory.
+EXEC_PATH="$( dirname "${EXEC}" )"
+
+# Mode: distribution, shaded, development.
+EXEC_MODE="@exec.mode@"
+
+# Compute classpath.
+case "$EXEC_MODE" in
+  distribution)
+    BASE_DIR="${EXEC_PATH}/.."
+    CLASSPATH="${BASE_DIR}/@exec.name@.jar"
+  ;;
+  shaded)
+    BASE_DIR="${EXEC_PATH}/../target"
+    CLASSPATH="${BASE_DIR}/@exec.name@.jar"
+  ;;
+  development)
+    BASE_DIR="${EXEC_PATH}/../target"
+    CLASSES="${BASE_DIR}/classes"
+    DEPENDENCIES="${BASE_DIR}/dependencies/*"
+    CLASSPATH="${CLASSES}:${DEPENDENCIES}"
+  ;;
+  *)
+    echo "Unsupported execution mode: ${EXEC_MODE}"
+    exit 1
+  ;;
+esac
+
+if $IS_CYGWIN ; then
+  CLASSPATH=`cygpath -wp "${CLASSPATH}"`
+fi
+
+# Set classpath
+JAVA_CLASSPATH="-cp ${CLASSPATH}"
+
+# Pass default encoding on cygwin
+if $IS_CYGWIN ; then
+  JAVA_OPTS="${JAVA_OPTS} -Dfile.encoding=$(locale charmap)"
+fi
+
+JLINE_ENABLED=true
+for opt in "$@" ; do
+  case "$opt" in
+    --no-jline)
+      JLINE_ENABLED=false
+    ;;
+    -*) ;;
+    # Ignore arguments after double dash or first non-option argument
+    --) break ;;
+    *) break ;;
+  esac
+done
+
+# Configure JLine terminal settings
+CYGWIN_TERM=false
+JLINE_TERMINAL="unix"
+if $IS_CYGWIN ; then
+  case "$TERM" in
+    rxvt* | xterm*)
+      CYGWIN_TERM=true
+    ;;
+    cygwin*)
+      JLINE_TERMINAL="windows"
+    ;;
+  esac
+fi
+JAVA_OPTS="${JAVA_OPTS} -Djline.terminal=${JLINE_TERMINAL}"
+
+# Start application
+if [[ $CYGWIN_TERM == "true" && $JLINE_ENABLED == "true" ]] ; then
+  # see JLine UnixTerminal
+  stty -icanon min 1 -icrnl -inlcr -ixon -echo > /dev/null 2>&1
+
+  function restoreTerminal() {
+    EXIT_STATUS=$?
+    stty sane > /dev/null 2>&1
+    exit $EXIT_STATUS
+  }
+
+  trap restoreTerminal TERM INT
+  "${JAVA_CMD}" ${JAVA_OPTS} -Djline.terminal.settings="$(stty -a < /dev/tty)" ${JAVA_CLASSPATH} "${MAINCLASS}" "$@"
+  restoreTerminal
+else
+  "${JAVA_CMD}" ${JAVA_OPTS} ${JAVA_CLASSPATH} "${MAINCLASS}" "$@"
+fi

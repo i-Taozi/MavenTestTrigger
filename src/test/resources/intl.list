@@ -1,0 +1,45 @@
+#
+# Copyright (c) André Bargull
+# Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+#
+# <https://github.com/anba/es6draft>
+#
+
+
+# resolved options include '-u-co-search'
+collator/default-locale.js
+
+# 'Etc/GMT+0' is a valid timezone identifier
+date-format/timezone.js
+
+# Different collation rules in ICU53.1
+collator/de-sort.js
+
+# disable v8 specific test which only ensures caching for the default locale
+overrides/caching.js
+
+# v8 native function call syntax without flags
+collator/wellformed-unsupported-locale.js
+date-format/default-locale.js
+date-format/wellformed-unsupported-locale.js
+number-format/default-locale.js
+number-format/wellformed-unsupported-locale.js
+
+# invalid: ecma402 does not specify to use case tailoring
+general/case-mapping.js
+
+# uses Intl.v8BreakIterator
+bad-target.js
+general/constructor.js
+
+# different canonical name for ethiopic-amete-alem (ethioaa)
+date-format/calendar-with-multiple-type-subtags.js
+
+# not yet updated to icu60
+number-format/format-currency.js
+
+# hourCycle not implemented
+date-format/property-override.js
+
+# v8 limitation test, see todo in test file
+general/invalid-locale.js

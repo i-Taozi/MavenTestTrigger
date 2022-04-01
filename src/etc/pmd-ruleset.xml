@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) André Bargull
+    Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+
+    <https://github.com/anba/es6draft>
+
+-->
+<ruleset name="pmd-customization" xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+  <description />
+  <rule ref="category/java/bestpractices.xml">
+    <exclude name="AvoidReassigningParameters" />
+    <exclude name="OneDeclarationPerLine" />
+    <exclude name="AccessorMethodGeneration" />
+    <exclude name="SystemPrintln" />
+    <exclude name="PreserveStackTrace" />
+    <exclude name="ArrayIsStoredDirectly" />
+    <exclude name="UseVarargs" />
+    <exclude name="UnusedFormalParameter" />
+    <exclude name="UseCollectionIsEmpty" />
+    <exclude name="LooseCoupling" />
+    <exclude name="SwitchStmtsShouldHaveDefault" />
+    <exclude name="MethodReturnsInternalArray" />
+    <exclude name="AvoidStringBufferField" />
+    <exclude name="GuardLogStatement" />
+    <exclude name="ForLoopCanBeForeach" />
+    <exclude name="AvoidPrintStackTrace" />
+    <exclude name="AccessorClassGeneration" />
+    <exclude name="DefaultLabelNotLastInSwitchStmt" />
+    <exclude name="JUnit4TestShouldUseTestAnnotation" />
+  </rule>
+  <rule ref="category/java/codestyle.xml">
+    <exclude name="ShortVariable" />
+    <exclude name="MethodArgumentCouldBeFinal" />
+    <exclude name="ConfusingTernary" />
+    <exclude name="OnlyOneReturn" />
+    <exclude name="AbstractNaming" />
+    <exclude name="LocalVariableCouldBeFinal" />
+    <exclude name="AtLeastOneConstructor" />
+    <exclude name="DefaultPackage" />
+    <exclude name="LongVariable" />
+    <exclude name="ShortClassName" />
+    <exclude name="GenericsNaming" />
+    <exclude name="MethodNamingConventions" />
+    <exclude name="TooManyStaticImports" />
+    <exclude name="UnnecessaryFullyQualifiedName" />
+    <exclude name="CommentDefaultAccessModifier" />
+    <exclude name="VariableNamingConventions" />
+    <exclude name="FieldDeclarationsShouldBeAtStartOfClass" />
+    <exclude name="EmptyMethodInAbstractClassShouldBeAbstract" />
+    <exclude name="UselessParentheses" />
+    <exclude name="UnnecessaryLocalBeforeReturn" />
+    <exclude name="CallSuperInConstructor" />
+    <exclude name="ShortMethodName" />
+    <exclude name="IfElseStmtsMustUseBraces" />
+    <exclude name="AvoidDollarSigns" />
+    <exclude name="UnnecessaryModifier" />
+    <exclude name="IfStmtsMustUseBraces" />
+    <exclude name="PrematureDeclaration" />
+    <exclude name="AvoidFinalLocalVariable" />
+    <exclude name="AvoidPrefixingMethodParameters" />
+    <exclude name="IfStmtsMustUseBraces" />
+    <exclude name="DuplicateImports" />
+    <exclude name="ForLoopsMustUseBraces" />
+    <exclude name="BooleanGetMethodName" />
+  </rule>
+  <rule ref="category/java/design.xml">
+    <exclude name="LawOfDemeter" />
+    <exclude name="DataClass" />
+    <exclude name="NcssCount" />
+    <exclude name="ExcessivePublicCount" />
+    <exclude name="TooManyMethods" />
+    <exclude name="ExcessiveParameterList" />
+    <exclude name="NPathComplexity" />
+    <exclude name="CyclomaticComplexity" />
+    <exclude name="GodClass" />
+    <exclude name="ExcessiveImports" />
+    <exclude name="AvoidCatchingGenericException" />
+    <exclude name="AvoidThrowingRawExceptionTypes" />
+    <exclude name="SimplifyBooleanReturns" />
+    <exclude name="ExcessiveMethodLength" />
+    <exclude name="ExcessiveClassLength" />
+    <exclude name="CollapsibleIfStatements" />
+    <exclude name="CouplingBetweenObjects" />
+    <exclude name="UseUtilityClass" />
+    <exclude name="UseObjectForClearerAPI" />
+    <exclude name="TooManyFields" />
+    <exclude name="SimplifyBooleanExpressions" />
+    <exclude name="SwitchDensity" />
+    <exclude name="AvoidDeeplyNestedIfStmts" />
+    <exclude name="AvoidRethrowingException" />
+    <exclude name="LogicInversion" />
+    <exclude name="SingularField" />
+  </rule>
+  <rule ref="category/java/documentation.xml">
+    <exclude name="CommentSize" />
+    <exclude name="CommentRequired" />
+    <exclude name="UncommentedEmptyMethodBody" />
+    <exclude name="UncommentedEmptyConstructor" />
+  </rule>
+  <rule ref="category/java/errorprone.xml">
+    <exclude name="BeanMembersShouldSerialize" />
+    <exclude name="NullAssignment" />
+    <exclude name="AvoidDuplicateLiterals" />
+    <exclude name="AvoidFieldNameMatchingMethodName" />
+    <exclude name="AvoidLiteralsInIfCondition" />
+    <exclude name="ProperCloneImplementation" />
+    <exclude name="DataflowAnomalyAnalysis" />
+    <exclude name="AssignmentInOperand" />
+    <exclude name="EmptyIfStmt" />
+    <exclude name="CompareObjectsWithEquals" />
+    <exclude name="AvoidAccessibilityAlteration" />
+    <exclude name="MissingBreakInSwitch" />
+    <exclude name="MissingStaticMethodInNonInstantiatableClass" />
+    <exclude name="AvoidFieldNameMatchingTypeName" />
+    <exclude name="UseProperClassLoader" />
+    <exclude name="SuspiciousEqualsMethodName" />
+    <exclude name="AvoidBranchingStatementAsLastInLoop" />
+    <exclude name="AvoidUsingOctalValues" />
+    <exclude name="OverrideBothEqualsAndHashcode" />
+    <exclude name="AvoidCatchingThrowable" />
+    <exclude name="DoNotCallSystemExit" />
+    <exclude name="DoNotExtendJavaLangThrowable" />
+    <exclude name="DoNotCallGarbageCollectionExplicitly" />
+    <exclude name="EmptyCatchBlock" />
+    <exclude name="CloneThrowsCloneNotSupportedException" />
+  </rule>
+  <rule ref="category/java/multithreading.xml">
+    <exclude name="DoNotUseThreads" />
+    <exclude name="UseConcurrentHashMap" />
+    <exclude name="AvoidUsingVolatile" />
+    <exclude name="AvoidSynchronizedAtMethodLevel" />
+    <exclude name="AvoidThreadGroup" />
+  </rule>
+  <rule ref="category/java/performance.xml">
+    <exclude name="RedundantFieldInitializer" />
+    <exclude name="UseStringBufferForStringAppends" />
+    <exclude name="TooFewBranchesForASwitchStatement" />
+    <exclude name="AvoidInstantiatingObjectsInLoops" />
+    <exclude name="InsufficientStringBufferDeclaration" />
+    <exclude name="ConsecutiveAppendsShouldReuse" />
+    <exclude name="ConsecutiveLiteralAppends" />
+    <exclude name="AvoidFileStream" />
+    <exclude name="AvoidUsingShortType" />
+    <exclude name="SimplifyStartsWith" />
+    <exclude name="AvoidArrayLoops" />
+  </rule>
+</ruleset>

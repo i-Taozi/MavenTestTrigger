@@ -1,0 +1,39 @@
+/*
+ * Copyright (c) André Bargull
+ * Alle Rechte vorbehalten / All Rights Reserved.  Use is subject to license terms.
+ *
+ * <https://github.com/anba/es6draft>
+ */
+const {
+  assertSame
+} = Assert;
+
+{
+  let log = "";
+  let p = new Proxy(Object.preventExtensions(Object.defineProperties({}, {
+    a: {configurable: true},
+    b: {configurable: false},
+  })), {
+    getOwnPropertyDescriptor(t, pk) {
+      log += pk;
+      return Object.getOwnPropertyDescriptor(t, pk);
+    }
+  });
+  Object.isFrozen(p);
+  assertSame("a", log);
+}
+
+{
+  let log = "";
+  let p = new Proxy(Object.preventExtensions(Object.defineProperties({}, {
+    a: {writable: true},
+    b: {configurable: false},
+  })), {
+    getOwnPropertyDescriptor(t, pk) {
+      log += pk;
+      return Object.getOwnPropertyDescriptor(t, pk);
+    }
+  });
+  Object.isFrozen(p);
+  assertSame("a", log);
+}

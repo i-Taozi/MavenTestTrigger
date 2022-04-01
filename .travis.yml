@@ -1,0 +1,39 @@
+language: java
+sudo: false
+env:
+  global: [TEST262_PATH='~/test262']
+matrix:
+  include:
+  - addons:
+      apt: {packages: oracle-java8-installer}
+    jdk: oraclejdk8
+    env: PROFILE='skip-external' JAVA_VERSION=8
+  - addons:
+      apt: {packages: oracle-java9-installer}
+    jdk: oraclejdk9
+    env: PROFILE='skip-external' JAVA_VERSION=9
+  - addons:
+      apt: {packages: oracle-java8-installer}
+    jdk: oraclejdk8
+    env: PROFILE='test262-travisci' JAVA_VERSION=8
+  - addons:
+      apt: {packages: oracle-java9-installer}
+    jdk: oraclejdk9
+    env: PROFILE='test262-travisci' JAVA_VERSION=9
+before_install: [java -version, 'if [[ $JAVA_VERSION = ''9'' ]]; then echo "export
+    MAVEN_OPTS=''-Dmaven.repo.local=$HOME/.m2/repository -Xmx512m''" > ~/.mavenrc;
+    else true; fi']
+install: ['if [[ $PROFILE = ''test262-travisci'' ]]; then git clone --depth 1 --branch
+    master git://github.com/tc39/test262.git "${TEST262_PATH}"; else true; fi', mvn
+    install --show-version --batch-mode --quiet --errors -DskipTests=true]
+script: mvn verify --batch-mode --activate-profiles "${PROFILE}"
+notifications:
+  email: {on_success: always, on_failure: always}
+deploy:
+  provider: releases
+  api_key: {secure: MNgtyI7F8Xbhl5zeowUZcIll7LfexKKyHqcRGaryOPTVbTcIGG01yl8682ypJ6h1HZT8kJ/8hpcUYnPdd3FE0CET4/gpnzuM92yFZNKeRrNQ8jtrL4ElPacOx8Yvaa+yKkhFjU6zirCIiLug/3C3smFaIdrCNlb/3P2DNUo+dlQ=}
+  file: target/es6draft.zip
+  skip_cleanup: true
+  true: {repo: anba/es6draft, tags: true, jdk: oraclejdk8, condition: $PROFILE = 'skip-external'}
+branches:
+  only: [anba/es6draft-27-origin]
