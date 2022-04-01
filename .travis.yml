@@ -12,4 +12,4 @@ before_install: [echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/ena
 install: mvn -U clean install
 script: [./test/mysql_basic.sh, ./test/batch_test.sh]
 branches:
-  only: [nuodb/migration-tools-61-origin]
+  only: [nuodb/migration-tools-61-MAVEN_PARALLEL_TEST]
