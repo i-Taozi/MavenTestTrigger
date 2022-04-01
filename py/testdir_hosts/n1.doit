@@ -1,0 +1,18 @@
+
+echo
+echo ======================================================================
+echo ======================================================================
+echo ======================================================================
+echo
+echo RUNNING $1
+echo 
+echo ======================================================================
+echo 
+
+date
+echo 
+time nosetests --verbose --stop --nocapture --nologcapture --with-xunit --xunit-file=$1.nosetests.xml --tests=../testdir_multi_jvm/$1
+echo 
+date
+
+

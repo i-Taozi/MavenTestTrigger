@@ -1,0 +1,19 @@
+./n0.doit test_exec2_ddply_multi.py $*
+./n0.doit test_exec_import_hosts_bigfiles.py $*
+./n0.doit test_flatfile.py $*
+./n0.doit test_flatfile_w_sudo_iptables.py $*
+./n0.doit test_GBM_manyfiles_multijob.py $*
+./n0.doit test_GBM_mnist_restart_many.py $*
+./n0.doit test_GLM_mnist_s3n_fvec.py $*
+# ./n0.doit test_hosts_with_a_browser.py $*
+./n0.doit test_parse_1B_loop_fvec.py $*
+./n0.doit test_parse_covtype20x_loop_fvec.py $*
+./n0.doit test_parse_summary_airline_s3_fvec.py $*
+./n0.doit test_parse_summary_airline_s3n_fvec.py $*
+./n0.doit test_parse_summary_manyfiles_s3_fvec.py $*
+./n0.doit test_parse_summary_manyfiles_s3n_fvec.py $*
+./n0.doit test_parse_summary_zip_s3_fvec.py $*
+./n0.doit test_parse_summary_zip_s3n_fvec.py $*
+# ./n0.doit test_remote_cloud1.py $*
+# ./n0.doit test_remote_cloud.py $*
+./n0.doit test_rf_parity_fvec.py $*

@@ -1,0 +1,155 @@
+apply plugin: 'java'
+//apply plugin: 'groovy'
+description = "Unified Test Framework"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:[4.8,)'
+    testCompile 'org.testng:testng:[6.5.1,)'
+    testCompile "org.uncommons:reportng:1.1.4"
+    testCompile "com.google.inject:guice:3.0"
+    testRuntime ("org.easyb:easyb-core:1.4") { transitive = true }
+}
+
+task acceptanceStories << {
+    ant.taskdef(name: "easyb", classname:"org.easyb.ant.BehaviorRunnerTask", classpath: sourceSets.test.runtimeClasspath.asPath)
+    def reports = "${project.buildDir}/reports"
+    new File("${reports}/easyb").mkdirs()
+    ant.easyb( classpath: sourceSets.test.runtimeClasspath.asPath, failureProperty:'easyb_failed' ) {
+        report( location:"${reports}/easyb/index.html", format:"html" )
+        behaviors( dir: "../src/test/easyb" ) {
+            include( name:"**/*.story" )
+        }
+        behaviors( dir: "src/test/easyb" ) {
+            include( name:"**/*.story" )
+        }
+    }
+    ant.fail( if:'easyb_failed', message: 'Failures in easyb stories' )
+}
+
+task acceptanceTests(type: Test) {
+    useTestNG(){
+        //excludeGroups = ['functional'] as Set
+        includeGroups = ['acceptance'] as Set
+        //parallel = 'method'
+        //threadCount = 4
+        useDefaultListeners = true
+    }
+    options{
+//        listeners << 'org.uncommons.reportng.HTMLReporter'
+        listeners << 'org.uncommons.reportng.JUnitXMLReporter'
+        listeners << 'org.testng.reporters.EmailableReporter'
+    }
+    //set different folders for reports on integration tests ...
+    reports.junitXml.destination = file("${buildDir}/test-results/testng")
+    reports.html.destination = file("${reporting.baseDir}/testng")
+
+    // Add System property to running tests.
+    systemProperty 'sysProp', 'value'
+
+    // Use the following JVM arguments for each test process.
+    //jvmArgs '-Xms256m', '-Xmx512m'
+
+    // Enable debugging mode.
+    debug = false  // a value of true will start waiting for -Xrunjdwp
+
+    // Ignore any test failues and don't fail the build.
+    ignoreFailures = true
+
+    // Enable assertions for test with the assert keyword.
+    enableAssertions = true
+    //forkEvery = 10
+    //maxParallelForks = 4
+    // Disable automatic inspections.
+    scanForTestClasses = false
+
+    // Include test classes.
+    include '**/*Test.class', '**/*Spec.class'
+
+    // Exclude test classes.
+    exclude '**/Abstract*.class', '**/Run*.class'
+    //test.testReportDir = file("$buildDir/test-reports")
+    //test.testResultsDir = file("$buildDir/test-results")
+    //test.testReport = false
+
+}
+
+task acceptancePython << {
+    def group = "acceptance"
+    def rootFolder = project.getRootDir()
+    def testResults = [rootFolder, "build/test-results/python/test_results.xml"].join(File.separator)
+    def htmlReports  = [rootFolder, "build/reports/python/index.html"].join(File.separator)
+    new File(testResults).getParentFile().mkdirs()
+    new File(htmlReports).getParentFile().mkdirs()
+
+    assert new File(testResults).getParentFile().exists()
+    assert new File(htmlReports).getParentFile().exists()
+    FileTree tree = fileTree("../src/test/python"){
+        include '**/*.py'
+    }
+    def results = [:]
+
+    tree.visit{element->
+        exec {
+            executable "python"
+            workingDir rootFolder
+            def name = element.file.name
+            testResults = [rootFolder, "build/test-results/python/results_" + name.split("\\.")[0] + ".xml"].join(File.separator)
+            htmlReports = [rootFolder, "build/reports/python/index_" + name.split("\\.")[0] + ".html"].join(File.separator)
+            args "$element.file", "--group=${group}", '--with-xunit', "--xunit-file=${testResults}",
+                    "--with-html", "--html-file=${htmlReports}"
+        }
+        if ( new File(testResults).exists()){
+            def xmlContent = new XmlSlurper().parseText(new File(testResults).getText())
+            if ( Integer.parseInt(xmlContent.attributes()['tests']) > 0 ){
+                results.put(element.file.name,
+                    [
+                        path: element.file.path,
+                        resultsHtml: htmlReports,
+                        resultsXml: testResults,
+                        tests: xmlContent.attributes()['tests'],
+                        errors: xmlContent.attributes()['errors'],
+                        failures: xmlContent.attributes()['failures'],
+                        skipped: xmlContent.attributes()['skip']
+                    ]
+                )
+            }
+        }
+    }
+    new File("build/reports/site").mkdirs()
+    def links = ""
+    def details = ""
+    def q = { "\"" + it + "\""}
+    results.each{k,v->
+        def href = q(v['resultsHtml'])
+        def title= q(k)
+        links += "<a href=${href} title=${title}>$k</a>\n"
+        details +=
+                "<pre>" +
+                "<b>${k}<b/><br />Tests: ${v['tests']}<br />" +
+                "Failures: ${v['failures']}<br />" +
+                "Errors: ${v['errors']}<br />" +
+                "Skipped: ${v['skipped']}" +
+                "</pre>\n"
+    }
+    //ant copy seems to choke on token substitution if binary files are included. need to go in two passes
+    ant.copy(toDir: "build/reports/site", filtering: true, force: true, overwrite: true){
+        fileset(dir: "src/test/resources/site"){
+            include(name: "**/*.html")
+        }
+        filterset(){
+            filter(token: "test_links", value: links)
+            filter(token: "test_results_details", value: details)
+        }
+    }
+    ant.copy(toDir: "build/reports/site", filtering: true, force: true, overwrite: true){
+        fileset(dir: "src/test/resources/site"){
+            include(name: "**/*.*")
+            exclude(name: "**/*.html")
+        }
+    }
+}
+
