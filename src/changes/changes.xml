@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <title>Changes</title>
+    <author>Stephen Colebourne</author>
+  </properties>
+  <body>
+
+    <!-- types are add, fix, remove, update -->
+    <release version="1.3" date="2018-06-25" description="v1.3">
+      <action dev="evpaassen" type="update">
+        Enhance support for SQL Server 2008+.
+      </action>
+      <action dev="snyk-bot" type="update">
+        Update optional Spring dependency.
+        Fixes #31.
+      </action>
+      <action dev="jodastephen" type="update">
+        Update build.
+        Fixes #27.
+      </action>
+    </release>
+    <release version="1.2" date="2015-10-07" description="v1.2">
+      <action dev="jodastephen" type="add">
+        Allow LOOP tag to support literal integers as well as variables.
+        Fixes #25.
+      </action>
+      <action dev="jodastephen" type="add">
+        Allow extended formats of variables.
+        Can use :{foo} instead of :foo.
+        Can also use :${foo} which could be mapped to some kind of dynamic function
+        in an SqlParams implementation (not provided).
+        Fixes #24.
+      </action>
+      <action dev="jodastephen" type="add">
+        Publish OSGi metadata. Allow use of Spring 4.x.
+        Fixes #21, #23.
+      </action>
+    </release>
+    <release version="1.1" date="2015-09-24" description="v1.1">
+      <action dev="jodastephen" type="add">
+        Allow FETCH, OFFSETFETCH and PAGING tags to support literal integers as well as variables.
+        Fixes #19, #20.
+      </action>
+      <action dev="jodastephen" type="add">
+        Enhance looping support to allow basic support for nested loops.
+        Fixes #15.
+      </action>
+      <action dev="jodastephen" type="add">
+        Clearer exception when no resource files can be found.
+        Fixes #16, #17.
+      </action>
+    </release>
+    <release version="1.0" date="2014-12-01" description="v1.0">
+      <action dev="jodastephen" type="add">
+        Make dependency on Spring framework optional.
+        Use ElSql class to avoid the dependency, use ElSqlBundle to use the dependency.
+        Fixes #11.
+      </action>
+      <action dev="jodastephen" type="fix">
+        Fix whitespace issue after @VALUE tag.
+        Fixes #10.
+      </action>
+      <action dev="jodastephen" type="add">
+        Support null values in LIKE tag.
+        Add new EQUALS tag handling null.
+        Fixes #8.
+      </action>
+      <action dev="jodastephen" type="fix">
+        Support null values in `SqlParameterSource` map within conditional and value tags.
+        Fixes #8.
+      </action>
+    </release>
+    <release version="0.9" date="2013-10-24" description="v0.9">
+      <action dev="jodastephen" type="add">
+        Provide simple looping support in ElSql file.
+        Fixes #7.
+      </action>
+    </release>
+    <release version="0.8.1" date="2013-10-18" description="v0.8.1">
+      <action dev="jodastephen" type="fix">
+        Fix to handle two tags on same line.
+        Fixes #6.
+      </action>
+    </release>
+    <release version="0.8" date="2013-10-17" description="v0.8">
+      <action dev="jodastephen" type="fix">
+        Fix to handle trailing line comments.
+        Fixes #5.
+      </action>
+      <action dev="jodastephen" type="fix">
+        Backwards incompatible change to @INCLUDE(:variable).
+        Previously, it included the value of the variable.
+        Now it includes the named section identified by the variable.
+        Use the new @VALUE to output a variable.
+        Note that @VALUE does not output a trailing space.
+        Fixes #4.
+      </action>
+      <action dev="jodastephen" type="add">
+        Add @VALUE tag to output a value. Fixes #3.
+      </action>
+    </release>
+    <release version="0.7" date="2012-10-12" description="v0.7">
+      <action dev="jodastephen" type="add">
+        Initial release as separate project from OpenGamma.
+      </action>
+    </release>
+
+  </body>
+</document>
