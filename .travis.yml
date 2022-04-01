@@ -12,4 +12,4 @@ env:
 after_success: [bash ./src/build/publish-jar.sh, bash ./src/build/publish-doc-snapshot.sh,
   bash ./src/build/publish-doc-release.sh]
 branches:
-  only: [ttddyy/datasource-proxy-75-origin]
+  only: [ttddyy/datasource-proxy-75-MAVEN_PARALLEL_TEST]
