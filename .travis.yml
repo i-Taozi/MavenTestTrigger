@@ -4,4 +4,4 @@ install: true
 language: java
 script: mvn clean package
 branches:
-  only: [medcl/elasticsearch-analysis-stconvert-43-origin]
+  only: [medcl/elasticsearch-analysis-stconvert-43-MAVEN_REPORT_GENERATION]
