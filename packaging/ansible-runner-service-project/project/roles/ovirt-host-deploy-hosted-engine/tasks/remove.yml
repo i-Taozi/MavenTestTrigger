@@ -1,0 +1,10 @@
+---
+- name: Remove hosted engine conf file
+  file:
+    path: "{{ hosted_engine_conf }}"
+    state: absent
+
+- name: Stop ovirt-ha-agent service
+  service:
+    name: ovirt-ha-agent
+    state: stopped

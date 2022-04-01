@@ -1,0 +1,7 @@
+distributions:
+  - el8stream
+
+timeout: 8h
+release_branches:
+  master:
+    - ovirt-master
