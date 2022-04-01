@@ -1,0 +1,9 @@
+language: java
+sudo: false
+cache:
+  directories: [$HOME/.m2/repository]
+jdk: [oraclejdk8]
+script: [mvn package -Dmaven.javadoc.skip=true -V -B]
+after_success: ['bash <(curl -s https://codecov.io/bash)']
+branches:
+  only: [brettwooldridge/SansOrm-41-origin]
