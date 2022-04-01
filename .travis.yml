@@ -16,4 +16,4 @@ before_install: [export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64, mysql -e 'C
 install: export CAT_HOME=$HOME/data/appdatas/cat && mvn install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
 script: bash -c " export CAT_HOME=$HOME/data/appdatas/cat && mvn test -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
 branches:
-  only: [dianping/cat-2164-origin]
+  only: [dianping/cat-2164-MAVEN_REPORT_GENERATION]
