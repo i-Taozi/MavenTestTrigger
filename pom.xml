@@ -529,6 +529,8 @@
           </includes>
           <forkMode>once</forkMode>
           <argLine>-Xmx${test.maxHeapSize} -enableassertions -Dtest.extensive=${extensive.tests} -Dtest.interactive=${interactive.tests} -Djava.awt.headless=${java.awt.headless}  -XX:+IgnoreUnrecognizedVMOptions --illegal-access=debug</argLine>
+        	<parallel>classes</parallel>
+        	<useUnlimitedThreads>true</useUnlimitedThreads>
          </configuration>
       </plugin>
       
