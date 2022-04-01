@@ -13,4 +13,4 @@ script: mvn test -Djacoco.skip=true -Dmaven.test.failure.ignore=true -Dmaven.jav
 cache:
   directories: [$HOME/.m2]
 branches:
-  only: [datastax/java-driver-1572-origin]
+  only: [datastax/java-driver-1572-MAVEN_PARALLEL_TEST]
