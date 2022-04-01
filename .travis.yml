@@ -8,4 +8,4 @@ after_success: ['mvn clean test jacoco:report-aggregate coveralls:report']
 cache:
   directories: [$HOME/.m2]
 branches:
-  only: [ebourg/jsign-102-origin]
+  only: [ebourg/jsign-102-MAVEN_PARALLEL_TEST]
