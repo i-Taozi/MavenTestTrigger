@@ -1,0 +1,111 @@
+spring:
+  application:
+    name: disboot-biz
+  main:
+    web-application-type: NONE
+  profiles:
+    active: sharding
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:mysql://10.1.1.71:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: paomiantv
+#    password: Paomiantv1&
+#    hikari:
+#      auto-commit: true
+#      connection-test-query: SELECT 1
+#      connection-timeout: 3000
+#      pool-name: DatebookHikariCP
+#      minimum-idle: 5
+#      maximum-pool-size: 15
+#      max-lifetime: 1800000
+#      idle-timeout: 600000
+  redis:
+    host: 10.1.1.71
+    port: 16379
+    database: 0
+  rocketmq:
+    name-server: 10.1.1.71:9876
+    consume-thread-max: 64
+    consume-thread-min: 20
+    producer:
+      group: j360-sjdbc
+      retry-times-when-send-async-failed: 0
+      send-msg-timeout: 30000
+      compress-msg-body-over-howmuch: 4096
+      retry-times-when-send-failed: 2
+      retry-another-broker-when-not-store-ok: false
+
+mybatis:
+  typeAliasesPackage: me.j360.disboot.mapper
+  mapper-locations: classpath:/me/j360/disboot/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# Dubbo Config properties
+## ApplicationConfig Bean
+## Notice: basePackages not base-Packages, it is a bug
+dubbo:
+  scan:
+    basePackages: me.j360.disboot.biz.service
+  consumer:
+    filter: -sentinel.dubbo.consumer.filter
+  application:
+    id: disboot-biz
+    name: disboot-biz
+    qos-enable: true
+    qos-port: 22222
+  ## Enable multiple config bindings
+  config:
+    multiple: false
+  ## ProtocolConfig Bean
+  protocol:
+    name: dubbo
+    port: 20880
+  ## RegistryConfig Bean
+  registry:
+    id: zk
+    address: zookeeper://127.0.0.1:2181
+    client: curator
+    simplified: true
+  metadata-report:
+    id: zk
+    address: zookeeper://127.0.0.1:2181  #redis://10.1.0.4:16379
+    prefix: app2
+# monitor:
+#    address: zookeeper://10.1.0.4:2181
+#    prefix: app2
+
+## sharding-sphare config name: jdbcUrl not url,it not is a bug, but HikariDataSource need
+## MASTER-SLAVE ONLY
+#sharding:
+#  jdbc:
+#    datasource:
+#      names: ds-master,ds-slave-0,ds-slave-1
+#      ds-master:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbcUrl: jdbc:mysql://10.1.1.71:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+#        username: paomiantv
+#        password: Paomiantv1&
+#      ds-slave-0:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbcUrl: jdbc:mysql://10.1.1.71:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+#        username: paomiantv
+#        password: Paomiantv1&
+#      ds-slave-1:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbcUrl: jdbc:mysql://10.1.1.71:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+#        username: paomiantv
+#        password: Paomiantv1&
+#    config:
+#      masterslave:
+#        load-balance-algorithm-type: round_robin
+#        name: ds-ms
+#        master-data-source-name: ds-master
+#        slave-data-source-names: ds-slave-0,ds-slave-1
+#      props:
+#        sql:
+#          show: true

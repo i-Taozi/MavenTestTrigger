@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: test
+
+mybatis:
+    type-aliases-package: me.j360.disboot.miniprogram
+    configuration:
+        map-underscore-to-camel-case: true
+        default-fetch-size: 100
+        default-statement-timeout: 30
+
+logging:
+  config: classpath:logback-spring.xml
+  path: logs
+  level:
+    root: DEBUG
+    org.springframework: INFO
+
+shiro:
+  web:
+    enabled: true
+  sessionManager:
+    sessionIdCookieEnabled: false
+    sessionIdUrlRewritingEnabled: false
+  userNativeSessionManager: true
+

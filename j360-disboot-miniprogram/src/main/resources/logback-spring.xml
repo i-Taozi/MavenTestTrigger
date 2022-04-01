@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <springProperty scope="context" name="log.level" source="log.level.root"/>
+    <springProperty scope="context" name="log.path" source="log.path"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <root level="${log.level}">
+        <appender-ref ref="stdout"/>
+    </root>
+
+    <appender name="zipkin" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.path}/zipkin/zipkin.log</File>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${log.path}/zipkin/zipkin-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="brave.Tracer" level="info" additivity="false">
+        <appender-ref ref="zipkin"/>
+    </logger>
+
+</configuration>
