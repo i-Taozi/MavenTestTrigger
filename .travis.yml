@@ -7,4 +7,4 @@ before_cache: [rm -rf $HOME/.m2/repository/com/opengamma/elsql]
 install: [mvn --version]
 script: [mvn install -e -B -Dstrict]
 branches:
-  only: [OpenGamma/ElSql-35-origin]
+  only: [OpenGamma/ElSql-35-MAVEN_REPORT_GENERATION]
