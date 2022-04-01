@@ -1,3 +1,3 @@
 language: java
 branches:
-  only: [paulhoule/infovore-122-origin]
+  only: [paulhoule/infovore-122-MAVEN_REPORT_GENERATION]
