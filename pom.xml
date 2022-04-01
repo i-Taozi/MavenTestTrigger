@@ -179,6 +179,10 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
         <version>${ugs.surefire.version}</version>
+        <configuration>
+        	<parallel>classes</parallel>
+        	<useUnlimitedThreads>true</useUnlimitedThreads>
+        </configuration>
       </plugin>
 
       <!-- For generating POM files with the revision number -->
