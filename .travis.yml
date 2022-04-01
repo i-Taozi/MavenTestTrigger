@@ -1,0 +1,9 @@
+language: java
+os: [linux]
+branches:
+  only: [orientechnologies/orientdb-9660-origin]
+jdk: [openjdk8]
+before_script: [echo "MAVEN_OPTS='-Xmx3g'" > ~/.mavenrc]
+install: null
+script: [travis_wait 30 mvn install -f driver/pom.xml -Dfailsafe.timeout=0, travis_wait
+    30 mvn install -f server/pom.xml -Dfailsafe.timeout=0]
