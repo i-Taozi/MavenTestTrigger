@@ -1,0 +1,7 @@
+sudo: required
+jdk: [oraclejdk8]
+install: true
+language: java
+script: mvn clean package
+branches:
+  only: [medcl/elasticsearch-analysis-pinyin-258-origin]
