@@ -1,0 +1,8 @@
+sudo: false
+cache:
+  directories: [$HOME/.m2]
+language: java
+script: mvn -T 1C verify
+jdk: [openjdk8]
+branches:
+  only: [owlcs/owlapi-1044-origin]
