@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+  <bean name="rootInstancesDefinition" class="com.amazonaws.services.elasticmapreduce.model.JobFlowInstancesConfig" abstract="true">
+    <property name="hadoopVersion" value="2.4.0" />
+    <property name="masterInstanceType" value="m1.medium" />
+    <property name="slaveInstanceType" value="c1.medium" />
+    <property name="keepJobFlowAliveWhenNoSteps" value="false" />
+    <property name="instanceCount" value="2" /> <!--  the master + 1 slave = 1 -->
+  </bean>
+
+<!--  3.2 here we define specific clusters that you might want to use -->
+
+<!--  cheapest feasible cluster,  contains just the master node which does double -->
+<!--  duties as JobTracker and TaskTracker;  this will get work done,  but slowly -->
+<!--  great for testing lifecycle issues (will the job even start?) -->
+
+<bean name="tinyAwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+  <constructor-arg>
+    <bean parent="rootInstancesDefinition">
+      <property name="instanceCount" value="1" />
+    </bean>
+  </constructor-arg>
+</bean>
+
+  <!-- this cluster is suitable for small runs with real data: it is big enough that HDFS
+       has three copies of everything-->
+
+<bean name="smallAwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+<constructor-arg>
+  <bean parent="rootInstancesDefinition">
+    <property name="masterInstanceType" value="m1.medium" />
+    <property name="slaveInstanceType" value="c3.2xlarge" />
+    <property name="instanceCount" value="4" /> <!-- 1 master + 3 slaves -->
+  </bean>
+</constructor-arg>
+</bean>
+
+<bean name="mediumAwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+<constructor-arg>
+  <bean parent="rootInstancesDefinition">
+    <property name="masterInstanceType" value="m1.medium" />
+    <property name="slaveInstanceType" value="c3.2xlarge" />
+    <property name="instanceCount" value="7" /> <!-- 1 master + 6 slaves -->
+  </bean>
+</constructor-arg>
+</bean>
+
+<bean name="largeAwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+<constructor-arg>
+  <bean parent="rootInstancesDefinition">
+    <property name="masterInstanceType" value="m1.large" />
+    <property name="slaveInstanceType" value="c3.2xlarge" />
+    <property name="instanceCount" value="13" /> <!-- 1 master + 12 slaves -->
+  </bean>
+</constructor-arg>
+</bean>
+
+<bean name="weeklyAwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+<constructor-arg>
+  <bean parent="rootInstancesDefinition">
+    <property name="masterInstanceType" value="m1.large" />
+    <property name="slaveInstanceType" value="c3.2xlarge" />
+    <property name="instanceCount" value="25" /> <!-- 1 master + 24 slaves -->
+  </bean>
+</constructor-arg>
+</bean>
+
+
+<bean name="m1XLargeX2AwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+<constructor-arg>
+  <bean parent="rootInstancesDefinition">
+    <property name="masterInstanceType" value="m1.large" />
+    <property name="slaveInstanceType" value="m1.xlarge" />
+    <property name="instanceCount" value="3" /> <!-- 1 master + 2 slaves -->
+  </bean>
+</constructor-arg>
+</bean>
+
+<bean name="m1XLargeX5AwsCluster" class="com.ontology2.haruhi.AmazonEMRCluster">
+<constructor-arg>
+  <bean parent="rootInstancesDefinition">
+    <property name="masterInstanceType" value="m1.large" />
+    <property name="slaveInstanceType" value="m1.xlarge" />
+    <property name="instanceCount" value="5" /> <!-- 1 master + 2 slaves -->
+  </bean>
+</constructor-arg>
+</bean>
+  </beans>
