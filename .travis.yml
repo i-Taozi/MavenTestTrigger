@@ -7,4 +7,4 @@ cache:
 env: MAVEN_SKIP_RC=true MAVEN_OPTS="-Dmaven.repo.local=$HOME/.m2/repository -Xmx2g"
 before_install: [rm ~/.m2/settings.xml]
 branches:
-  only: [CamelCookbook/camel-cookbook-examples-99-origin]
+  only: [CamelCookbook/camel-cookbook-examples-99-MAVEN_PARALLEL_TEST]
