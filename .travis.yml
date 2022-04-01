@@ -7,4 +7,4 @@ install: mvn clean -B -V
 script: mvn clean test -Pjacoco -Ptravisci -B -V
 after_success: ['bash <(curl -s https://codecov.io/bash)']
 branches:
-  only: [find-sec-bugs/find-sec-bugs-650-origin]
+  only: [find-sec-bugs/find-sec-bugs-650-MAVEN_PARALLEL_TEST]

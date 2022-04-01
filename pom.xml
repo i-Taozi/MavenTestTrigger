@@ -132,6 +132,8 @@
                         <configuration>
                             <argLine>@{argLine} -Xmx3000m -Dbcel.dontCache=true</argLine>
 		           <enableAssertions>true</enableAssertions>
+                        	<parallel>classes</parallel>
+                        	<useUnlimitedThreads>true</useUnlimitedThreads>
                         </configuration>
                     </plugin>
                 </plugins>
