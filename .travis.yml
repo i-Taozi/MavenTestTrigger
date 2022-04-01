@@ -7,4 +7,4 @@ script: ./mvnw install site
 notifications: {email: false}
 before_install: [git submodule update --init --recursive]
 branches:
-  only: [damnhandy/Handy-URI-Templates-69-origin]
+  only: [damnhandy/Handy-URI-Templates-69-MAVEN_PARALLEL_TEST]
