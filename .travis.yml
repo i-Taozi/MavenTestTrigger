@@ -1,0 +1,12 @@
+language: java
+dist: trusty
+sudo: required
+jdk: [oraclejdk8, openjdk8, openjdk11]
+before_script: [echo $JAVA_OPTS, export JAVA_OPTS=-Xmx2048m, echo $JAVA_OPTS, ulimit
+    -a, ulimit -u 2048, ulimit -a, umask 022, mkdir inputs]
+cache:
+  directories: [$HOME/.m2]
+notifications: {slack: 'ukwebarchive:oqbYOo0bd09bnSXn4hGR1aUk'}
+after_success: ['bash <(curl -s https://codecov.io/bash)']
+branches:
+  only: [ukwa/webarchive-discovery-261-origin]
