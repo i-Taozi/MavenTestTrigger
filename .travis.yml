@@ -1,7 +1,7 @@
 language: java
 os: [linux]
 branches:
-  only: [orientechnologies/orientdb-9660-origin]
+  only: [orientechnologies/orientdb-9660-MAVEN_PARALLEL_TEST]
 jdk: [openjdk8]
 before_script: [echo "MAVEN_OPTS='-Xmx3g'" > ~/.mavenrc]
 install: null
