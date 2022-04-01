@@ -182,6 +182,8 @@
                         <!-- Integration tests should not be counted by code coverage -->
                         <exclude>${test.integration.pattern}</exclude>
                     </excludes>
+                	<parallel>classes</parallel>
+                	<useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
             </plugin>
             <plugin>

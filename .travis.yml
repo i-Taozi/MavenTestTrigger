@@ -34,4 +34,4 @@ addons:
   sonarcloud: {organization: damianszczepanik, token: $SONAR_TOKEN}
   branches: [master]
 branches:
-  only: [damianszczepanik/cucumber-reporting-1020-origin]
+  only: [damianszczepanik/cucumber-reporting-1020-MAVEN_PARALLEL_TEST]
