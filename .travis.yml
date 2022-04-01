@@ -1,0 +1,8 @@
+language: java
+jdk: [oraclejdk8]
+cache:
+  directories: [$HOME/.m2]
+script: mvn package
+services: [memcached]
+branches:
+  only: [objectify/objectify-475-origin]
