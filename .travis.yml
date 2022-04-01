@@ -1,0 +1,15 @@
+services: [docker]
+before_install: [docker --version, cd jenkins-client-it-docker, docker build --no-cache
+    -t jenkins-with-plugins ., 'docker run --name jenkins-for-testing -v "$(pwd)/jobs":/var/jenkins_home/jobs  -d
+    -p 8080:8080 -p 50000:50000  --env JENKINS_OPTS=--httpPort=8080 jenkins-with-plugins',
+  cd ..]
+install: true
+language: java
+script: ['mvn -Prun-its,run-docker-its clean verify --batch-mode --fail-at-end']
+after_script: [docker stop jenkins-for-testing, docker rm -f -v jenkins-for-testing,
+  docker rmi -f jenkins-with-plugins]
+jdk: [openjdk8]
+cache:
+  directories: [$HOME/.m2/repository]
+branches:
+  only: [jenkinsci/java-client-api-486-origin]

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+
+  <body>
+    <menu ref="parent" inherit="top" />
+    <menu ref="modules" inherit="top" />
+    <menu ref="reports" inherit="bottom" />
+    <menu name="Overview">
+      <item name="Introduction" href="index.html"/>
+      <item name="Upgrade" href="upgrade.html"/>
+    </menu>
+    <menu name="Sub">
+      <item name="Sub" href="sub/sub.html"/>
+    </menu>
+  </body>
+</project>
