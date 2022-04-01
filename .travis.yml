@@ -5,4 +5,4 @@ cache:
   directories: [$HOME/.m2]
 jdk: [oraclejdk9, oraclejdk8, openjdk8, openjdk7]
 branches:
-  only: [neuland/jade4j-198-origin]
+  only: [neuland/jade4j-198-MAVEN_PARALLEL_TEST]
