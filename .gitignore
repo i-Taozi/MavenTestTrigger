@@ -1,0 +1,13 @@
+.idea
+*.ipr
+*.iml
+*.iws
+target
+.idea
+.ideaproject
+*.zargo~
+.DS_Store
+*.asc
+.project
+.settings
+*.classpath
