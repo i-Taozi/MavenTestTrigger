@@ -26,4 +26,4 @@ cache:
   directories: [$HOME/.m2]
   before_cache: [rm -rf $HOME/.m2/repository/org/ovirt/]
 branches:
-  only: [oVirt/ovirt-engine-29-origin]
+  only: [oVirt/ovirt-engine-29-MAVEN_PARALLEL_TEST]

@@ -835,6 +835,10 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+            	<parallel>classes</parallel>
+            	<useUnlimitedThreads>true</useUnlimitedThreads>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -847,6 +851,8 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <testFailureIgnore>true</testFailureIgnore>
+            	<parallel>classes</parallel>
+            	<useUnlimitedThreads>true</useUnlimitedThreads>
             </configuration>
           </plugin>
         </plugins>
