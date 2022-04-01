@@ -1,0 +1,700 @@
+package info.archinnov.achilles.generated;
+
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.querybuilder.Select;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.Cols;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.Cols.Udt_UDT;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.ColsTM;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.ColsTM.Udt_UDT;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.E;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.E.Id;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.E.Indexed_IndexedText;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.E_TM;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.E_TM.Id;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.E_TM.Indexed_IndexedText;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.F;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.F_TM;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.Udt_UDT;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.W;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.W.Indexed_IndexedText;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.W_TM;
+import info.archinnov.achilles.generated.dsl.TestEntityWithIndexAndUDT_SelectIndex.W_TM.Indexed_IndexedText;
+import info.archinnov.achilles.generated.meta.entity.TestEntityWithIndexAndUDT_AchillesMeta;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractIndexSelectWhere;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractIndexSelectWhereTypeMap;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelect;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelectColumns;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelectColumnsTypeMap;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelectFrom;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelectFromTypeMap;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelectWherePartition;
+import info.archinnov.achilles.internals.dsl.query.select.AbstractSelectWherePartitionTypeMap;
+import info.archinnov.achilles.internals.metamodel.AbstractEntityProperty;
+import info.archinnov.achilles.internals.metamodel.functions.FunctionCall;
+import info.archinnov.achilles.internals.options.CassandraOptions;
+import info.archinnov.achilles.internals.runtime.RuntimeEngine;
+import info.archinnov.achilles.internals.sample_classes.dsl.index.TestEntityWithIndexAndUDT;
+import info.archinnov.achilles.type.SchemaNameProvider;
+import info.archinnov.achilles.validation.Validator;
+import java.lang.Class;
+import java.lang.Integer;
+import java.lang.Long;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
+
+public final class TestEntityWithIndexAndUDT_SelectIndex extends AbstractSelect {
+  protected final TestEntityWithIndexAndUDT_AchillesMeta meta;
+
+  protected final Class<TestEntityWithIndexAndUDT> entityClass = TestEntityWithIndexAndUDT.class;
+
+  public TestEntityWithIndexAndUDT_SelectIndex(RuntimeEngine rte, TestEntityWithIndexAndUDT_AchillesMeta meta) {
+    super(rte);
+    this.meta = meta;
+  }
+
+  /**
+   * Generate a SELECT ... <strong>id</strong> ... */
+  public final TestEntityWithIndexAndUDT_SelectIndex.Cols id() {
+    select.column("id");
+    return new TestEntityWithIndexAndUDT_SelectIndex.Cols(select);
+  }
+
+  /**
+   * Generate a SELECT ... <strong>indexedtext</strong> ... */
+  public final TestEntityWithIndexAndUDT_SelectIndex.Cols indexedText() {
+    select.column("indexedtext");
+    return new TestEntityWithIndexAndUDT_SelectIndex.Cols(select);
+  }
+
+  /**
+   * Generate a SELECT ... <strong>udt(.?)</strong> ... */
+  public final TestEntityWithIndexAndUDT_SelectIndex.Udt_UDT udt() {
+    return new TestEntityWithIndexAndUDT_SelectIndex.Udt_UDT();
+  }
+
+  /**
+   * Use this method to call a system or user-defined function.<br/>All the system functions are accessible from the <strong>{@link info.archinnov.achilles.generated.function.SystemFunctions}</strong> class<br/>All the user-defined functions and aggregates are accessible from the <strong>{@link info.archinnov.achilles.generated.function.FunctionsRegistry}</strong> class<br/>System and user-defined functions accept only appropriate type. To pass in an entity field as function argument, use the generated <strong>manager.COLUMNS</strong> class which exposes all columns with their appropriate type<br/>Example: <pre class="code"><code class="java">
+   *   {@literal @}Table
+   *   public class MyEntity {
+   *
+   *       ...
+   *
+   *       {@literal @}Column("value_column")
+   *       private String value;
+   *
+   *       {@literal @}Column("list_of_string")
+   *       private List<String> strings;
+   *
+   *       ...
+   *
+   *   }
+   *
+   *   {@literal @}FunctionsRegistry
+   *   public interface MyFunctions {
+   *
+   *        String convertListToJson(List<String> strings);
+   *
+   *   }
+   *
+   *
+   *   ...
+   *
+   *
+   *   manager
+   *      .dsl()
+   *      .select()
+   *      // This call will generate SELECT cast(writetime(value_column) as text) AS writetimeOfValueAsString, ...
+   *      .function(SystemFunctions.castAsText(SystemFunctions.writetime(manager.COLUMNS.VALUE)), "writetimeOfValueAsString")
+   *      ...
+   *
+   *   manager
+   *      .dsl()
+   *      .select()
+   *      // This call will generate SELECT convertlisttojson(list_of_string) AS strings_as_json, ...
+   *      .function(FunctionsRegistry.convertListToJson(manager.COLUMNS.STRINGS), "strings_as_json")
+   *      ...
+   *
+   * </code></pre>
+   * <br/>
+   * @param functionCall the function call object
+   * @param alias mandatory alias for this function call for easier retrieval from the ResultSet
+   * @return a built-in function call passed to the QueryBuilder object
+   */
+  public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM function(final FunctionCall functionCall, final String alias) {
+    functionCall.addToSelect(select, alias);
+    return new TestEntityWithIndexAndUDT_SelectIndex.ColsTM(select);
+  }
+
+  /**
+   * Generate ... * FROM ... */
+  public final TestEntityWithIndexAndUDT_SelectIndex.F allColumns_FromBaseTable() {
+    final Select.Where where = select.all().from(meta.getKeyspace().orElse("unknown_keyspace_for_" + meta.entityClass.getCanonicalName()), meta.getTableOrViewName()).where();
+    return new TestEntityWithIndexAndUDT_SelectIndex.F(where, new CassandraOptions());
+  }
+
+  /**
+   * Generate ... * FROM ... using the given SchemaNameProvider */
+  public final TestEntityWithIndexAndUDT_SelectIndex.F allColumns_From(final SchemaNameProvider schemaNameProvider) {
+    final String currentKeyspace = lookupKeyspace(schemaNameProvider, meta.entityClass);
+    final String currentTable = lookupTable(schemaNameProvider, meta.entityClass);
+    final Select.Where where = select.all().from(currentKeyspace, currentTable).where();
+    return new TestEntityWithIndexAndUDT_SelectIndex.F(where, CassandraOptions.withSchemaNameProvider(schemaNameProvider));
+  }
+
+  public class Cols extends AbstractSelectColumns {
+    public Cols(Select.Selection selection) {
+      super(selection);
+    }
+
+    /**
+     * Generate a SELECT ... <strong>id</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols id() {
+      selection.column("id");
+      return this;
+    }
+
+    /**
+     * Generate a SELECT ... <strong>indexedtext</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols indexedText() {
+      selection.column("indexedtext");
+      return this;
+    }
+
+    /**
+     * Generate a SELECT ... <strong>udt(.?)</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols.Udt_UDT udt() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.Cols.Udt_UDT();
+    }
+
+    /**
+     * Use this method to call a system or user-defined function.<br/>All the system functions are accessible from the <strong>{@link info.archinnov.achilles.generated.function.SystemFunctions}</strong> class<br/>All the user-defined functions and aggregates are accessible from the <strong>{@link info.archinnov.achilles.generated.function.FunctionsRegistry}</strong> class<br/>System and user-defined functions accept only appropriate type. To pass in an entity field as function argument, use the generated <strong>manager.COLUMNS</strong> class which exposes all columns with their appropriate type<br/>Example: <pre class="code"><code class="java">
+     *   {@literal @}Table
+     *   public class MyEntity {
+     *
+     *       ...
+     *
+     *       {@literal @}Column("value_column")
+     *       private String value;
+     *
+     *       {@literal @}Column("list_of_string")
+     *       private List<String> strings;
+     *
+     *       ...
+     *
+     *   }
+     *
+     *   {@literal @}FunctionsRegistry
+     *   public interface MyFunctions {
+     *
+     *        String convertListToJson(List<String> strings);
+     *
+     *   }
+     *
+     *
+     *   ...
+     *
+     *
+     *   manager
+     *      .dsl()
+     *      .select()
+     *      // This call will generate SELECT cast(writetime(value_column) as text) AS writetimeOfValueAsString, ...
+     *      .function(SystemFunctions.castAsText(SystemFunctions.writetime(manager.COLUMNS.VALUE)), "writetimeOfValueAsString")
+     *      ...
+     *
+     *   manager
+     *      .dsl()
+     *      .select()
+     *      // This call will generate SELECT convertlisttojson(list_of_string) AS strings_as_json, ...
+     *      .function(FunctionsRegistry.convertListToJson(manager.COLUMNS.STRINGS), "strings_as_json")
+     *      ...
+     *
+     * </code></pre>
+     * <br/>
+     * @param functionCall the function call object
+     * @param alias mandatory alias for this function call for easier retrieval from the ResultSet
+     * @return a built-in function call passed to the QueryBuilder object
+     */
+    public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM function(final FunctionCall functionCall, final String alias) {
+      functionCall.addToSelect(selection, alias);
+      return new TestEntityWithIndexAndUDT_SelectIndex.ColsTM(select);
+    }
+
+    /**
+     * Generate a ... <strong>FROM xxx</strong> ...  */
+    public final TestEntityWithIndexAndUDT_SelectIndex.F fromBaseTable() {
+      final Select.Where where = selection.from(meta.getKeyspace().orElse("unknown_keyspace_for_" + meta.entityClass.getCanonicalName()), meta.getTableOrViewName()).where();
+      return new TestEntityWithIndexAndUDT_SelectIndex.F(where, new CassandraOptions());
+    }
+
+    /**
+     * Generate a ... <strong>FROM xxx</strong> ... using the given SchemaNameProvider */
+    public final TestEntityWithIndexAndUDT_SelectIndex.F from(final SchemaNameProvider schemaNameProvider) {
+      final String currentKeyspace = lookupKeyspace(schemaNameProvider, meta.entityClass);
+      final String currentTable = lookupTable(schemaNameProvider, meta.entityClass);
+      final Select.Where where = selection.from(currentKeyspace, currentTable).where();
+      return new TestEntityWithIndexAndUDT_SelectIndex.F(where, CassandraOptions.withSchemaNameProvider(schemaNameProvider));
+    }
+
+    public class Udt_UDT {
+      /**
+       * Generate a SELECT ... <strong>udt.name</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.Cols name() {
+        selection.raw("udt.name");
+        return TestEntityWithIndexAndUDT_SelectIndex.Cols.this;
+      }
+
+      /**
+       * Generate a SELECT ... <strong>udt.list</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.Cols list() {
+        selection.raw("udt.list");
+        return TestEntityWithIndexAndUDT_SelectIndex.Cols.this;
+      }
+
+      /**
+       * Generate a SELECT ... <strong>udt.map</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.Cols map() {
+        selection.raw("udt.map");
+        return TestEntityWithIndexAndUDT_SelectIndex.Cols.this;
+      }
+
+      /**
+       * Generate a SELECT ... <strong>udt</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.Cols allColumns() {
+        selection.raw("udt");
+        return TestEntityWithIndexAndUDT_SelectIndex.Cols.this;
+      }
+    }
+  }
+
+  public class ColsTM extends AbstractSelectColumnsTypeMap {
+    public ColsTM(Select.Selection selection) {
+      super(selection);
+    }
+
+    /**
+     * Generate a SELECT ... <strong>id</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM id() {
+      selection.column("id");
+      return this;
+    }
+
+    /**
+     * Generate a SELECT ... <strong>indexedtext</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM indexedText() {
+      selection.column("indexedtext");
+      return this;
+    }
+
+    /**
+     * Generate a SELECT ... <strong>udt(.?)</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM.Udt_UDT udt() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.ColsTM.Udt_UDT();
+    }
+
+    /**
+     * Use this method to call a system or user-defined function.<br/>All the system functions are accessible from the <strong>{@link info.archinnov.achilles.generated.function.SystemFunctions}</strong> class<br/>All the user-defined functions and aggregates are accessible from the <strong>{@link info.archinnov.achilles.generated.function.FunctionsRegistry}</strong> class<br/>System and user-defined functions accept only appropriate type. To pass in an entity field as function argument, use the generated <strong>manager.COLUMNS</strong> class which exposes all columns with their appropriate type<br/>Example: <pre class="code"><code class="java">
+     *   {@literal @}Table
+     *   public class MyEntity {
+     *
+     *       ...
+     *
+     *       {@literal @}Column("value_column")
+     *       private String value;
+     *
+     *       {@literal @}Column("list_of_string")
+     *       private List<String> strings;
+     *
+     *       ...
+     *
+     *   }
+     *
+     *   {@literal @}FunctionsRegistry
+     *   public interface MyFunctions {
+     *
+     *        String convertListToJson(List<String> strings);
+     *
+     *   }
+     *
+     *
+     *   ...
+     *
+     *
+     *   manager
+     *      .dsl()
+     *      .select()
+     *      // This call will generate SELECT cast(writetime(value_column) as text) AS writetimeOfValueAsString, ...
+     *      .function(SystemFunctions.castAsText(SystemFunctions.writetime(manager.COLUMNS.VALUE)), "writetimeOfValueAsString")
+     *      ...
+     *
+     *   manager
+     *      .dsl()
+     *      .select()
+     *      // This call will generate SELECT convertlisttojson(list_of_string) AS strings_as_json, ...
+     *      .function(FunctionsRegistry.convertListToJson(manager.COLUMNS.STRINGS), "strings_as_json")
+     *      ...
+     *
+     * </code></pre>
+     * <br/>
+     * @param functionCall the function call object
+     * @param alias mandatory alias for this function call for easier retrieval from the ResultSet
+     * @return a built-in function call passed to the QueryBuilder object
+     */
+    public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM function(final FunctionCall functionCall, final String alias) {
+      functionCall.addToSelect(selection, alias);
+      return this;
+    }
+
+    /**
+     * Generate a ... <strong>FROM xxx</strong> ...  */
+    public final TestEntityWithIndexAndUDT_SelectIndex.F_TM fromBaseTable() {
+      final Select.Where where = selection.from(meta.getKeyspace().orElse("unknown_keyspace_for_" + meta.entityClass.getCanonicalName()), meta.getTableOrViewName()).where();
+      return new TestEntityWithIndexAndUDT_SelectIndex.F_TM(where, new CassandraOptions());
+    }
+
+    /**
+     * Generate a ... <strong>FROM xxx</strong> ... using the given SchemaNameProvider */
+    public final TestEntityWithIndexAndUDT_SelectIndex.F_TM from(final SchemaNameProvider schemaNameProvider) {
+      final String currentKeyspace = lookupKeyspace(schemaNameProvider, meta.entityClass);
+      final String currentTable = lookupTable(schemaNameProvider, meta.entityClass);
+      final Select.Where where = selection.from(currentKeyspace, currentTable).where();
+      return new TestEntityWithIndexAndUDT_SelectIndex.F_TM(where, CassandraOptions.withSchemaNameProvider(schemaNameProvider));
+    }
+
+    public class Udt_UDT {
+      /**
+       * Generate a SELECT ... <strong>udt.name</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM name() {
+        selection.raw("udt.name");
+        return TestEntityWithIndexAndUDT_SelectIndex.ColsTM.this;
+      }
+
+      /**
+       * Generate a SELECT ... <strong>udt.list</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM list() {
+        selection.raw("udt.list");
+        return TestEntityWithIndexAndUDT_SelectIndex.ColsTM.this;
+      }
+
+      /**
+       * Generate a SELECT ... <strong>udt.map</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM map() {
+        selection.raw("udt.map");
+        return TestEntityWithIndexAndUDT_SelectIndex.ColsTM.this;
+      }
+
+      /**
+       * Generate a SELECT ... <strong>udt</strong> ... */
+      public final TestEntityWithIndexAndUDT_SelectIndex.ColsTM allColumns() {
+        selection.raw("udt");
+        return TestEntityWithIndexAndUDT_SelectIndex.ColsTM.this;
+      }
+    }
+  }
+
+  public class F extends AbstractSelectFrom {
+    F(Select.Where where, CassandraOptions cassandraOptions) {
+      super(where, cassandraOptions);
+    }
+
+    /**
+     * Generate a SELECT ... FROM ... <strong>WHERE</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.W where() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.W(where, cassandraOptions);
+    }
+
+    /**
+     * Generate a SELECT statement <strong>without</strong> the <strong>WHERE</strong> clause */
+    public final TestEntityWithIndexAndUDT_SelectIndex.E without_WHERE_Clause() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.E(where, cassandraOptions);
+    }
+  }
+
+  public class F_TM extends AbstractSelectFromTypeMap {
+    F_TM(Select.Where where, CassandraOptions cassandraOptions) {
+      super(where, cassandraOptions);
+    }
+
+    /**
+     * Generate a SELECT ... FROM ... <strong>WHERE</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.W_TM where() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.W_TM(where, cassandraOptions);
+    }
+
+    /**
+     * Generate a SELECT statement <strong>without</strong> the <strong>WHERE</strong> clause */
+    public final TestEntityWithIndexAndUDT_SelectIndex.E_TM without_WHERE_Clause() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.E_TM(where, cassandraOptions);
+    }
+  }
+
+  public class Udt_UDT {
+    /**
+     * Generate a SELECT ... <strong>udt.name</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols name() {
+      select.raw("udt.name");
+      return new TestEntityWithIndexAndUDT_SelectIndex.Cols(select);
+    }
+
+    /**
+     * Generate a SELECT ... <strong>udt.list</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols list() {
+      select.raw("udt.list");
+      return new TestEntityWithIndexAndUDT_SelectIndex.Cols(select);
+    }
+
+    /**
+     * Generate a SELECT ... <strong>udt.map</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols map() {
+      select.raw("udt.map");
+      return new TestEntityWithIndexAndUDT_SelectIndex.Cols(select);
+    }
+
+    /**
+     * Generate a SELECT ... <strong>udt</strong> ... */
+    public final TestEntityWithIndexAndUDT_SelectIndex.Cols allColumns() {
+      select.raw("udt");
+      return new TestEntityWithIndexAndUDT_SelectIndex.Cols(select);
+    }
+  }
+
+  public final class W extends AbstractSelectWherePartition {
+    public W(Select.Where where, CassandraOptions cassandraOptions) {
+      super(where, cassandraOptions);
+    }
+
+    public final TestEntityWithIndexAndUDT_SelectIndex.W.Indexed_IndexedText indexed_indexedText() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.W.Indexed_IndexedText();
+    }
+
+    public final class Indexed_IndexedText {
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>indexedtext = ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E Eq(String indexedText) {
+        where.and(QueryBuilder.eq("indexedtext", QueryBuilder.bindMarker("indexedtext")));
+        boundValues.add(indexedText);
+        encodedValues.add(meta.indexedText.encodeFromJava(indexedText, Optional.of(cassandraOptions)));
+        return new TestEntityWithIndexAndUDT_SelectIndex.E(where, cassandraOptions);
+      }
+    }
+  }
+
+  public final class E extends AbstractIndexSelectWhere<TestEntityWithIndexAndUDT_SelectIndex.E, TestEntityWithIndexAndUDT> {
+    public E(Select.Where where, CassandraOptions cassandraOptions) {
+      super(where, cassandraOptions);
+    }
+
+    @Override
+    protected final Class<TestEntityWithIndexAndUDT> getEntityClass() {
+      return entityClass;
+    }
+
+    @Override
+    protected final AbstractEntityProperty<TestEntityWithIndexAndUDT> getMetaInternal() {
+      return meta;
+    }
+
+    @Override
+    protected final RuntimeEngine getRte() {
+      return rte;
+    }
+
+    @Override
+    protected final CassandraOptions getOptions() {
+      return cassandraOptions;
+    }
+
+    @Override
+    protected final List<Object> getBoundValuesInternal() {
+      return boundValues;
+    }
+
+    @Override
+    protected final List<Object> getEncodedValuesInternal() {
+      return encodedValues;
+    }
+
+    /**
+     * Generate a SELECT ... FROM ... WHERE ... <strong>LIMIT :limit</strong> */
+    public final TestEntityWithIndexAndUDT_SelectIndex.E limit(final Integer limit) {
+      where.limit(QueryBuilder.bindMarker("lim"));
+      boundValues.add(limit);
+      encodedValues.add(limit);
+      return this;
+    }
+
+    @Override
+    protected final TestEntityWithIndexAndUDT_SelectIndex.E getThis() {
+      return this;
+    }
+
+    public final TestEntityWithIndexAndUDT_SelectIndex.E.Id id() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.E.Id();
+    }
+
+    public final TestEntityWithIndexAndUDT_SelectIndex.E.Indexed_IndexedText indexed_indexedText() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.E.Indexed_IndexedText();
+    }
+
+    public final class Id {
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>id = ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E Eq(Long id) {
+        where.and(QueryBuilder.eq("id", QueryBuilder.bindMarker("id")));
+        boundValues.add(id);
+        encodedValues.add(meta.id.encodeFromJava(id, Optional.of(cassandraOptions)));
+        return TestEntityWithIndexAndUDT_SelectIndex.E.this;
+      }
+
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>id IN ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E IN(Long... id) {
+        Validator.validateTrue(ArrayUtils.isNotEmpty(id), "Varargs for field '%s' should not be null/empty", "id");
+        where.and(QueryBuilder.in("id",QueryBuilder.bindMarker("id")));
+        final List<Object> varargs = Arrays.<Object>asList((Object[])id);
+        final List<Object> encodedVarargs = Arrays.<Long>stream((Long[])id).map(x -> meta.id.encodeFromJava(x, Optional.of(cassandraOptions))).collect(Collectors.toList());
+        boundValues.add(varargs);
+        encodedValues.add(encodedVarargs);
+        return TestEntityWithIndexAndUDT_SelectIndex.E.this;
+      }
+    }
+
+    public final class Indexed_IndexedText {
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>indexedtext = ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E Eq(String indexedText) {
+        where.and(QueryBuilder.eq("indexedtext", QueryBuilder.bindMarker("indexedtext")));
+        boundValues.add(indexedText);
+        encodedValues.add(meta.indexedText.encodeFromJava(indexedText, Optional.of(cassandraOptions)));
+        return TestEntityWithIndexAndUDT_SelectIndex.E.this;
+      }
+    }
+  }
+
+  public final class W_TM extends AbstractSelectWherePartitionTypeMap {
+    public W_TM(Select.Where where, CassandraOptions cassandraOptions) {
+      super(where, cassandraOptions);
+    }
+
+    public final TestEntityWithIndexAndUDT_SelectIndex.W_TM.Indexed_IndexedText indexed_indexedText() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.W_TM.Indexed_IndexedText();
+    }
+
+    public final class Indexed_IndexedText {
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>indexedtext = ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E_TM Eq(String indexedText) {
+        where.and(QueryBuilder.eq("indexedtext", QueryBuilder.bindMarker("indexedtext")));
+        boundValues.add(indexedText);
+        encodedValues.add(meta.indexedText.encodeFromJava(indexedText, Optional.of(cassandraOptions)));
+        return new TestEntityWithIndexAndUDT_SelectIndex.E_TM(where, cassandraOptions);
+      }
+    }
+  }
+
+  public final class E_TM extends AbstractIndexSelectWhereTypeMap<TestEntityWithIndexAndUDT_SelectIndex.E_TM, TestEntityWithIndexAndUDT> {
+    public E_TM(Select.Where where, CassandraOptions cassandraOptions) {
+      super(where, cassandraOptions);
+    }
+
+    @Override
+    protected final Class<TestEntityWithIndexAndUDT> getEntityClass() {
+      return entityClass;
+    }
+
+    @Override
+    protected final AbstractEntityProperty<TestEntityWithIndexAndUDT> getMetaInternal() {
+      return meta;
+    }
+
+    @Override
+    protected final RuntimeEngine getRte() {
+      return rte;
+    }
+
+    @Override
+    protected final CassandraOptions getOptions() {
+      return cassandraOptions;
+    }
+
+    @Override
+    protected final List<Object> getBoundValuesInternal() {
+      return boundValues;
+    }
+
+    @Override
+    protected final List<Object> getEncodedValuesInternal() {
+      return encodedValues;
+    }
+
+    /**
+     * Generate a SELECT ... FROM ... WHERE ... <strong>LIMIT :limit</strong> */
+    public final TestEntityWithIndexAndUDT_SelectIndex.E_TM limit(final Integer limit) {
+      where.limit(QueryBuilder.bindMarker("lim"));
+      boundValues.add(limit);
+      encodedValues.add(limit);
+      return this;
+    }
+
+    @Override
+    protected final TestEntityWithIndexAndUDT_SelectIndex.E_TM getThis() {
+      return this;
+    }
+
+    public final TestEntityWithIndexAndUDT_SelectIndex.E_TM.Id id() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.E_TM.Id();
+    }
+
+    public final TestEntityWithIndexAndUDT_SelectIndex.E_TM.Indexed_IndexedText indexed_indexedText() {
+      return new TestEntityWithIndexAndUDT_SelectIndex.E_TM.Indexed_IndexedText();
+    }
+
+    public final class Id {
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>id = ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E_TM Eq(Long id) {
+        where.and(QueryBuilder.eq("id", QueryBuilder.bindMarker("id")));
+        boundValues.add(id);
+        encodedValues.add(meta.id.encodeFromJava(id, Optional.of(cassandraOptions)));
+        return TestEntityWithIndexAndUDT_SelectIndex.E_TM.this;
+      }
+
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>id IN ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E_TM IN(Long... id) {
+        Validator.validateTrue(ArrayUtils.isNotEmpty(id), "Varargs for field '%s' should not be null/empty", "id");
+        where.and(QueryBuilder.in("id",QueryBuilder.bindMarker("id")));
+        final List<Object> varargs = Arrays.<Object>asList((Object[])id);
+        final List<Object> encodedVarargs = Arrays.<Long>stream((Long[])id).map(x -> meta.id.encodeFromJava(x, Optional.of(cassandraOptions))).collect(Collectors.toList());
+        boundValues.add(varargs);
+        encodedValues.add(encodedVarargs);
+        return TestEntityWithIndexAndUDT_SelectIndex.E_TM.this;
+      }
+    }
+
+    public final class Indexed_IndexedText {
+      /**
+       * Generate a SELECT ... FROM ... WHERE ... <strong>indexedtext = ?</strong> */
+      @SuppressWarnings("static-access")
+      public final TestEntityWithIndexAndUDT_SelectIndex.E_TM Eq(String indexedText) {
+        where.and(QueryBuilder.eq("indexedtext", QueryBuilder.bindMarker("indexedtext")));
+        boundValues.add(indexedText);
+        encodedValues.add(meta.indexedText.encodeFromJava(indexedText, Optional.of(cassandraOptions)));
+        return TestEntityWithIndexAndUDT_SelectIndex.E_TM.this;
+      }
+    }
+  }
+}
