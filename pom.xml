@@ -200,6 +200,8 @@
           <runOrder>random</runOrder>
           <argLine>${surefireArgLine}</argLine>
           <skipTests>${skip.unit.tests}</skipTests>
+        	<parallel>classes</parallel>
+        	<useUnlimitedThreads>true</useUnlimitedThreads>
         </configuration>
       </plugin>
       <plugin>
