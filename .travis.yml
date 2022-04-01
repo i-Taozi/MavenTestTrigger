@@ -5,4 +5,4 @@ cache:
 script: mvn package
 services: [memcached]
 branches:
-  only: [objectify/objectify-475-origin]
+  only: [objectify/objectify-475-MAVEN_PARALLEL_TEST]
