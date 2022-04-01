@@ -423,6 +423,8 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
                         <argLine>-Xdebug -Dspring.config.location=file:../.././yml/application-local.yml,file:../.././yml/application-sharding.yml,classpath:application.yml</argLine>
+                    	<parallel>classes</parallel>
+                    	<useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
             </plugins>

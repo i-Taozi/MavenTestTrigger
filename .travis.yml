@@ -5,4 +5,4 @@ before_script: ['me.j360.disboot.websocket.echo "MAVEN_OPTS=''-Xmx1024m -XX:MaxP
 after_success: ['mvn clean cobertura:cobertura', 'bash <(curl -s https://codecov.io/bash)']
 install: travis_wait 30 mvn install
 branches:
-  only: [xuminwlt/j360-boot-app-all-3-origin]
+  only: [xuminwlt/j360-boot-app-all-3-MAVEN_PARALLEL_TEST]
