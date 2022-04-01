@@ -1,0 +1,70 @@
+#!/bin/sh
+
+# Copyright (c) 2015, NuoDB, Inc.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * Neither the name of NuoDB, Inc. nor the names of its contributors may
+#       be used to endorse or promote products derived from this software
+#       without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL NUODB, INC. BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# JAVA_HOME can optionally be set here
+
+die () { echo "$*"; exit 1; }
+
+# NUODB_HOME & NUODB_MIGRATOR_LOG_DIR are set here
+: ${NUODB_HOME:=/opt/nuodb}
+: ${NUODB_MIGRATOR_LOG_DIR:=${TMPDIR:-/tmp}}
+: ${NUODB_MIGRATOR_LOG_DATE_PATTERN:=yyyy_MM_dd_HH_mm_ss}
+
+# Maximum heap size
+MAX_HEAP_SIZE="256M"
+
+# One level up
+CMD=${0##*/}
+DIR=$(cd "${0%$CMD}." && pwd) || die "Cannot resolve directory: ${0%$CMD}."
+: ${NUODB_MIGRATOR_HOME:=${DIR%/*}}
+
+# Expand java executable
+if [ -x "$JAVA_HOME"/bin/java ]; then
+    JAVA="$JAVA_HOME"/bin/java
+else
+    JAVA=`which java`
+fi
+
+# JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=y"
+
+CLASSPATH="${CLASSPATH:+$CLASSPATH:}$NUODB_MIGRATOR_HOME/conf"
+CLASSPATH="$CLASSPATH:$NUODB_MIGRATOR_HOME/jar/slf4j-api-${slf4j.version}.jar"
+CLASSPATH="$CLASSPATH:$NUODB_MIGRATOR_HOME/jar/slf4j-log4j12-${slf4j.version}.jar"
+CLASSPATH="$CLASSPATH:$NUODB_MIGRATOR_HOME/jar/log4j-${log4j.version}.jar"
+CLASSPATH="$CLASSPATH:$NUODB_MIGRATOR_HOME/jar/nuodb-migrator-bootstrap-${project.version}.jar"
+
+exec "$JAVA" $JAVA_OPTS \
+    -Xmx"$MAX_HEAP_SIZE" \
+    -Dnuodb.home="$NUODB_HOME" \
+    -Dnuodb.migrator.home="$NUODB_MIGRATOR_HOME" \
+    -Dnuodb.migrator.log.dir="$NUODB_MIGRATOR_LOG_DIR" \
+    -Dnuodb.migrator.log.date.pattern="$NUODB_MIGRATOR_LOG_DATE_PATTERN" \
+    -cp "$CLASSPATH" \
+    com.nuodb.migrator.bootstrap.Bootstrap "$@"
+
+die "Failed to execute Java '$JAVA'"

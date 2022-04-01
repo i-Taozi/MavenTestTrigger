@@ -1,0 +1,15 @@
+language: java
+env:
+  global: [NUODB_HOME=/opt/nuodb, TZ=America/New_York, NUO_ADD_DOMAIN_PASS=yes, NUO_START_AGENT=yes]
+  matrix: [NUO_VERSION=3.2.4.1 TABLE_LOCK=true, NUO_VERSION=3.2.4.1 TABLE_LOCK=false]
+jdk: [openjdk8, openjdk9, openjdk10, openjdk11, oraclejdk8, oraclejdk9, oraclejdk11]
+notifications:
+  recipients: [migrator@nuodb.com]
+before_install: [echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+    >/dev/null, echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+    >/dev/null, sudo mv /opt/jdk_switcher/jdk_switcher.sh /tmp, ./test/mysql_setup.sh,
+  ./test/nuodb_setup.sh]
+install: mvn -U clean install
+script: [./test/mysql_basic.sh, ./test/batch_test.sh]
+branches:
+  only: [nuodb/migration-tools-61-origin]

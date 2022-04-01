@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NUODB to NUODB Integration Test Suite" parallel="none">
+  <test name="NUODB to NUODB Integration Tests" >
+    <groups>
+	  <run>
+	    <include name="integrationtest"/>
+	    <include name="nuodbintegrationtest"/>
+	    <include name="linqdataloadperformed"/>
+	    <include name="nuodblinqtest"/>
+        <exclude name="disabled"/>
+	  </run>
+	</groups>
+    <packages>
+      <package name="com.nuodb.migrator.*" />
+   </packages>
+  </test>
+</suite>
