@@ -12,4 +12,4 @@ jdk: [openjdk8]
 cache:
   directories: [$HOME/.m2/repository]
 branches:
-  only: [jenkinsci/java-client-api-486-origin]
+  only: [jenkinsci/java-client-api-486-MAVEN_PARALLEL_TEST]
