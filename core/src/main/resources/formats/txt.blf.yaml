@@ -1,0 +1,12 @@
+displayName: plain text
+description: A plain old text file.
+helpUrl: https://en.wikipedia.org/wiki/Plain_text 
+
+fileType: text
+
+annotatedFields:
+  contents:
+    annotations:
+    - name: word
+      displayName: Word
+      valuePath: .

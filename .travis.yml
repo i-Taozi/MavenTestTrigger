@@ -1,0 +1,3 @@
+language: java
+branches:
+  only: [INL/BlackLab-199-origin]
