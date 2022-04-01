@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen android:key="screen" xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settingsTitle">
+        <SwitchPreference
+            android:title="@string/trainingMode"
+            android:defaultValue="false"
+            android:summary="@string/trainingModeDesc"
+            android:key="@string/trainingModePref" />
+        <ListPreference
+            android:title="@string/voiceType"
+            android:summary="@string/voiceTypeDesc"
+            android:defaultValue="@string/male"
+            android:entryValues="@array/voiceType"
+            android:entries="@array/voiceType"
+            android:key="@string/voiceTypePref" />
+        <ListPreference
+            android:title="@string/vocabulary"
+            android:summary="@string/vocabularyDesc"
+            android:key="@string/vocabularyPref"/>
+        <EditTextPreference
+			android:title="@string/serverTitle"
+			android:summary="@string/serverDesc"
+			android:dialogTitle="@string/serverTitle"
+			android:defaultValue="@string/serverDef"
+			android:key="@string/serverPref"/>
+    </PreferenceCategory>a
+</PreferenceScreen>
