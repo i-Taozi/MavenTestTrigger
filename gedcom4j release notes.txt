@@ -1,0 +1,225 @@
+==============================
+GEDCOM4J RELEASE NOTES
+==============================
+
+
+04 NOV 2016 - v4.0.1
+====================
+v4.0.1 is a minor release. It includes a new class, KinshipNameCalculator, that determines a name for the relationship between two individuals, and largely makes the RelationshipCalculator class obsolete (but that class still remains).
+
+Issues from Github (https://github.com/frizbog/gedcom4j/issues):
+- Issue #44 - RelationshipCalculator has nothing yet about cousins
+- Issue #45 - RelationshipCalculator needs to go to 4th-great-grandparent and beyond
+- No issue  - Minor fix for the copy constructor on Address.
+
+10 OCT 2016 - v4.0.0
+====================
+v4.0.0 is a major release. Most users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
+
+Upgrade tips:
+- References to StringWithCustomTags will need to be changed to references to StringWithCustomFacts instead.
+- References to GedcomValidator should be replaced with Validator - but this is only if you are directly accessing the validator.  Generally it's only accessed implicitly in the GedcomWriter, and using the writer hasn't really changed...although the validation findings have changed their formats.
+- Most of the enums in the library have been moved to the org.gedcom4j.model.enumerations package, so you may need to touch up your imports.
+- References from Family objects to the Individuals in it now have an intermediate object called an IndividualReference, so there's a place to store custom tag data on those relationships.  Direct references didn't allow this, so data in GEDCOM files was going unparsed and ignored. 
+
+Summary of changes:
+- The id property on StringTree has been renamed xref (along with the getters and setters)
+- All enums in the model are now moved to the new org.gedcom4j.model.enumerations package.
+- The org.gedcom4j.model.Note class is replaced by NoteRecord and NoteStructure.  NoteRecord is for root-level notes with xrefs in the Gedcom's notes map, and NoteStructures are either inline notes or references to root-level NoteRecords.
+- Model classes that used enum values now use StringWithCustomFact values instead in order to allow custom tags on those values.  The enums still exist but are best used for building new StringWithCustomFacts objects.
+- Model classes that had fields/properties of type List<String> now use a MultiStringWithCustomFacts type instead.  This allows parsing and tracking custom tags on fields with multiple lines of text.
+- Model classes that used to return plain Strings now return StringWithCustomTags objects in most cases. 
+- Families no longer directly link to the individuals in them, but use an intermediary IndividualReference class that can hold custom facts.
+- CustomTags are completely reworked to be CustomFacts. A CustomFact object represents a custom tag but has built-in first order support for Dates, Places, Notes, and Citations.
+- Validation framework was almost entirely rebuilt. You can now also write your own validators and register them have them executed during validation (see the Validator.getSupplementaryValidators() method).
+- There are now adapter classes for providing assistance with processing custom tags for Family Tree Maker 3, Family Historian, and Legacy Family Tree. This will enable users to work with the custom tags those programs a bit more easily than working directly with the custom facts structures.
+
+Issues from Github (https://github.com/frizbog/gedcom4j/issues):
+- Issue #129 - Add option to ignore all custom tags
+- Issue #133 - Fine-grained control over auto-repair during validation
+- Issue #135 - Validation findings should only reference gedcom4j objects, not java.lang.Object
+- Issue #136 - Validation findings should include an optional name of the field/property with the finding
+- Issue #137 - Validation findings should be serializable
+- Issue #138 - Validators should use DateParser to validate date strings
+- Issue #139 - Auto-repair should be tracked and examinable by caller
+- Issue #140 - Support for well-known custom tag sets
+- Issue #141 - Steal validations from gedantic
+- Issue #142 - Add Validation: Children of Elderly Parents
+- Issue #143 - Add validation: Children of young parents
+- Issue #144 - Add validation: Children with different surnames than parents
+- Issue #145 - Add validation: family multiple children with same given names
+- Issue #146 - Add validation: Cyclical Ancestral Relationship
+- Issue #147 - Add validation: Couples with large age differences
+- Issue #148 - Add validation: Born before ancestors
+- Issue #149 - Add validation: future birth and death
+- Issue #150 - Add validation: Male Wives and Female Husbands
+- Issue #151 - Add validation: Married at young age
+- Issue #152 - Add validation: Multiple births (quads, quints, and more)
+- Issue #153 - Add validation: Simultaneous births in multiple locations
+- Issue #154 - Validation findings should have problem codes along with problem descriptions
+- Issue #155 - Validation findings should support representation of related items
+- Issue #156 - ModelElements need copy constructors or clone() implementation or something like it
+- Issue #158 - All StringWithCustomTags fields should have overloaded setters that accept Strings
+- Issue #159 - Validation findings should be grouped by object with the issue
+- Issue #160 - Validating enumerated values
+- Issue #161 - CustomTags are not preserved on the references to Individuals in Family objects
+- Issue #167 - Many custom tags don't load or write
+- Issue #168 - Notes are a strange amalgam of NOTE_RECORD and NOTE_STRUCTURE
+- Issue #169 - PersonalName does not support the TYPE tag
+
+
+29 SEP 2016 - v3.2.2
+====================
+v3.2.2 is a minor fix release
+
+Issue #162 - Fixed enum AdoptedByWhichParent so it uses the correct tag name HUSB for the husband doing the adopting.
+Issue #163 - Fixed a NullPointerException vulnerability when parsing malformed files
+Issue #164 - Fixed where the GedcomParser did not make a new, fresh instance of a Gedcom object if used repeatedly
+Issue #165 - Fixed where Individual.getEventsOfType() returned an modifiable List - it is now unmodifiable
+Issue #166 - Fixed where indented files in UTF-8 encoding (such as from GENi.com) were not being parsed correctly.
+
+
+14 SEP 2016 - v3.2.1
+====================
+v3.2.1 is a minor fix release
+
+Issue #157 - Fixed vulnerability to NullPointerException in ChangeDateParser
+
+
+04 SEP 2016 - v3.2.0
+====================
+v3.2.0 is a minor release with a number of backward-compatible API changes for bug fixes and enhancements.
+
+No issue numbers, but changed:
+- Minimum language level is now Java 7.  Much code has been refactored to reflect this and to begin using Java 7 idioms.
+- Much refactoring to use getters/setters throughout code (including tests) instead of direct field access, now that javabeans are the norm since 3.0.0
+- Merging in work from contributor Mark Sikes to introduce some new mix-in-like classes into the model, and to pull up common methods into the intermediate classes, to reduce repeated code and position for better validation
+
+Issue #122 - Created IndividualFactory class to make creation of Individuals easy
+
+Issue #123 - Created FamilyFactory class to make creation of Families easy and ensuring proper relationship connections between model objects
+
+Issue #127 - Enhanced the Finder class to allow searching for individuals by events in a date range
+
+Issue #130 - Fixed usage of AbstractNameVariation and created the PlaceNameVariation class for romanized/phonetic variants of place names.
+
+Issue #132 - Introduced a number of superclasses and refactored cut-and-pasted code into them to reduce redundancy.
+
+Issue #134 - Implemented Soundex algorithm and added to Finder so you can find people with names that sound like another name without needing exact spelling
+
+20 Aug 2016 - v3.1.0
+====================
+v3.1.0 is a minor release with some new backward-compatible API changes for bug fixes and enhancements.
+
+Issue #126 - A number of problems were fixed regarding interoperability between Windows and Mac/Unix, predominantly around line terminators and encodings. A new property is available on GedcomWriter to set which line terminator you want to use if it is different than the default for your JVM and system.
+
+Issue #125 - Added a new comparator that sorts individuals on a specific event date first, then surname then given name.
+
+
+06 Aug 2016 - v3.0.3
+====================
+v3.0.3 is a minor fix release
+
+Issue #120 - AncestryCalculator class was susceptible to StackOverflowErrors and infinite recursion when the gedcom file contained a cyclical ancestral relationship.
+
+Issue #121 - Individual.toString() showed "spouse of unknown" where there may not be a spouse.  It now shows nothing when there is no spouse to show.
+
+
+30 Jul 2016 - v3.0.2
+====================
+v3.0.2 is a minor fix release
+
+Issue #118 - RelationshipCalculator was prone to NullPointerExceptions for Individuals with a null value for their sex property.
+
+
+22 Jul 2016 - v3.0.1
+====================
+v3.0.1 addresses a few bugs and adds date string parsing.
+
+Issue #114 - An enhancement providing parsing support for textual date strings, including ranges, periods, amd imprecise dates from the Gregorian, Julian, Hebrew, and French Republican calendars.
+
+Issue #115 - Fixed a bug where Individual.getAncestors() and Individual.getDescendants() could infinitely recurse if cyclical relationships exist in the model (e.g. people being their own ancestors).
+
+Issue #116 - FamilyParser was creating an validation finding if a Family record has no children.
+
+Issue #117 - The validation framework was creating an ERROR level finding when multimedia objects referencing FILEs did not also include a FORMat tag.  These are often omitted and implied by filename conventions, so the ERROR was relaxed to a WARNING. 
+
+
+15 Jul 2016 - v3.0.0
+====================
+v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j will need significant modification, primarily around the object model.
+
+Issue #83 - The biggest change that users will see is that gedcom4j now uses the JavaBean spec for its object model and internal objects as well. Where you used to access public fields of the data model, you now need to use getters and setters.
+
+Issue #85 - The GedcomParser class, which was a monster magic class almost 2,400 lines long, has been split up and there are a variety of parser classes that work in concert to parse input files 
+
+Issue #86 - The GedcomWriter class was also another giant magic class, and it too has been split up into a variety of classes that work together to construct and write a GEDCOM file. 
+
+Issue #104 - The classes in the model now implement java.io.Serializable and have defined serial version UIDs.
+
+Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it.
+
+Issue #111 - GedcomValidator now removes duplicate items from most collections when autorepair is enabled.
+
+Issue #112 - The Maven pom.xml file now includes the ability to ensure that all java source files have the correct license and copyright statement header.
+
+Issue #113 - The FileProgressEvent notifications now include the number of bytes processed.  This makes it possible for calling code to calculate percents complete when the file size is known.
+
+Not related to an issue in GitHub, users should know that the toString() implementations of most model objects have been rewritten.  
+
+
+08 Jul 2016 - v2.3.1
+====================
+Issue #106 - File parsing and loading into object model is now done line by line on-the-fly, rather than loading the entire file into memory, then parsing the lines of the file.
+
+Issue #108 - There is now a global options class named Options, in which you can choose whether collections in the object model should be automatically initialized (thus saving you from having to do null checks) or left null (thus saving memory).  The getter for each of these collections is overloaded with a getter that takes a boolean argument; when true, the getter will initialize the collection if needed before returning a reference. 
+
+
+01 Jul 2016 - v2.3.0
+====================
+v2.3.0 of gedcom4j was primarily focused on improving performance for installations with smaller heap sizes and less CPU power available (for whatever reason), including the ability to get progress notification on file load/parse and construct/write operations, as well as introducing the ability to cancel these operations while in progress.
+
+Internally, there was also a change to the AnselReader so that files with lines that exceed the 255 character limit mentioned in the GEDCOM spec continue to be read like they did before, despite the optimizations introduced for this release. AnselReader now uses a fixed-size char array to buffer data rather than a StringBuilder (for performance reasons), but the fixed size of the array introduced problems for lines that exceeded the length of the array.  To get around this, the class now internally introduces synthetic CONC tags in long lines during the file read process (as if they had been split properly according to spec), which in most cases get removed during the parse process as strings are concatenated back together (as the CONC tag indicates).  Most users won't notice anything has happened, but in case it comes up, there it is.
+
+You may notice that gedcom4j skipped from 2.2.8 to 2.3.0 without a 2.2.9 release. 2.2.9 had snapshots that were built and put in Maven Central, but API-impacting changes were introduced, so 2.2.9 was abandoned as not released, and 2.3.0 was created in keeping with semantic versioning concepts.
+
+The changes to the API are as follows:
+
+o  Exceptions defined in gedcom4j are now all in the org.gedcom4j.exception package, and these are checked exceptions, so you'll probably need to touch up your imports.
+
+o  The GedcomParser now has new methods for registering and unregistering listeners for file read progress and data parsing progress, and to set how frequently your listeners are notified. You can also cancel a load/parse operation in progress using the GedcomParser.cancel() method.
+
+o  The GedcomWriter now has new methods for registering and unregistering listeners for progress updates on constructing string data from GEDCOM data, and for writing the files, and to set how frequently your listeners are notified. You can also cancel a construct/write operation in progress using the GedcomWriter.cancel() method.
+
+o  Several classes were moved to new packages, including some enumerations you might be using (like Encoding) so again, you may need to touch up your imports.
+
+o  Visibility of some classes has also changed (such as the Tag enum), so you may no longer be able to use them.
+
+Issues addressed (see GitHub): #103, #105
+
+
+10 Jun 2016 - v2.2.8 available
+==============================
+This release fixes an issue where two-digit level numbers were not supported like the spec requires.
+
+
+2 Jun 2016 - v2.2.7 available
+==============================
+This was a performance improvement release. The GedcomParser class now loads files about 20 times faster than release v2.2.6.
+
+
+22 May 2016 - v2.2.6 available
+==============================
+Two changes involve line breaks embedded within the text value of a tag. The GEDCOM spec directs implementations to split lines using CONT or CONC tags and not to have embedded line-breaks within text strings. This release brings gedcom4j into adherence to the spec on this matter, and allows more flexibility when parsing files that do not strictly conform to the spec. Issues around loading Unicode files with byte order marks and in trying to get an individual's descendants are also fixed. Details are available on the downloads page.
+
+
+18 May 2016 - v2.2.5 available
+==============================
+This release addresses two bugs. The first was a bug where custom tags were being emitted twice by the GedcomWriter class. The other was a bug where the GedcomParser class would throw an exception when a root-level NOTE line in the GEDCOM had an XREF definition and text that looked like a cross-reference to another NOTE. The fixed code treats the text as literal text now, and adds a warning to the GedcomParser.warnings collection (since it's most likely a mistake, and not really what the specs call for).
+
+
+15 Mar 2016 - v2.2.4 available
+==============================
+This release addresses two bugs. The first is an issue in the default String representation of an individual, where it would not show the death date correctly if the individual also had a birth date. The second is an issue where custom tags in the data structure were not being emitted by the GedcomWriter.
+
+

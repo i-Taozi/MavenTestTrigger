@@ -1,0 +1,5 @@
+language: java
+script: mvn clean verify -Dgpg.skip
+install: [null]
+branches:
+  only: [frizbog/gedcom4j-205-origin]
