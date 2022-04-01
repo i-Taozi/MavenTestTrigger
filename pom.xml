@@ -61,6 +61,7 @@
     <test.jvmArgs />
     <test.jacocoArgs />
     <test.excludes>**/chakra/*, **/mozilla/*, **/test262/*, **/v8/*, **/webkit/*</test.excludes>
+  	<closeTestReports>true</closeTestReports>
   </properties>
 
   <dependencies>
@@ -218,6 +219,9 @@
                 </configuration>
               </execution>
             </executions>
+            <configuration>
+            	<disableXmlReport>${closeTestReports}</disableXmlReport>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -244,6 +248,9 @@
                 </configuration>
               </execution>
             </executions>
+            <configuration>
+            	<disableXmlReport>${closeTestReports}</disableXmlReport>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -276,6 +283,9 @@
                 </configuration>
               </execution>
             </executions>
+            <configuration>
+            	<disableXmlReport>${closeTestReports}</disableXmlReport>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -404,6 +414,9 @@
                 </configuration>
               </execution>
             </executions>
+            <configuration>
+            	<disableXmlReport>${closeTestReports}</disableXmlReport>
+            </configuration>
           </plugin>
           <plugin>
             <groupId>org.jacoco</groupId>
@@ -460,6 +473,9 @@
                 </configuration>
               </execution>
             </executions>
+            <configuration>
+            	<disableXmlReport>${closeTestReports}</disableXmlReport>
+            </configuration>
           </plugin>
           <plugin>
             <groupId>org.jacoco</groupId>
@@ -1010,6 +1026,9 @@
             </configuration>
           </execution>
         </executions>
+            <configuration>
+            	<disableXmlReport>${closeTestReports}</disableXmlReport>
+            </configuration>
       </plugin>
 
       <plugin>

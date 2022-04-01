@@ -36,4 +36,4 @@ deploy:
   skip_cleanup: true
   true: {repo: anba/es6draft, tags: true, jdk: oraclejdk8, condition: $PROFILE = 'skip-external'}
 branches:
-  only: [anba/es6draft-27-origin]
+  only: [anba/es6draft-27-MAVEN_REPORT_GENERATION]
