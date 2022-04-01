@@ -3,4 +3,4 @@ jdk: [openjdk8, openjdk11, oraclejdk11]
 notifications: {email: false}
 sudo: false
 branches:
-  only: [Esri/spatial-framework-for-hadoop-180-origin]
+  only: [Esri/spatial-framework-for-hadoop-180-MAVEN_PARALLEL_TEST]
