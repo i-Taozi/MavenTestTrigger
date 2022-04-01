@@ -1,0 +1,4 @@
+language: java
+jdk: [oraclejdk8, oraclejdk7]
+branches:
+  only: [julianhyde/linq4j-32-origin]
