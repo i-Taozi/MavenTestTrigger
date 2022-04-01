@@ -1,4 +1,4 @@
 language: java
 jdk: [oraclejdk7, openjdk6]
 branches:
-  only: [ryantenney/passkit4j-52-origin]
+  only: [ryantenney/passkit4j-52-MAVEN_REPORT_GENERATION]
