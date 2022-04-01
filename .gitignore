@@ -1,0 +1,9 @@
+.classpath
+.project
+.settings/
+.cache
+.idea/
+*.iml
+target/
+mediawiki/
+bin/

@@ -1,0 +1,6 @@
+sudo: false
+language: java
+jdk: [openjdk11]
+after_success: ['bash <(curl -s https://codecov.io/bash)']
+branches:
+  only: [eldur/jwbf-77-origin]
