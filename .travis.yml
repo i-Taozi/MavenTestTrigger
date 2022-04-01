@@ -6,4 +6,4 @@ before_install: [sudo apt-get -qq update, 'sudo apt-get -qq install libstdc++6:i
   'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${PWD}/com/googlecode/javacv/cpp/linux-x86_64',
   sudo ldconfig]
 branches:
-  only: [sagioto/LipReading-18-origin]
+  only: [sagioto/LipReading-18-MAVEN_PARALLEL_TEST]

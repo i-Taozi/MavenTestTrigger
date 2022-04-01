@@ -91,6 +91,8 @@
                     <configuration>
                         <useFile>false</useFile>
                         <argLine>-Xss2m</argLine>
+                    	<parallel>classes</parallel>
+                    	<useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
                 <plugin>
