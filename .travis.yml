@@ -37,4 +37,4 @@ before_script: ['curl http://download.geofabrik.de/europe/germany/bayern/oberbay
     /bin/bash -i /mnt/map/osm/import.sh]
 script: [mvn test --batch-mode --errors]
 branches:
-  only: [bmwcarit/barefoot-159-origin]
+  only: [bmwcarit/barefoot-159-MAVEN_FORK_TEST]
