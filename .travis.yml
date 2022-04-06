@@ -1,4 +1,4 @@
 language: java
 jdk: [oraclejdk8]
 branches:
-  only: [castlabs/dashencrypt-34-origin]
+  only: [castlabs/dashencrypt-34-MAVEN_FORK_TEST]
