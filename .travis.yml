@@ -11,4 +11,4 @@ notifications:
     on_success: change
     on_failure: always
 branches:
-  only: [caelum/mamute-331-origin]
+  only: [caelum/mamute-331-MAVEN_FORK_TEST]
