@@ -7,4 +7,4 @@ env: [BROWSER=PHANTOM_JS, BROWSER=FIREFOX]
 cache:
   directories: [$HOME/.m2/repository]
 branches:
-  only: [dgageot/simplelenium-27-origin]
+  only: [dgageot/simplelenium-27-MAVEN_FORK_TEST]
