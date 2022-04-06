@@ -23,4 +23,4 @@ git: {depth: 1000}
 cache:
   directories: [$HOME/.m2]
 branches:
-  only: [apache/knox-539-origin]
+  only: [apache/knox-539-MAVEN_FORK_TEST]
