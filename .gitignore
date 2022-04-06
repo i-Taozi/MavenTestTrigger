@@ -1,0 +1,16 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+.idea/
+*.iml
+*.audit
+*.yml
+*.yaml
+.settings
+target
+.classpath
+.project
+	
