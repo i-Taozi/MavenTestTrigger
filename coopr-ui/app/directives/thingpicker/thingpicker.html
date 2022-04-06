@@ -1,0 +1,35 @@
+<ul class="my-thing-picker list-unstyled" ng-class="{'list-inline': listInline}">
+  <li ng-repeat="name in model" class="am-flip-x">
+    <div class="btn-group btn-group-xs dropdown">
+      <a class="btn btn-default disabled" ng-bind="name"></a>
+      <a class="btn btn-default dropdown-toggle"
+          ng-if="actionDropdowns[name]"
+          bs-dropdown="actionDropdowns[name]"
+          data-html="true"
+      >
+        <span class="caret"></span>
+      </a>
+    </div>
+  </li>
+  <li ng-show="available.length">
+    <a class="btn btn-xs btn-warning"
+        ng-disabled="!addDropdown.length"
+        bs-dropdown="addDropdown"
+        ng-hide="freetextMode"
+        data-placement="bottom-left"
+    >
+      <span class="fa fa-plus"></span>
+      add <span ng-bind="thingName"></span>
+    </a>
+  </li>
+  <li>
+    <a class="btn btn-xs btn-warning"
+        ng-click="showModal()"
+        ng-show="freetextMode"
+        data-placement="bottom-left"
+    >
+      <span class="fa fa-plus"></span>
+      add <span ng-bind="thingName"></span>
+    </a>
+  </li>
+</ul>

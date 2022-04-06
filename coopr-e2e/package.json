@@ -1,0 +1,19 @@
+{
+  "name": "coopr-e2e-testing",
+  "version": "1.0.0",
+  "description": "End to end testing for Coopr",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/cdapio/coopr.git"
+  },
+  "scripts": {
+    "build": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor test/protractor-conf.js"
+  },
+  "devDependencies": {
+    "jasmine-spec-reporter": "^1.1.0",
+    "protractor": "^1.1.1"
+  }
+}

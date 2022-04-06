@@ -1,0 +1,158 @@
+<!--
+  Copyright © 2012-2016 Cask Data, Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>coopr-cli</artifactId>
+  <packaging>jar</packaging>
+  <name>Coopr CLI</name>
+  <parent>
+    <artifactId>coopr-parent</artifactId>
+    <groupId>co.cask</groupId>
+    <version>0.9.10-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <main.class>co.cask.coopr.shell.CLIMain</main.class>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>co.cask.common</groupId>
+      <artifactId>common-cli</artifactId>
+      <version>0.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>2.12</version>
+    </dependency>
+    <dependency>
+      <groupId>co.cask</groupId>
+      <artifactId>coopr-rest-client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>1.7.6</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-cli-scripts</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration combine.self="override">
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <useDefaultDelimiters>false</useDefaultDelimiters>
+              <delimiters>
+                <delimiter>@@</delimiter>
+              </delimiters>
+              <resources>
+                <resource>
+                  <directory>${project.parent.basedir}/coopr-cli/bin</directory>
+                  <targetPath>bin</targetPath>
+                  <includes>
+                    <include>coopr-cli.sh</include>
+                    <include>coopr-cli.bat</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <!-- Make CLI scripts executable -->
+          <execution>
+            <id>copy-cli-bash</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <target>
+                <chmod file="${project.build.directory}/bin/**" perm="755"/>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <goal>package</goal>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+          <transformers>
+            <transformer
+                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <mainClass>${main.class}</mainClass>
+            </transformer>
+          </transformers>
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>META-INF/*.SF</exclude>
+                <exclude>META-INF/*.DSA</exclude>
+                <exclude>META-INF/*.RSA</exclude>
+              </excludes>
+            </filter>
+          </filters>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -1,0 +1,14 @@
+{
+    "name": "cdap-distributed",
+    "version": "1",
+    "description": "Template without defaults services",
+    "defaults": {
+        "provider": "google",
+        "hardwaretype": "standard-large",
+        "imagetype": "centos6",
+        "dnsSuffix": "example.com",
+        "config": {
+            "security.enabled": "true"
+        }
+    }
+}

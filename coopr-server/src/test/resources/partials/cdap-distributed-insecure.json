@@ -1,0 +1,106 @@
+{
+    "name": "cdap-distributed-insecure",
+    "version": "1",
+    "description": "Cask DAP (CDAP) and Hadoop cluster with single master",
+    "defaults": {
+        "services": [
+            "zookeeper-server",
+            "mysql-server",
+            "cdap",
+            {
+                "name": "bob",
+                "config": {
+                    "bob_address": "somewhere"
+                }
+            }
+        ],
+        "provider": "google",
+        "hardwaretype": "standard-large",
+        "imagetype": "centos6",
+        "dnsSuffix": "example.com",
+        "config": {
+            "mysql": {
+                "server_debian_password": "somedefaultpassword",
+                "server_root_password": "somedefaultpassword",
+                "server_repl_password": "somedefaultpassword",
+                "data_dir": "/data/mysql",
+                "server": {
+                    "directories": {
+                        "log_dir": "/data/mysql"
+                    }
+                },
+                "bind_address": "%ip.bind_v4.service.mysql-server%"
+            },
+            "zookeeper": {
+                "zookeeper_env": {
+                    "zookeeper_log_dir": "/data/logs/zookeeper"
+                }
+            }
+        }
+    },
+    "compatibility": {
+        "hardwaretypes": [
+            "standard-large",
+            "standard-xlarge"
+        ],
+        "imagetypes": [
+            "centos6",
+            "ubuntu12"
+        ],
+        "services": [
+            "zookeeper-server",
+            "cdap",
+            "mysql-server"
+        ]
+    },
+    "constraints": {
+        "size": {
+            "min": "3",
+            "max": "100"
+        },
+        "layout": {
+            "mustcoexist": [
+                [
+                    "hbase-regionserver"
+                ],
+                [
+                    "mysql-server",
+                    "zookeeper-server",
+                    "cdap",
+                    "mysql-server"
+                ]
+            ],
+            "cantcoexist": [
+                [
+                    "hadoop-hdfs-namenode",
+                    "hadoop-hdfs-datanode"
+                ],
+                [
+                    "hadoop-hdfs-datanode",
+                    "cdap"
+                ]
+            ]
+        },
+        "services": {
+            "zookeeper-server": {
+                "quantities": {
+                    "min": 1,
+                    "max": 1
+                }
+            },
+            "mysql-server": {
+                "quantities": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        }
+    },
+    "administration": {
+        "leaseduration": {
+            "initial": 43200000,
+            "max": 0,
+            "step": 43200000
+        }
+    }
+}
