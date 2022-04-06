@@ -1,0 +1,6 @@
+language: java
+jdk: [openjdk8]
+dist: trusty
+script: mvn verify
+branches:
+  only: [ggeorgovassilis/spring-rest-invoker-49-origin]
