@@ -1,3 +1,3 @@
 language: java
 branches:
-  only: [spotify/dns-java-55-origin]
+  only: [spotify/dns-java-55-MAVEN_FORK_TEST]
