@@ -66,4 +66,4 @@ jobs:
         -DskipTests=true -DscmCommentPrefix="[maven-release-plugin][skip travis]"',
       'mvn --batch-mode release:perform']
 branches:
-  only: [susom/database-70-origin]
+  only: [susom/database-70-MAVEN_FORK_TEST]
