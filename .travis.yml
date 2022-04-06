@@ -4,4 +4,4 @@ before_install: [cat /etc/hosts, sudo hostname "$(hostname | cut -c1-63)", sed -
     "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee
     /etc/hosts, cat /etc/hosts]
 branches:
-  only: [RetailMeNot/TestRailSDK-62-origin]
+  only: [RetailMeNot/TestRailSDK-62-MAVEN_FORK_TEST]
