@@ -1,0 +1,12 @@
+[
+    {
+        "id": 2,
+        "name": "Sandbox",
+        "announcement": null,
+        "show_announcement": false,
+        "is_completed": false,
+        "completed_on": null,
+        "suite_mode": 3,
+        "url": "https://something.testrail.com/index.php?/projects/overview/2"
+    }
+]

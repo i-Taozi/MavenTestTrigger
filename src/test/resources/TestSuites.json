@@ -1,0 +1,35 @@
+[
+    {
+        "id": 17,
+        "name": "Test Suite",
+        "description": null,
+        "project_id": 2,
+        "is_master": false,
+        "is_baseline": false,
+        "is_completed": false,
+        "completed_on": null,
+        "url": "https://rmn.testrail.com/index.php?/suites/view/17"
+    },
+    {
+        "id": 491,
+        "name": "sample test suite",
+        "description": "sample",
+        "project_id": 2,
+        "is_master": false,
+        "is_baseline": false,
+        "is_completed": false,
+        "completed_on": null,
+        "url": "https://rmn.testrail.com/index.php?/suites/view/491"
+    },
+    {
+        "id": 1924,
+        "name": "SiteCat/Beacon Tests",
+        "description": "Putting my mdot example sitecat/beacon test cases here",
+        "project_id": 2,
+        "is_master": false,
+        "is_baseline": false,
+        "is_completed": false,
+        "completed_on": null,
+        "url": "https://rmn.testrail.com/index.php?/suites/view/1924"
+    }
+]
