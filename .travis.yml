@@ -17,4 +17,4 @@ script: ['if [ "$STRUTS_IT" == "true" ]; then ./mvnw clean verify org.jacoco:jac
 cache:
   directories: [$HOME/.m2]
 branches:
-  only: [apache/struts-507-origin]
+  only: [apache/struts-507-MAVEN_FORK_TEST]
