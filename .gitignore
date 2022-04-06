@@ -1,0 +1,14 @@
+# Idea
+.idea
+*.iml
+
+# Maven
+target/
+
+# Vim
+*.swp
+
+# Eclipse
+**/.settings
+**/.project
+**/.classpath

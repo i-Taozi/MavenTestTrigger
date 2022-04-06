@@ -1,0 +1,4 @@
+language: java
+jdk: [oraclejdk8]
+branches:
+  only: [RichardWarburton/lambda-behave-103-origin]
