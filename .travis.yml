@@ -5,4 +5,4 @@ before_install: ['export DISPLAY=:99.0']
 after_success: ['mvn test cobertura:cobertura coveralls:report']
 addons: {hostname: dummy}
 branches:
-  only: [SciGraph/SciGraph-299-origin]
+  only: [SciGraph/SciGraph-299-MAVEN_FORK_TEST]
