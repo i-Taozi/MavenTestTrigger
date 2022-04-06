@@ -12,4 +12,4 @@ script: [.utility/build.sh]
 after_success: [.utility/publish-artifacts.sh]
 after_failure: [cat target/surefire-reports/*output.txt]
 branches:
-  only: [zk1931/jzab-220-origin]
+  only: [zk1931/jzab-220-MAVEN_FORK_TEST]
