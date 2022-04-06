@@ -179,4 +179,4 @@ jobs:
       # Prevent all this from getting cached by the CI server
       rm -Rf $(find $HOME/.m2/repository -name '*SNAPSHOT*')
 branches:
-  only: [bytedeco/javacpp-556-origin]
+  only: [bytedeco/javacpp-556-MAVEN_FORK_TEST]
