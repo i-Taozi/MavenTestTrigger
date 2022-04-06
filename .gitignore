@@ -1,0 +1,9 @@
+/bin
+/test-classes
+/hadoop-bam.jar
+/libs
+.idea
+*.iml
+maven-metadata-local.xml
+*~
+target

@@ -1,0 +1,324 @@
+2017-03-05 --- 7.9.2
+   - Fixes to close streams properly after use. (Thanks Frank Nothaft)
+   - Don't add a terminator when merging SAM files.
+
+2017-12-18 --- 7.9.1
+   - Upgrade to htsjdk 2.13.2.
+   - Require at least mvn 3.3.9.
+   - Support specifying validation stringency in VCFRecordReader. (Thanks Frank Nothaft)
+   - Improve BAM split guessing by decoding all fields of three next records.
+   - Handle hg38 contig names. (Thanks Valentin Ruano Rubio)
+   - Close all BAM-related I/O resources in BAMRecordReader. (Thanks Frank Nothaft)
+   - Fix NIOFileUtil.deleteRecursive to only delete directory if it exists.
+
+2017-09-06 --- 7.9.0
+   - Upgrade to htsjdk 2.11.0.
+   - Fix FastaInputFormat infinite loop. (Thanks Ryan Williams)
+   - Allow empty .splitting-bai files.
+   - Add a way to get unmapped reads from a BAM. See settings on BAMInputFormat.
+   - Use slf4j logging instead of System.err.println. (Thanks Michael Heuer)
+   - Add codepath to calculate splits from BAM index. Set
+     hadoopbam.bam.enable-bai-splitter to true to enable. (Thanks Frank Nothaft)
+
+2017-02-23 --- 7.8.0
+   - Optimize reading with intervals in BAMInputFormat.
+   - Remove support for hadoopbam.bam.keep-paired-reads-together.
+
+2016-11-03 --- 7.7.1
+   - Handle FileSystemNotFoundException when loading a java.nio.file filesystem provider
+
+2016-09-09 --- 7.7.0
+   - Add option (hadoopbam.bam.write-splitting-bai) to write splitting index
+     (.splitting-bai file) from output format.
+   - Add SAMFileMerger for merging sharded BAM or CRAM files.
+   - Add VCFFileMerger for merging sharded VCF files.
+   - Recognize .bai as well as .bam.bai extensions for BAM index files.
+   - Honor AnySAMInputFormat.TRUST_EXTS_PROPERTY (thanks Louis Bergelson)
+
+2016-06-30 --- 7.6.0
+   - Upgrade to htsjdk 2.5.0
+   - Support writing of block compressed (BGZF) VCF files, plus codec
+     for files with .bgz suffix
+
+2016-05-18 --- 7.5.0
+   - Upgrade to htsjdk 2.3.0
+   - Remove old CLI (thanks Andre Schumacher)
+   - Test coverage improvement
+   - Support gzip compressed and block compressed (BGZF) VCF files
+   - Support filtering by interval in VCFInputFormat using a tabix index
+   - Use htsjdk OverlapDetector to optimize intervals/read overlap calculation
+
+2016-02-14 --- 7.4.0:
+   - Move to Java 8 and HTSJDK 2.1.0
+   - Various improvements (test coverage reports, findbugs)
+     (thanks Tom White)
+   - CRAMRecordReader can read reference from HDFS
+   - Option for placing read pairs into the same split for BAM input
+     (thanks Tom White)
+   - CRAM write support (thanks Chris Norman)
+
+2016-01-20 --- 7.3.1:
+   - AnySAMInputFormat supports CRAM
+   - Update HTSJDK dependency to 1.141
+   - CRAMRecordReader gets validation stringency set
+   - SplittingBAMIndexer now can build splitting index when BAM file is
+     written
+   NOTE: This release is the last one prior to Java 8 as a requirement
+
+2015-11-19 --- 7.3.0:
+   - Updating dependency of HTSJDK to 1.140
+   - Adding first version of CRAMInputFormat
+     (limitation: reference needs to be local file)
+     (thanks Tom White)
+   - Improving BAMSplitGuesser by forcing decoding of CIGAR
+     (solves at least one problem with BAM splitting)
+     (thanks Tom White)
+
+2015-10-25 --- 7.2.1:
+   - Checking read name length in BAMSplitGuesser (thanks Tom White)
+
+2015-10-14 --- 7.2.0:
+   - Update to HTSJDK 1.133 (thanks Frank Nothaft)
+   - Fallback to probabilistic splits if splitting index (.splitting-bai file)
+     results in incorrect value (thanks Alec Harmsel)
+
+2015-10-11 --- 7.1.1:
+   - SAMRecordWriter: sort order now set according to SAM header
+     (thanks Ryan Williams)
+
+2015-06-14 --- 7.1.0:
+   - Changes to Fastq/Qseq output format
+   - Upgrade to htsjdk 1.131 (Java 8 support) (thanks Tom White)
+   - Include VCF Header info in output from VCFRecordReader (thanks Andrew Jefferson)
+
+2014-09-10 --- 7.0.0:
+   - Switching from Picard/Samtools to HTSJDK
+   - First release to OSS Sonatype
+   - Renaming of packages
+   - Changes to VariantContextCodec: encoding of genotypes generated
+     by other means than VCF import (thanks to Joel Thibault)
+   - Change of JDK version requirements (>= 1.6)
+
+2014-04-04 --- 6.2:
+   - Bugfix: the update of Picard/Tribble introduced a bug into the
+     VCFInputFormat that affects input files loaded from HDFS that are
+     larger than one split
+   - Update to pom.xml:
+     	* SNAPSHOT versions are now two digits, as releases
+	* Added two missing dependencies for CLI tool
+
+2014-03-17 --- 6.1:
+   - Update of Picard from 1.93 to 1.107
+   - Moving from ant to maven build
+   - Hadoop version 2 compatability
+   - Bugfixes for BAM reading
+
+2013-07-08 --- 6.0:
+   - Input and output formats for VCF and BCF. There are no format-specific
+     InputFormat or OutputFormat classes; instead, AnySAM-like support for both
+     in one class is provided.
+
+     Both compressed and uncompressed BCF can be read, but only compressed BCF
+     can be output.
+
+     This required adding three .jar files to the Hadoop-BAM distribution, two
+     from Picard and one from Apache Commons: variant-<version>.jar,
+     tribble-<version>.jar, and commons-jexl-<version>.jar. All of these need
+     to be provided in the Hadoop classpath or in '-libjars' when using CLI
+     plugins that require the VCF/BCF functionality.
+
+   - Added new 'fixmate' plugin, akin to the samtools fixmate command or
+     Picard's FixMateInformation, i.e. recomputing mate information in the
+     input SAM/BAM files. Like 'sort', it can also merge multiple SAM/BAM files
+     together.
+
+   - Added new 'vcf-sort' plugin, which sorts a single VCF or BCF input file
+     while possibly performing format conversion, as it can also output either
+     VCF or BCF.
+
+   - Updated provided Picard from 1.76 to 1.93. Note that a breaking change
+     concerning the SeekableStream class occurred in Picard 1.84, so a version
+     older than that may not be used together with this version of Hadoop-BAM.
+
+   - The FASTQ and QSEQ input formats can now skip records that have failed
+     filtering: use the CONF_FILTER_FAILED_QC and CONF_INPUT_FILTER_FAILED_QC
+     properties.
+
+   - The FASTQ input format now accepts Illumina identifiers with a blank index
+     sequence.
+
+   - Fixed BAM records sometimes confusing the reference and mate reference
+     indices, and not always updating the reference names appropriately.
+
+   - Fixed various small misdecodings and misencodings in QSEQ I/O.
+
+   - Fixed 'premature EOF' crashes on some BAM inputs.
+
+   - Fixed crash on headerless SAM inputs.
+
+   - Fixed CLI crash on startup in newer Hadoop versions (at least CDH 4.2.0).
+
+   - Other minor fixes.
+
+2012-11-26 --- 5.1:
+   - Removed the fi.tkk.ics.hadoop.bam.util.hadoop.BAMReader and
+     fi.tkk.ics.hadoop.bam.util.hadoop.BAMSort classes, which were deprecated
+     back in 3.0.
+
+   - MAJOR CHANGE: The command line plugins 'sort', 'summarize', and
+     'summarysort' now default to 1 reduce task. The amount can be customized
+     with the -r/--reducers command line argument. This bumps up the versions
+     of the plugins to 4.0, 3.0, and 2.0 respectively.
+
+   - Fix: BAMRecordReader.getKey now hashes unmapped keys instead of
+     randomizing them, to ensure consistent results.
+
+   - For compatibility with Hadoop 2.0 and any future Hadoop releases, custom
+     Hadoop classes are now only built and used when using a Hadoop release
+     that does not provide them. This means that bugs MAPREDUCE-1987 and
+     MAPREDUCE-2538, which were previously fixed internally, may cause problems
+     when using the MapReduce-using command line plugins with certain reducer
+     counts.
+
+   - Fixed crash on some BAM inputs caused by a bug in
+     fi.tkk.ics.hadoop.bam.BAMSplitGuesser.
+
+   - Fixed some Illumina identifier scanning issues in the FASTQ input format.
+
+   - Added FASTA input format.
+
+   - The command line plugins 'sort' and 'summarize' now use RandomSamplers for
+     input partitioning, as they probably should have all along.
+
+2012-08-31 --- 5.0:
+   - MAJOR CHANGE: Hadoop-BAM no longer depends on, or even provides,
+     fi.tkk.ics.hadoop.bam.custom.samtools. In other words, users should now
+     import Picard classes from Picard itself, i.e. net.sf.samtools.
+
+   - Fix data loss/duplication and crash-on-valid issues in SAM input.
+
+   - Fix FASTQ record writer to also write the flow cell ID and to emit null
+     fields correctly.
+
+   - Fix crash on some inputs caused by a bug in
+     fi.tkk.ics.hadoop.bam.custom.hadoop.InputSampler. (Not the same bug as was
+     fixed in 4.0.)
+
+   - Updated provided Picard from 1.56 to 1.76.
+
+   - BAMRecordReader.getKey now randomizes the order of unmapped reads instead
+     of giving them all the same key, improving performance since they can now
+     be sent to different reduce tasks.
+
+   - AnySAMInputFormat now has a nullary constructor, allowing it to be used
+     directly in Job.setInputFormatClass.
+
+   - FASTQ and QSEQ input formats now report isSplitable correctly for
+     compressed files.
+
+   - QSEQ output format and record writer now use a Text instead of a
+     NullWritable key.
+
+2012-05-03 --- 4.0:
+   - SAM input and output support. AnySAMInputFormat handles transparent
+     support of both SAM and BAM inputs even in the same Hadoop job. For
+     output, there is no SAMOutputFormat; only AnySAMOutputFormat, which can be
+     used to output either SAM or BAM. BAMOutputFormat will be deprecated in
+     the future.
+
+   - Fix longstanding regression in the embedded Picard library causing
+     end-of-file markers to be written into BAM files by every reduce task. For
+     this reason e.g. 'samtools view' refused to show the contents of BAM files
+     output by Hadoop-BAM.
+
+   - Fix crash on some inputs caused by a bug in
+     fi.tkk.ics.hadoop.bam.custom.hadoop.InputSampler.
+
+   - Fix possible crash-on-valid situations in heuristic BAM splitting.
+
+   - Various I/O classes from the Seal project are now incorporated. This
+     includes input formats for FASTQ and QSEQ and an output format for QSEQ.
+     Thanks to Luca Pireddu!
+
+   - Unmapped reads are now ordered after, not before, all other reads.
+
+   - Allow using Hadoop's "-libjars" command line argument instead of
+     HADOOP_CLASSPATH to specify the Picard .jars. This ended up being
+     fiendishly complicated and somewhat fragile.
+
+   - Partitioning files are now saved in the output, not input, directory.
+
+   - 'sort' plugin version 3.0:
+
+     * Important bug fix for merging: conflicting IDs from different files
+       weren't being properly corrected.
+     * SAM input and output support. Can input SAM and BAM files at the same
+       time and output to either format.
+     * When not using -o, each reducer now outputs headers into the BAM files.
+
+   - 'view' plugin version 1.1, with SAM input support.
+
+   - Add new 'cat' plugin version 1.0, for concatenating SAM/BAM files. The
+     main intended use case is joining the output of 'sort' when it is used
+     without -o.
+
+   - 'summarize' plugin version 2.0, with SAM input support.
+
+   - SplittingBAMIndexer can now be used from within the library as well as a
+     command line tool and can index files directly in HDFS. Thanks to Thomas
+     Robinson!
+
+   - Various minor bug fixes.
+   - Lots of documentation updates.
+   - Various clarifications in the README.
+   - Much quieter error messages when plugin loading fails.
+
+   - build.xml now looks in the HADOOP_HOME environment variable for Hadoop
+     .jars. As a result, the required minimum version of Ant is now 1.7.1.
+   - fi.tkk.ics.hadoop.bam.custom is now compiled with warnings off, for less
+     noisy builds.
+
+2012-01-18 --- 3.3:
+   - Fix embedded Picard to not have an accidentally leftover dependency on
+     Picard 1.47.
+
+   - Clarify some .jar dependencies in the README.
+
+2011-12-07 --- 3.2:
+   - Important bug fix to avoid looping infinitely on some BAM files.
+
+2011-12-05 --- 3.1:
+   - Important data loss bug fixes!
+
+   - 'sort' plugin updated to 2.0: it can now take multiple input files,
+     merging them together.
+
+   - New 'summary' and 'summarysort' command line plugins, respectively for
+     creating and sorting Chipster summary files. Not very generically useful;
+     intended more as example code.
+
+   - Some minor command line argument handling bug fixes.
+
+   - Updated embedded and provided Picard from 1.47 to 1.56.
+
+   - As Hadoop-BAM now depends on Picard proper as well as the SAM-JDK, a
+     compatible JAR, currently picard-1.56.jar, is distributed together with
+     Hadoop-BAM.
+
+2011-08-19 --- 3.0:
+   - Plugin-extensible command line interface.
+   - The 'view', 'sort', and 'index' command line plugins. These supersede the
+     fi.tkk.ics.hadoop.bam.util.hadoop.BAMReader and
+     fi.tkk.ics.hadoop.bam.util.hadoop.BAMSort classes, which have much less
+     functionality than the new plugins and are considered deprecated.
+   - Embedded Picard SAM-JDK parts updated from version 1.27 to 1.47.
+   - A compatible Picard SAM-JDK JAR, currently sam-1.47.jar, is now
+     distributed together with Hadoop-BAM.
+
+2011-06-01 --- 2.0:
+   - Heuristic splitting of BAM and BGZF files: indexing is no longer required.
+   - build.xml now defaults to making a .jar file, no need for explicit 'ant
+     jar'.
+
+2010-12-10 --- 1.0:
+   - Initial release.
