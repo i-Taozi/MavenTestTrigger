@@ -4,4 +4,4 @@ services: [docker]
 script: ['docker run -it -v $(pwd):/root/sources -w /root/sources maven:3.3.3-jdk-8
     mvn clean install']
 branches:
-  only: [CodeStory/fluent-http-157-origin]
+  only: [CodeStory/fluent-http-157-MAVEN_FORK_TEST]
