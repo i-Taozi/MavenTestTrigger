@@ -14,4 +14,4 @@ matrix:
   - {env: JDK=9}
   - {env: JDK=11}
 branches:
-  only: [cglib/cglib-202-origin]
+  only: [cglib/cglib-202-MAVEN_FORK_TEST]
