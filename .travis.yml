@@ -1,5 +1,5 @@
 language: java
 jdk: [openjdk6]
 branches:
-  only: [orangesignal/orangesignal-csv-51-origin]
+  only: [orangesignal/orangesignal-csv-51-MAVEN_FORK_TEST]
 script: mvn -e clean install license:add-third-party
