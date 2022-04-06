@@ -3,7 +3,7 @@ sudo: required
 language: java
 jdk: [openjdk8, oraclejdk8]
 branches:
-  only: [openpreserve/jhove-711-origin]
+  only: [openpreserve/jhove-711-MAVEN_FORK_TEST]
 notifications:
   slack: {secure: qAKVtBCrucCt8GB1SVjjCckwWqC6zAvXN7UdT+aFLH2u7vILT4jzLibTRAaTqqcBBnxFYE87qii4uaIbIltMRZYBQUyiz/mTabkQq5RHJKzzZq54qcKjrI7BSCJHoJErBYrNO4yECUgR6wkhF2/e0+OxEtuSxFovTGXN9ycMT0c=}
 env:
