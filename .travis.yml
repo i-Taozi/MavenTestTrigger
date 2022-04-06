@@ -11,4 +11,4 @@ script: mvn clean test jacoco:report
 after_success: [python scripts/deploy/addServerToM2Settings.py, 'mvn coveralls:report',
   mvn deploy -DskipTests=true --settings ~/.m2/mySettings.xml]
 branches:
-  only: [HadoopGenomics/Hadoop-BAM-210-origin]
+  only: [HadoopGenomics/Hadoop-BAM-210-MAVEN_FORK_TEST]
