@@ -1,0 +1,4 @@
+language: java
+jdk: [oraclejdk8]
+branches:
+  only: [castlabs/dashencrypt-34-origin]
