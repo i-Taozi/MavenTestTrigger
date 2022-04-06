@@ -1,0 +1,3 @@
+language: java
+branches:
+  only: [spotify/dns-java-55-origin]
