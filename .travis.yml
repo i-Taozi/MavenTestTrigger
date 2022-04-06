@@ -2,4 +2,4 @@ language: java
 script: mvn verify -P fast
 jdk: [oraclejdk7, oraclejdk8]
 branches:
-  only: [larsga/Duke-271-origin]
+  only: [larsga/Duke-271-MAVEN_FORK_TEST]
