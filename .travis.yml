@@ -1,0 +1,5 @@
+language: java
+jdk: [oraclejdk7, openjdk7]
+after_success: ['mvn clean cobertura:cobertura coveralls:report']
+branches:
+  only: [valid4j/valid4j-6-origin]
