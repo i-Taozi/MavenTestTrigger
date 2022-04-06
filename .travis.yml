@@ -1,0 +1,5 @@
+sudo: false
+language: java
+install: mvn install
+branches:
+  only: [orientechnologies/orientdb-lucene-79-origin]
