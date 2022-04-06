@@ -1,0 +1,30 @@
+import org.checkerframework.checker.tainting.qual.Untainted;
+
+package com.github.susom.database;
+
+@Untainted
+class Sql {
+  Sql(@Untainted String sql);
+
+  static Sql insert(@Untainted String table, SqlArgs args);
+
+  static Sql insert(@Untainted String table, List<SqlArgs> args);
+
+  Sql append(@Untainted String sql);
+
+  Sql replace(int start, int end, @Untainted String sql);
+
+  Sql insert(int offset, @Untainted String sql);
+
+  Sql listStart(@Untainted String sql);
+
+  Sql listSeparator(@Untainted String sql);
+
+  Sql listEnd(@Untainted String sql);
+
+  @Untainted
+  String sql();
+
+  @Untainted
+  String toString();
+}

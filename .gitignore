@@ -1,0 +1,10 @@
+target
+build
+out
+classes
+.idea
+*.iml
+local.properties
+.vagrant
+.DS_Store
+dependency-reduced-pom.xml

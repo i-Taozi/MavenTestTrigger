@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>database-demo</groupId>
+  <artifactId>database-demo</artifactId>
+  <version>3.4-SNAPSHOT</version>
+
+  <properties>
+    <checkerframework.version>2.1.14</checkerframework.version>
+    <!-- Can't upgrade to 2.2.x yet because they changed the format of
+         the stub files
+    <checkerframework.version>2.2.0</checkerframework.version>
+    -->
+    <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.susom</groupId>
+      <artifactId>database</artifactId>
+      <version>3.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>${checkerframework.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker</artifactId>
+      <version>${checkerframework.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>jdk8</artifactId>
+      <version>${checkerframework.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20</version>
+        <configuration>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>checker</id>
+      <!-- The Checker Framework is a static analysis tool that can perform
+           many kinds of advanced error checking. We use it primarily for
+           making sure there are no SQL injection security problems. For
+           more information see http://types.cs.washington.edu/checker-framework/ -->
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.7.0</version>
+            <configuration>
+              <source>8</source>
+              <target>8</target>
+              <fork>true</fork>
+              <annotationProcessors>
+                <annotationProcessor>org.checkerframework.checker.tainting.TaintingChecker</annotationProcessor>
+              </annotationProcessors>
+              <compilerArgs>
+                <arg>-J-Xmx1g</arg>
+                <arg>-J-Xss32m</arg>
+                <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+                <arg>-version</arg>
+                <arg>-AprintErrorStack</arg>
+                <arg>-AprintAllQualifiers</arg>
+                <!--<arg>-AatfCacheSize=400</arg>-->
+                <arg>-Astubs=${com.github.susom:database:jar}</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
