@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="${project.name}">
+    <bannerLeft>
+        <name>ZEL Expression Language</name>
+    </bannerLeft>
+    <body>
+        <links>
+            <item name="ZEL" href="http://www.spf4j.org/spf4j-zel"/>
+        </links>
+
+        <menu name="Main Menu">
+            <item name="Introduction" href="index.html"/>
+            <item name="Avro Schemas" href="avrodoc.html"/>
+        </menu>
+
+        <menu ref="modules" />
+        <menu ref="reports" />
+    </body>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.7</version>
+    </skin>
+    <custom>
+        <fluidoSkin>
+            <topBarEnabled>false</topBarEnabled>
+            <sideBarEnabled>true</sideBarEnabled>
+            <topBarContainerStyle>width: 90%;</topBarContainerStyle>
+        </fluidoSkin>
+    </custom>    
+</project>

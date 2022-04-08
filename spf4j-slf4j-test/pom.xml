@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2001-2015, Zoltan Farkas All Rights Reserved.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.spf4j</groupId>
+  <artifactId>spf4j-slf4j-test</artifactId>
+  <packaging>jar</packaging>
+  <parent>
+    <groupId>org.spf4j</groupId>
+    <artifactId>spf4j</artifactId>
+    <version>8.9.5-SNAPSHOT</version>
+  </parent>
+  <name>${project.artifactId}</name>
+  <description>A slf4j backend for your unit tests</description>
+  <properties> <!-- bad boy, will have to exclude the classes copied from core to make this accurate... -->
+     <jacoco.instruction.ratio>0.2</jacoco.instruction.ratio>
+     <jacoco.class.ratio>0.4</jacoco.class.ratio>
+     <jacoco.method.ratio>0.3</jacoco.method.ratio>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <!-- Make this depend on the official lib, there is no gain from using the fork until github remove auth requirements -->
+      <version>1.10.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.spf4j.avro</groupId>
+      <artifactId>core-schema</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>findbugs-annotations</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.trove4j</groupId>
+      <artifactId>trove4j</artifactId>
+      <version>3.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>net.java.dev.jna</groupId>
+      <artifactId>jna-platform</artifactId>
+      <version>4.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create avsc destination folder</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <mkdir dir="target/generated-sources/spf4j-core" />
+                <copy todir="target/generated-sources/spf4j-core" verbose="true">
+                  <fileset dir="${project.build.directory}/../../spf4j-core/src/main/java/">
+                    <include name="org/spf4j/base/UncheckedTimeoutException.java" />
+                    <include name="org/spf4j/base/UncheckedExecutionException.java" />
+                    <include name="org/spf4j/base/EscapeJsonStringAppendableWrapper.java" />
+                    <include name="org/spf4j/base/Callables.java" />
+                    <include name="org/spf4j/base/Arrays.java" />
+                    <include name="org/spf4j/base/Pair.java" />
+                    <include name="org/spf4j/base/ErrLog.java" />
+                    <include name="org/spf4j/base/ShutdownThread.java" />
+                    <include name="org/spf4j/base/ShutdownHooks.java" />
+                    <include name="org/spf4j/base/XRuntime.java" />
+                    <include name="org/spf4j/base/AbstractRunnable.java" />
+                    <include name="org/spf4j/base/XCollectors.java" />
+                    <include name="org/spf4j/base/AppendableUtils.java" />
+                    <include name="org/spf4j/base/Objects.java" />
+                    <include name="org/spf4j/base/NullAbleOptional.java" />
+                    <include name="org/spf4j/base/CoreTextMediaType.java" />
+                    <include name="org/spf4j/base/IntAppender.java" />
+                    <include name="org/spf4j/io/Csv.java" />
+                    <include name="org/spf4j/io/PushbackReader.java" />
+                    <include name="org/spf4j/concurrent/ScalableSequence.java" />
+                    <include name="org/spf4j/concurrent/UIDGenerator.java" />
+                    <include name="org/spf4j/concurrent/Sequence.java" />
+                    <include name="org/spf4j/concurrent/Futures.java" />
+                    <include name="org/spf4j/io/csv/*.java" />
+                    <include name="org/spf4j/base/IntMath.java" />
+                    <include name="org/spf4j/base/RemoteException.java" />
+                    <include name="org/spf4j/base/TLScratch.java" />
+                    <include name="org/spf4j/base/ContextValue.java" />
+                    <include name="org/spf4j/base/OctalUnescaper.java" />
+                    <include name="org/spf4j/base/CloseableIterable.java" />
+                    <include name="org/spf4j/base/CloseableIterator.java" />                    
+                    <include name="org/spf4j/base/UnicodeUnescaper.java" />
+                    <include name="org/spf4j/base/LookupTranslator.java" />
+                    <include name="org/spf4j/base/CloneFailedException.java" />
+                    <include name="org/spf4j/base/IntSequence.java" />
+                    <include name="org/spf4j/base/CharSequences.java" />
+                    <include name="org/spf4j/base/Wrapper.java" />
+                    <include name="org/spf4j/base/StackSamples.java" />
+                    <include name="org/spf4j/base/Method.java" />
+                    <include name="org/spf4j/base/MemorizedCallable.java" />
+                    <include name="org/spf4j/base/ReferenceType.java" />
+                    <include name="org/spf4j/base/PackageInfo.java" />
+                    <include name="org/spf4j/base/Methods.java" />
+                    <include name="org/spf4j/base/Env.java" />
+                    <include name="org/spf4j/base/ThreadLocalContextAttacher.java" />
+                    <include name="org/spf4j/base/Slf4jMessageFormatter.java" />
+                    <include name="org/spf4j/base/Strings.java" />
+                    <include name="org/spf4j/base/UnsafeString.java" />
+                    <include name="org/spf4j/base/Reflections.java" />
+                    <include name="org/spf4j/base/SerializablePair.java" />
+                    <include name="org/spf4j/base/ComparablePair.java" />
+                    <include name="org/spf4j/base/Invocation.java" />                    
+                    <include name="org/spf4j/io/ObjectAppenderSupplier.java" />
+                    <include name="org/spf4j/io/ConfigurableAppenderSupplier.java" />
+                    <include name="org/spf4j/io/ObjectAppender.java" />
+                    <include name="org/spf4j/io/MimeTypes.java" />
+                    <include name="org/spf4j/io/NullOutputStream.java" />
+                    <include name="org/spf4j/reflect/ByTypeSupplier.java" />
+                    <include name="org/spf4j/reflect/CachingTypeMapWrapper.java" />
+                    <include name="org/spf4j/reflect/CachingTypeMapSupplierWrapper.java" />
+                    <include name="org/spf4j/reflect/GraphTypeMap.java" />
+                    <include name="org/spf4j/reflect/TypeMap.java" />
+                    <include name="org/spf4j/base/Throwables.java" />
+                    <include name="org/spf4j/base/Timing.java" />
+                    <include name="org/spf4j/base/UnsafeThrowable.java" />
+                    <include name="org/spf4j/base/Json.java" />
+                    <include name="org/spf4j/io/ByteArrayBuilder.java" />
+                    <include name="org/spf4j/io/AppendableWriter.java" />
+                    <include name="org/spf4j/recyclable/impl/ArraySuppliers.java" />
+                    <include name="org/spf4j/recyclable/SizedRecyclingSupplier.java" />
+                    <include name="org/spf4j/recyclable/NonValidatingRecyclingSupplier.java" />
+                    <include name="org/spf4j/recyclable/impl/Powerof2ThreadLocalRecyclingSupplier.java" />
+                    <include name="org/spf4j/recyclable/impl/Powerof2SizedGlobalRecyclingSupplier.java" />
+                    <include name="org/spf4j/concurrent/UnboundedLoadingCache.java" />
+                    <include name="org/spf4j/concurrent/CustomThreadFactory.java" />
+                    <include name="org/spf4j/concurrent/DefaultExecutor.java" />  
+                    <include name="org/spf4j/concurrent/LifoThreadPoolExecutorSQP.java" />
+                    <include name="org/spf4j/concurrent/MutableLifoThreadPool.java" />
+                    <include name="org/spf4j/concurrent/LifoThreadPool.java" />  
+                    <include name="org/spf4j/concurrent/RejectedExecutionHandler.java" />
+                    <include name="org/spf4j/concurrent/NonPoolingExecutorService.java" />
+                    <include name="org/spf4j/concurrent/DefaultScheduler.java" />                    
+                    <include name="org/spf4j/ds/IdentityHashSet.java" />
+                    <include name="org/spf4j/ds/SimpleStack.java" />
+                    <include name="org/spf4j/ds/SimpleStackNullSupport.java" />     
+                    <include name="org/spf4j/base/CharSequenceTranslator.java" />
+                    <include name="org/spf4j/base/AggregateTranslator.java" />
+                    <include name="org/spf4j/base/Handler.java" />
+                    <include name="org/spf4j/ds/Graphs.java" />
+                    <include name="org/spf4j/base/Closeables.java" />
+                    <include name="org/spf4j/base/SysExits.java" />
+                    <include name="org/spf4j/base/Threads.java" />
+                    <include name="org/spf4j/base/JNA.java" />
+                    <include name="org/spf4j/base/avro/*.java" /> 
+                    <include name="org/spf4j/log/*.java" />
+                    <include name="org/spf4j/os/ProcessUtil.java" />
+                    <include name="org/spf4j/os/ProcessResponse.java" />
+                    <include name="org/spf4j/os/ProcessHandler.java" />
+                    <include name="org/spf4j/os/LoggingProcessHandler.java" />
+                    <include name="org/spf4j/os/StdOutToStringProcessHandler.java" />
+                    <include name="org/spf4j/os/StdOutLineCountProcessHandler.java" />
+                    <include name="org/spf4j/os/OperatingSystem.java" />
+                    <include name="org/spf4j/unix/UnixResources.java" />
+                    <include name="org/spf4j/unix/UnixException.java" />
+                    <include name="org/spf4j/unix/UnixConstants.java" />
+                    <include name="org/spf4j/unix/UnixRuntimeException.java" />
+                    <include name="org/spf4j/unix/Lsof.java" />
+                    <include name="org/spf4j/unix/CLibrary.java" />
+                    <include name="org/spf4j/text/*.java" />
+                    <include name="org/spf4j/jmx/**/*.java" />
+                    <include name="org/spf4j/base/Method.java" />
+                    <include name="org/spf4j/base/Writeable.java" />
+                    <include name="org/spf4j/base/JsonWriteable.java" />
+                    <include name="org/spf4j/recyclable/Disposable.java" />
+                    <include name="org/spf4j/recyclable/*Exception.java" />
+                    <include name="org/spf4j/recyclable/impl/ThreadLocalRecyclingSupplier.java" />
+                    <!-- start ExecutionContext -->
+                    <include name="org/spf4j/base/*ExecutionContext*.java" />
+                    <include name="org/spf4j/base/TimeSource.java" />
+                    <include name="org/spf4j/base/TimeoutDeadline.java" />
+                    <!-- end ExecutionContext -->
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/spf4j-core/</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+      </plugin>
+            
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes> <!-- covered in spf4j-core  -->
+            <exclude>org/spf4j/base/**/*</exclude>
+            <exclude>org/spf4j/io/**/*</exclude>
+            <exclude>org/spf4j/reflect/**/*</exclude>
+            <exclude>org/spf4j/recyclable/**/*</exclude>
+            <exclude>org/spf4j/ds/**/*</exclude>
+            <exclude>org/spf4j/concurrent/**/*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <spf4j.testLog.expectingErrorsIn>org.spf4j.test.log.TestGlobalErrorIgnore,a</spf4j.testLog.expectingErrorsIn>
+          </systemPropertyVariables>
+          <properties>
+            <property>
+              <name>listener</name>
+              <value>org.spf4j.test.log.junit4.DetailOnFailureRunListener</value>
+            </property>
+          </properties>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.spf4j</groupId>
+        <artifactId>spf4j-jdiff-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <maxNumberOfDiffs>${jdiff.versions}</maxNumberOfDiffs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
