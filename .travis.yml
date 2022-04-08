@@ -14,4 +14,4 @@ before_install: [gradle -v, uname -a, sudo apt-get update -qq, 'if [ `uname -m` 
     sdk --filter extra-android-support --no-ui --force > /dev/null, echo yes | android
     update sdk --filter extra-android-m2repository --no-ui --force > /dev/null]
 branches:
-  only: [thothbot/parallax-98-origin]
+  only: [thothbot/parallax-98-MAVEN_PARALLEL_TEST]
