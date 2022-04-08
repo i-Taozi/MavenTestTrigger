@@ -1,0 +1,80 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+    <ui:style>
+
+        .panel {
+            height: 250px;
+            width: 200px;
+            display: inline;
+            float: left;
+            position: relative;
+            margin: 0.5rem 1em 1rem 0;
+            background-color: #fff;
+            border-radius: 2px;
+
+            -webkit-transition: 0.2s ease-out;
+            -moz-transition: 0.2s ease-out;
+            -o-transition: 0.2s ease-out;
+            -ms-transition: 0.2s ease-out;
+            transition: 0.2s ease-out;
+            cursor: pointer;
+
+            -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        .panel:hover {
+            -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .image {
+            border-radius: 2px 2px 0 0;
+            position: relative;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .name {
+            position: absolute;
+            bottom: 130px;
+            left: 20px;
+            color: #fff;
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: 300;
+            text-shadow: #000 0 0 5px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .description {
+            margin: 20px;
+            height: 75px;
+            overflow: hidden;
+        }
+
+        .indexExamplePanel:HOVER .text {
+
+        }
+
+
+    </ui:style>
+
+    <g:FlowPanel stylePrimaryName='{style.panel}'>
+
+        <g:SimplePanel>
+            <g:Image ui:field="image" stylePrimaryName='{style.image}'/>
+        </g:SimplePanel>
+        <g:Label ui:field="name" stylePrimaryName='{style.name}'/>
+        <g:Label ui:field="description" stylePrimaryName='{style.description}'/>
+
+    </g:FlowPanel>
+
+</ui:UiBinder>

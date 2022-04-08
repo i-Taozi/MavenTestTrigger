@@ -1,0 +1,145 @@
+ext {
+    GROUPID = "org.parallax3d.parallax"
+    VERSION = "2.0-SNAPSHOT"
+    robovmVersion = "1.9.0"
+    androidVersion = "4.4"
+    gwtVersion = "2.7.0"
+    junitVersion = "4.11"
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath "com.android.tools.build:gradle:1.2.3"
+        classpath "org.robovm:robovm-gradle-plugin:1.5.0"
+    }
+}
+
+// apply the following to all projects, except the
+// Android test project, that one has its own
+// build.gradle file cause Android is special...
+configure(allprojects - project(':tests:parallax-tests-android')) {
+    apply plugin: "eclipse"
+    apply plugin: "idea"
+    apply plugin: "java"
+
+    compileJava.options.encoding = 'UTF-8';
+
+    repositories {
+        mavenCentral()
+    }
+
+    group = GROUPID
+    version = VERSION
+
+    // set source Java version
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+    sourceSets.main.java.srcDirs = ["src"]
+    sourceSets.main.resources.srcDirs = ["src"]
+
+    // create a custom configuration for local dependencies such as Android runtime
+    configurations {
+        optional
+        compile.extendsFrom optional
+    }
+}
+
+project(":parallax") {
+
+    sourceSets.test.java.srcDirs = ["test"]
+
+    dependencies {
+        testCompile "junit:junit:$junitVersion"
+    }
+}
+
+project(":platforms:parallax-gwt") {
+    sourceSets.main.java.exclude "**/System.java"
+
+    dependencies {
+        compile project(":parallax")
+        optional "com.google.gwt:gwt-user:$gwtVersion"
+        optional "com.google.gwt:gwt-dev:$gwtVersion"
+    }
+}
+
+project(":platforms:parallax-android") {
+    dependencies {
+        compile project(":parallax")
+        optional fileTree(dir: 'libs', include: ['*.jar'])
+    }
+}
+
+project(":extensions:parallax-renderer-plugins") {
+    dependencies { compile project(":parallax") }
+}
+
+project(":extensions:parallax-renderer-raytracing-gwt") {
+    dependencies {
+        compile project(":parallax")
+        optional "com.google.gwt:gwt-user:$gwtVersion"
+        optional "com.google.gwt:gwt-dev:$gwtVersion"
+    }
+}
+
+project(":extensions:parallax-renderer-css-gwt") {
+    dependencies {
+        compile project(":parallax")
+        optional "com.google.gwt:gwt-user:$gwtVersion"
+        optional "com.google.gwt:gwt-dev:$gwtVersion"
+    }
+}
+
+project(":extensions:parallax-loaders") {
+    dependencies { compile project(":parallax") }
+}
+
+project(":extensions:parallax-controllers") {
+    dependencies { compile project(":parallax"); }
+}
+
+project(":tests:parallax-tests") {
+    apply plugin: "java"
+
+    dependencies {
+        compile project(":parallax")
+        compile project(":extensions:parallax-renderer-plugins")
+        compile project(":extensions:parallax-loaders")
+        compile project(":extensions:parallax-controllers")
+    }
+}
+
+project(":tests:parallax-tests-android") {
+    apply plugin: "eclipse"
+    apply plugin: "idea"
+    apply plugin: "android"
+
+    dependencies {
+        compile project(":tests:parallax-tests")
+        compile project(":platforms:parallax-android")
+        compile "com.android.support:support-v4:+"
+    }
+}
+
+project(":tests:parallax-tests-gwt") {
+    apply plugin: "gwt"
+    apply plugin: "war"
+
+    dependencies {
+        compile project(":tests:parallax-tests")
+        compile project(":platforms:parallax-gwt")
+    }
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption("Xdoclint:none", "-quiet")
+        }
+    }
+}
