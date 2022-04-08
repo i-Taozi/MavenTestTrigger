@@ -1,1 +1,1 @@
-# MavenTestTrigger
+MavenTestTrigger
