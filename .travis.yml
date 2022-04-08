@@ -3,4 +3,4 @@ language: java
 jdk: [openjdk8, openjdk11]
 sudo: false
 branches:
-  only: [jenkinsci/jacoco-plugin-161-origin]
+  only: [jenkinsci/jacoco-plugin-161-MAVEN_PARALLEL_TEST]

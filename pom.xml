@@ -273,6 +273,8 @@ THE SOFTWARE.
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
                         <argLine>@{argLine} ${argLine}</argLine>
+                    	<parallel>classes</parallel>
+                    	<useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
             </plugins>
