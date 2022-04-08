@@ -1,0 +1,5 @@
+language: java
+jdk: [oraclejdk8]
+dist: trusty
+branches:
+  only: [FamilySearch/gedcomx-java-82-origin]
