@@ -3,4 +3,4 @@ language: java
 jdk: [oraclejdk8]
 script: mvn clean test
 branches:
-  only: [doanduyhai/Achilles-382-origin]
+  only: [doanduyhai/Achilles-382-MAVEN_REPORT_GENERATION]
