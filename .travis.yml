@@ -5,4 +5,4 @@ language: java
 script: mvn -T 1C verify
 jdk: [openjdk8]
 branches:
-  only: [owlcs/owlapi-1024-origin]
+  only: [owlcs/owlapi-1024-MAVEN_PARALLEL_TEST]
