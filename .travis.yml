@@ -1,0 +1,6 @@
+dist: xenial
+language: java
+jdk: [openjdk8, openjdk11]
+sudo: false
+branches:
+  only: [jenkinsci/jacoco-plugin-161-origin]

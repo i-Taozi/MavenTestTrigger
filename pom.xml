@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!--
+The MIT License
+
+Copyright (c) 2006-2014, Kohsuke Kawaguchi, Stephen Connolly, Jonathan Fuerth,
+	Ognjen Bubalo, Dominik Stadler, Marcus Bauer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>4.19</version>
+    </parent>
+
+    <artifactId>jacoco</artifactId>
+    <version>3.3.2-SNAPSHOT</version>
+    <packaging>hpi</packaging>
+
+    <name>Jenkins JaCoCo plugin</name>
+    <url>https://github.com/jenkinsci/jacoco-plugin</url>
+
+    <properties>
+        <java.level>8</java.level>
+        <jacoco.version>0.8.7</jacoco.version>
+        <!-- see https://www.jenkins.io/changelog-stable/ for changelog of the LTS releases -->
+        <jenkins.version>2.277.1</jenkins.version>
+        <!--  until the plugin-pom picks up a newer version -->
+        <jenkins-test-harness.version>1589.vc23fca066d5c</jenkins-test-harness.version>
+        <!-- Do not fail if tests are run without argLine -->
+        <argLine />
+    </properties>
+
+    <licenses>
+        <license>
+            <name>MIT license</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <comments>All source code is under the MIT license.</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>kohsuke</id>
+            <name>Kohsuke Kawaguchi</name>
+        </developer>
+        <developer>
+            <id>stephenconnolly</id>
+            <name>Stephen Connolly</name>
+        </developer>
+        <developer>
+            <id>manolo</id>
+            <name>Manuel Carrasco Monino</name>
+            <email>manolo@apache.org</email>
+        </developer>
+        <developer>
+            <id>jfuerth</id>
+            <name>Jonathan Fuerth</name>
+        </developer>
+        <developer>
+            <id>kingargyle</id>
+            <name>David Carver</name>
+        </developer>
+        <developer>
+            <id>ognjenb</id>
+            <name>Ognjen Bubalo</name>
+        </developer>
+        <developer>
+            <id>centic</id>
+            <name>Dominik Stadler</name>
+        </developer>
+        <developer>
+            <id>csimons</id>
+            <name>Christopher Simons</name>
+        </developer>
+        <developer>
+            <id>mheinzerling</id>
+            <name>Martin Heinzerling</name>
+            <email>webmaster@mheinzerling.de</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com/jenkinsci/jacoco-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/jacoco-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/jacoco-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>maven.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/releases</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>dashboard-view</artifactId>
+            <version>2.17</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.report</artifactId> <!-- we're done with ReportMojo now, so we don't need to depend on the maven plugin anymore -->
+            <version>${jacoco.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>4.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.jenkins-ci.tools</groupId>
+                                        <artifactId>maven-hpi-plugin</artifactId>
+                                        <versionRange>[2.0,)</versionRange>
+                                        <goals>
+                                            <goal>hpi</goal>
+                                            <goal>apt-compile</goal>
+                                            <goal>insert-test</goal>
+                                            <goal>resolve-test-dependencies</goal>
+                                            <goal>test-hpl</goal>
+                                            <goal>validate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-enforcer-plugin</artifactId>
+                                        <versionRange>[1.0,)</versionRange>
+                                        <goals>
+                                            <goal>display-info</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.jvnet.localizer</groupId>
+                                        <artifactId>maven-localizer-plugin</artifactId>
+                                        <versionRange>[1.8,)</versionRange>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.kohsuke</groupId>
+                                        <artifactId>access-modifier-checker</artifactId>
+                                        <versionRange>[1.0,)</versionRange>
+                                        <goals>
+                                            <goal>enforce</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.jacoco</groupId>
+                                        <artifactId>jacoco-maven-plugin</artifactId>
+                                        <versionRange>[${jacoco.version},)</versionRange>
+                                        <goals>
+                                            <goal>prepare-agent</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.cloudbees</groupId>
+                                        <artifactId>maven-license-plugin</artifactId>
+                                        <versionRange>[1.4,)</versionRange>
+                                        <goals>
+                                            <goal>process</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+                <!-- Allow test execution when specifying surefire argLine via CLI -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <argLine>@{argLine} ${argLine}</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <!-- Attention Eclipse users: if you see an error here, you have to install the M2E buildhelper plugin. -->
+                    <execution>
+                        <id>add-localizer-source-folder</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/localizer</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/Messages.*</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jenkins-ci.tools</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>hpi</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <maskClasses>org.objectweb.asm.</maskClasses>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
