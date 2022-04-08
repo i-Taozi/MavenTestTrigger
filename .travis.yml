@@ -1,4 +1,4 @@
 language: java
 jdk: [oraclejdk11]
 branches:
-  only: [elisarver/selophane-36-origin]
+  only: [elisarver/selophane-36-MAVEN_REPORT_GENERATION]
