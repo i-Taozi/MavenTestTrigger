@@ -52,4 +52,4 @@ deploy:
   true: {repo: dropwizard-jobs/dropwizard-jobs, tags: true}
   name: dropwizard-jobs-$project_version
 branches:
-  only: [dropwizard-jobs/dropwizard-jobs-141-origin]
+  only: [dropwizard-jobs/dropwizard-jobs-141-MAVEN_REPORT_GENERATION]
