@@ -589,6 +589,8 @@
 								<include>**/*Test.java</include>
 								<include>**/ITTest*.java</include>
 							</includes>
+							<parallel>classes</parallel>
+							<useUnlimitedThreads>true</useUnlimitedThreads>
 
 							<!-- DISABLE PARALLEL TEST OTHERWISE CANVAS DO NOT UPDATE PROPERLY 
 								(?!) Parallel tests <parallel>classes</parallel> <useUnlimitedThreads>true</useUnlimitedThreads> -->
