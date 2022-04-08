@@ -1,0 +1,8 @@
+language: java
+jdk: [openjdk11, openjdk17]
+cache:
+  directories: [$HOME/.m2]
+after_success: [mvn deploy -Dmaven.test.skip -DcreateDocs=true -s settings.xml, 'mvn
+    jacoco:report coveralls:jacoco -DsourceEncoding=UTF-8']
+branches:
+  only: [JavaMoney/jsr354-api-136-origin]
