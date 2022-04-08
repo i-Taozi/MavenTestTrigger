@@ -1,0 +1,4 @@
+language: java
+jdk: [oraclejdk11]
+branches:
+  only: [elisarver/selophane-36-origin]
