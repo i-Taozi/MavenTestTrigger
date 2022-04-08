@@ -10,4 +10,4 @@ script: [mvn -B -DskipTests=false -Dmaven.javadoc.skip=true -Dtest.drivers=htmlu
     test]
 sudo: required
 branches:
-  only: [vmi/selenese-runner-java-329-origin]
+  only: [vmi/selenese-runner-java-329-MAVEN_PARALLEL_TEST]
