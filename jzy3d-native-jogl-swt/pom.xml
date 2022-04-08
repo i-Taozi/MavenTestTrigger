@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.jzy3d</groupId>
+		<artifactId>jzy3d-all</artifactId>
+		<version>2.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>jzy3d-native-jogl-swt</artifactId>
+	<name>Jzy3d Native Implementation for SWT with JOGL</name>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jzy3d-native-jogl-awt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jzy3d-native-jogl-newt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- The org.eclipse.platform::org.eclipse.swt artifact is only an empty 
+			hull for SWT (the jar does not contain any class-files). The actual class 
+			files are contained in platform-specific artifacts. This is due to the design 
+			of the SWT project with one org.eclipse.swt Eclipse plug-in and multiple 
+			fragments one for each platform containing the native code/adjustments. In 
+			order to get the jar for a certain platform a dependency for the artifact 
+			for that platform must be declared. In order to not declare a compile time 
+			dependency to all specific platforms referenced below the dependencies are 
+			marked as optional and are therefore only present when developing jzy3d. 
+			It is assumed that the platforms chosen below are the main dev-platforms. -->
+		<dependency>
+			<groupId>org.eclipse.platform</groupId>
+			<artifactId>org.eclipse.swt</artifactId>
+		</dependency>
+
+		<dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>org.eclipse.platform</groupId>
+			<artifactId>org.eclipse.swt.cocoa.macosx.x86_64</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.platform</groupId>
+			<artifactId>org.eclipse.swt.cocoa.macosx.aarch64</artifactId>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.eclipse.platform</groupId>
+			<artifactId>org.eclipse.jface</artifactId>
+		</dependency>
+
+	</dependencies>
+</project>

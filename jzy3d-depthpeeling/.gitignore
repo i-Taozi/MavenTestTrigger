@@ -1,0 +1,15 @@
+dist
+build
+doc/javadoc
+target
+.settings
+
+*.class
+*.log
+*~/
+
+*.jar
+*.war
+*.ear
+
+data
