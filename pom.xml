@@ -714,8 +714,8 @@ limitations under the License.]]></inlineHeader>
             </property>
           </properties>
           <skip>${skipUnitTests}</skip>
-        	<parallel>classes</parallel>
-        	<useUnlimitedThreads>true</useUnlimitedThreads>
+          <parallel>classes</parallel>
+          <useUnlimitedThreads>true</useUnlimitedThreads>
         </configuration>
       </plugin>
       <plugin>
